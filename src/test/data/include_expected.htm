@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+	<title>JCite With Plain HTML Include Files</title>
+    <style type="text/css" media="screen">
+		
+    </style>
+	<link href="style_screen.css" rel="stylesheet" type="text/css" media="screen" /><link href="style_print.css" rel="stylesheet" type="text/css" media="print" />
+</head>
+
+<body>
+    <div class="all">
+		<div class="header">
+		
+<div class="nav crumbs">
+	<a href="http://arrenbrecht.ch/">arrenbrecht.ch</a> &gt; <a href="index.htm">JCite</a> &gt; 
+</div>
+
+
+		</div>
+        <div class="content">
+
+<h1>JCite With Plain <span class="caps">HTML</span> Include Files</h1>
+
+
+	<p>This document shows how JCite can include plain <span class="caps">HTML</span> fragment files into your main <span class="caps">HTML</span> files.</p>
+
+
+<div class="toc"><ul class="toc toc1"><li><a href="#pagetoc__1">Citing An <span class="caps">HTML</span> Fragment</a></li><li><a href="#pagetoc__2">Why Does JCite Support Includes?</a></li></ul></div>
+
+	<h2><a name="pagetoc__1">Citing An <span class="caps">HTML</span> Fragment</a></h2>
+
+
+	<p>The following definition list is included from a separate <span class="caps">HTML</span> fragment file:</p>
+
+
+	<dl>
+<dt>Test 1</dt><dd>24 = 3 * 8<br/>18 = 3 * 6</dd>
+<dt>Test 2</dt><dd>11 = 3 + 8<br/>9 = 3 + 6</dd>
+</dl>
+
+
+	<p>which was done using the following instruction in the source <span class="caps">HTML</span> document:</p>
+
+
+<pre class="jc">[i<b></b>nc:included.htm]</pre>
+
+	<p>The fragment file looks like this:</p>
+
+
+<pre><code>&lt;dl&gt;
+&lt;dt&gt;Test 1&lt;/dt&gt;&lt;dd&gt;24 = 3 * 8&lt;br/&gt;18 = 3 * 6&lt;/dd&gt;
+&lt;dt&gt;Test 2&lt;/dt&gt;&lt;dd&gt;11 = 3 + 8&lt;br/&gt;9 = 3 + 6&lt;/dd&gt;
+&lt;/dl&gt;
+</code></pre>
+
+	<p>Note in particular that it does not contain any <code>&lt;html&gt;</code> and <code>&lt;body&gt;</code> tags.</p>
+
+
+	<h2><a name="pagetoc__2">Why Does JCite Support Includes?</a></h2>
+
+
+	<p>This feature exists within JCite to support the citing of tested material that you cannot easily cite directly from its source.</p>
+
+
+	<p>The case I encountered was when my tests ran through a complex Excel spreadsheet where the rows were structured into a series of named tests. I wanted to emit these row tests and their results into a highly customized format for presentation. So my test code now simply emits the tests and the results as an <span class="caps">HTML</span> fragment file. In the documentation source, I cite these fragment files using JCite. This ensures that the final documentation produced during a build always includes the latest test run results.</p>
+
+
+	<p>If I had included them using my normal macro preprocessor during the build of the documentation source file, the include would have been too early.</p>
+
+		</div>
+        <div class="footer">
+		
+<p>Copyright &copy; 2006 by Peter Arrenbrecht. All rights reserved.</p>
+
+
+        </div>
+    </div>
+</body>
+</html>

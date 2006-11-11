@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+    CheckStyle 3.4 template configuration file
+    @author Oleg Estehin
+-->
+
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.1//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_1.dtd">
+
+<module name="Checker">
+
+    <module name="TreeWalker">
+
+        <!-- See http://checkstyle.sf.net/config_header.html   -->
+        <!-- Checks that a source file begins with a specified header. -->
+            <!-- <property name="headerFile" value=""/> -->
+            <!-- <property name="ignoreLines" value=""/> -->
+        <module name="Header">
+            <property name="headerFile" value="${checkstyle.header.file}"/>
+        </module>
+                
+    </module>
+    
+</module>

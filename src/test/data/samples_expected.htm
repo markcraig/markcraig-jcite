@@ -1,0 +1,323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+	<title>JCite By Example</title>
+    <style type="text/css" media="screen">
+		
+    </style>
+	<link href="style_screen.css" rel="stylesheet" type="text/css" media="screen" /><link href="style_print.css" rel="stylesheet" type="text/css" media="print" />
+</head>
+
+<body>
+    <div class="all">
+		<div class="header">
+		
+<div class="nav crumbs">
+	<a href="http://arrenbrecht.ch/">arrenbrecht.ch</a> &gt; <a href="index.htm">JCite</a> &gt; 
+</div>
+
+
+		</div>
+        <div class="content">
+
+<h1>JCite By Example</h1>
+
+
+	<p>This is a quick demo of JCite. You can use it to cite fragments of Java source code in <span class="caps">HTML</span> documentation. This is especially useful if the cited fragments are part of automated tests, thus ensuring their correctness.</p>
+
+
+<div class="toc"><ul class="toc toc1"><li><a href="#pagetoc__1">Citing Entire Blocks</a></li><li><a href="#pagetoc__2">Individual Snippets</a></li><li><a href="#pagetoc__3">Highlighting</a></li><li><a href="#pagetoc__4">Omissions</a></li><li><a href="#pagetoc__5">Showing <code>/**/</code> Markers</a></li></ul></div>
+
+	<h2><a name="pagetoc__1">Citing Entire Blocks</a></h2>
+
+
+	<p>Using JCite, you can cite entire blocks, such as methods, classes, etc., including, if desired, their JavaDoc comments. Let&#8217;s, for example, cite an entire method:</p>
+
+
+	<pre class="java"><span class="j-jdoc">/**
+ * This is a </span><span class="j-jdoc-html">&lt;b&gt;</span><span class="j-jdoc">sample</span><span class="j-jdoc-html">&lt;/b&gt; </span><span class="j-jdoc">method. Just like </span><span class="j-jdoc-link">{@link #sampleCode()}</span><span class="j-jdoc">.
+ * 
+ * </span><span class="j-jdoc-key">@author </span><span class="j-jdoc">Peter Arrenbrecht
+ */
+</span><span class="j-typ">void </span>sampleMethod<span class="j-sym">()
+{
+
+  </span><span class="j-cmt">// This is a quick test of JCite.
+  </span>sampleMethod<span class="j-sym">()</span>;
+  <span class="j-key">if </span><span class="j-sym">(</span><span class="j-str">&#34;a&#34; </span>== <span class="j-str">&#34;b&#34;</span><span class="j-sym">) </span>System.out.println<span class="j-sym">( </span><span class="j-str">&#34;Oops!&#34; </span><span class="j-sym">)</span>;
+  <span class="j-key">try </span><span class="j-sym">{
+    </span><span class="j-typ">int </span>a = <span class="j-num">1</span>;
+    System.out.println<span class="j-sym">( </span>a <span class="j-sym">)</span>;
+  <span class="j-sym">}
+  </span><span class="j-key">finally </span><span class="j-sym">{
+    </span>System.out.println<span class="j-sym">( </span><span class="j-str">&#34;Done.&#34; </span><span class="j-sym">)</span>;
+  <span class="j-sym">}
+
+}</span></pre>
+
+
+	<p>This was produced by the following JCite instruction in the source <span class="caps">HTML</span> document:</p>
+
+
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleMethod]</pre>
+
+	<p>The part <code>ch.arrenbrecht.jcite.JCiteTest</code> tells JCite what Java class&#8217;s source to cite from. The part <code>---- sampleMethod</code> tells it what fragment to cite. You surround citable fragments with special comments in the source code:</p>
+
+
+	<pre class="java"><span class="j-cmt">// ---- sampleMethod
+</span><span class="j-jdoc">/**
+ * This is a </span><span class="j-jdoc-html">&lt;b&gt;</span><span class="j-jdoc">sample</span><span class="j-jdoc-html">&lt;/b&gt; </span><span class="j-jdoc">method. Just like </span><span class="j-jdoc-link">{@link #sampleCode()}</span><span class="j-jdoc">.
+ * 
+ * </span><span class="j-jdoc-key">@author </span><span class="j-jdoc">Peter Arrenbrecht
+ */
+</span><span class="j-typ">void </span>sampleMethod<span class="j-sym">()
+{
+
+  </span><span class="j-cmt">// This is a quick test of JCite.
+  </span>sampleMethod<span class="j-sym">()</span>;
+  <span class="j-key">if </span><span class="j-sym">(</span><span class="j-str">&#34;a&#34; </span>== <span class="j-str">&#34;b&#34;</span><span class="j-sym">) </span>System.out.println<span class="j-sym">( </span><span class="j-str">&#34;Oops!&#34; </span><span class="j-sym">)</span>;
+  <span class="j-key">try </span><span class="j-sym">{
+    </span><span class="j-typ">int </span>a = <span class="j-num">1</span>;
+    System.out.println<span class="j-sym">( </span>a <span class="j-sym">)</span>;
+  <span class="j-sym">}
+  </span><span class="j-key">finally </span><span class="j-sym">{
+    </span>System.out.println<span class="j-sym">( </span><span class="j-str">&#34;Done.&#34; </span><span class="j-sym">)</span>;
+  <span class="j-sym">}
+
+}
+
+
+</span><span class="j-cmt">// ---- sampleMethod</span></pre>
+
+
+	<p>The part <code>---- sampleMethod</code> is freely choosable. It must simply match the respective comment in the source file.</p>
+
+
+	<h5>Style Sheet</h5>
+
+
+	<p>The formatting of the generated output is <a href="styling.htm">controlled by a <span class="caps">CSS</span> style sheet</a>.</p>
+
+
+	<h5>Note</h5>
+
+
+	<p>In the following examples, I shall simply put the JCite instruction for the source <span class="caps">HTML</span> document directly above the respective sample output.</p>
+
+
+	<h2><a name="pagetoc__2">Individual Snippets</a></h2>
+
+
+	<p>You can also cite smaller fragments of code if you annotate your source code accordingly. Here&#8217;s an example of such annotated source code:</p>
+
+
+	<pre class="java"><span class="j-typ">void </span>sampleCode<span class="j-sym">()
+{
+
+  </span><span class="j-cmt">// This is not part of the sample.
+  </span><span class="j-typ">int </span>a;
+
+  <span class="j-cmt">// ---- fragment1
+  </span><span class="j-key">if </span><span class="j-sym">(</span><span class="j-num">1 </span>== <span class="j-num">2</span><span class="j-sym">) </span>a = <span class="j-num">0</span>;
+  <span class="j-key">else </span>a = <span class="j-num">1</span>;
+  <span class="j-cmt">// ---- fragment1
+
+  </span><span class="j-typ">int </span>b;
+  <span class="j-cmt">// ---- fragment2
+  // Part 1
+  </span><span class="j-key">if </span><span class="j-sym">(</span>a == <span class="j-num">1</span><span class="j-sym">) {
+    </span>b = <span class="j-num">0</span>;
+  <span class="j-sym">}
+  </span><span class="j-key">else </span><span class="j-sym">{
+    </span>b = <span class="j-num">1</span>;
+  <span class="j-sym">}
+  </span><span class="j-cmt">// ---- fragment2
+
+  </span><span class="j-typ">int </span>c;
+
+  <span class="j-cmt">// ---- fragment2
+  // Part 2
+  </span>c = a + b;
+  <span class="j-cmt">// ---- fragment2
+
+  </span>System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;
+  System.out.<span class="j-blk">/* -lineFragment- */</span>println<span class="j-sym">( </span><span class="j-str">&#34;Hello, world!&#34; </span><span class="j-sym">)</span><span class="j-blk">/* -lineFragment- */</span>;
+<span class="j-sym">}</span></pre>
+
+
+	<p>From this, we can cite a fragment of two lines:</p>
+
+
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- fragment1]</pre>
+<pre class="java"><span class="j-key">if </span><span class="j-sym">(</span><span class="j-num">1 </span>== <span class="j-num">2</span><span class="j-sym">) </span>a = <span class="j-num">0</span>;
+<span class="j-key">else </span>a = <span class="j-num">1</span>;</pre>
+
+	<p>Or a fragment consisting of multiple snippets of code taken from the source file:</p>
+
+
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- fragment2]</pre>
+<pre class="java"><span class="j-cmt">// Part 1
+</span><span class="j-key">if </span><span class="j-sym">(</span>a == <span class="j-num">1</span><span class="j-sym">) {
+  </span>b = <span class="j-num">0</span>;
+<span class="j-sym">}
+</span><span class="j-key">else </span><span class="j-sym">{
+  </span>b = <span class="j-num">1</span>;
+<span class="j-sym">}
+</span><span class="j-cmt">// Part 2
+</span>c = a + b;</pre>
+
+	<p>We can also display line fragments:</p>
+
+
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:-lineFragment-]</pre>
+<pre class="java">println<span class="j-sym">( </span><span class="j-str">&#34;Hello, world!&#34; </span><span class="j-sym">)</span></pre>
+
+	<h2><a name="pagetoc__3">Highlighting</a></h2>
+
+
+	<p>With JCite you can highlight parts of the cited code. Given the following source code:</p>
+
+
+	<pre class="java"><span class="j-typ">void </span>sampleHighlighting<span class="j-sym">()
+{
+  </span><span class="j-cmt">// ---- sampleHighlighting
+  </span><span class="j-typ">int </span>a = <span class="j-num">0</span>;
+  <span class="j-cmt">// -hl-
+  </span><span class="j-typ">int </span>b = <span class="j-num">1</span>;
+  <span class="j-cmt">// -hl-
+  </span><span class="j-typ">int </span>c = a + <span class="j-num">2 </span><span class="j-blk">/* -hl- */</span>* b<span class="j-blk">/* -hl- */</span>;
+  System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;
+  <span class="j-cmt">// ---- sampleHighlighting
+</span><span class="j-sym">}</span></pre>
+
+
+	<p>We highlight an entire line and a line fragment:</p>
+
+
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleHighlighting; highlight -hl-]</pre>
+<pre class="java"><span class="j-typ">int </span>a = <span class="j-num">0</span>;
+<span class="j-hl">int b = <span class="j-num">1</span>;
+</span>int c = a + <span class="j-num">2 </span><span class="j-hl">* b</span>;
+System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</pre>
+
+	<p>If you just want to highlight line fragments, there is an even shorter version. You simply surround each part in the source code which JCite should highlight with <code>/**/.../**/</code>, as in:</p>
+
+
+	<pre class="java"><span class="j-typ">void </span>simpleHighlighting<span class="j-sym">()
+{
+  </span><span class="j-typ">int </span>b = <span class="j-num">1</span>;
+  <span class="j-cmt">// ---- simpleHighlighting
+  </span><span class="j-typ">int </span>c = <span class="j-num">2 </span><span class="j-blk">/**/</span>* b<span class="j-blk">/**/</span>;
+  System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;
+  <span class="j-cmt">// ---- simpleHighlighting
+</span><span class="j-sym">}</span></pre>
+
+
+	<p>Then you can cite the fragment without needing to tell JCite what to highlight (no <code>highlight</code> part in the <code>jc</code> instruction).</p>
+
+
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- simpleHighlighting]</pre>
+<pre class="java"><span class="j-typ">int </span>c = <span class="j-num">2 </span><span class="j-hl">* b</span>;
+System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</pre>
+
+	<h2><a name="pagetoc__4">Omissions</a></h2>
+
+
+	<p>You can omit parts from cited fragments, too. This can be used to show the buildup of a method. Given the following source:</p>
+
+
+	<pre class="java"><span class="j-typ">void </span>sampleOmission<span class="j-sym">()
+{
+  </span><span class="j-cmt">// ---- sampleOmission
+  </span><span class="j-typ">int </span>a = <span class="j-num">0</span>;
+  <span class="j-cmt">// -try-
+  </span><span class="j-key">try </span><span class="j-sym">{
+    </span><span class="j-cmt">// -try-
+    </span>something<span class="j-sym">()</span>;
+    <span class="j-cmt">// -try-
+  </span><span class="j-sym">}
+  </span><span class="j-key">finally </span><span class="j-sym">{
+    </span>cleanup<span class="j-sym">()</span>;
+  <span class="j-sym">}
+  </span><span class="j-cmt">// -try-
+  </span>System.out.println<span class="j-sym">( </span>a <span class="j-sym">)</span>;
+  <span class="j-cmt">// ---- sampleOmission
+</span><span class="j-sym">}</span></pre>
+
+
+	<p>We first show the method without the try-finally block (note that JCite does not currently support correcting indentation levels; this is a planned feature):</p>
+
+
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleOmission; omit -try-]</pre>
+<pre class="java"><span class="j-typ">int </span>a = <span class="j-num">0</span>;
+  something<span class="j-sym">()</span>;
+System.out.println<span class="j-sym">( </span>a <span class="j-sym">)</span>;</pre>
+
+	<p>Then, including the block, highlighted:</p>
+
+
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleOmission; highlight -try-]</pre>
+<pre class="java"><span class="j-typ">int </span>a = <span class="j-num">0</span>;
+<span class="j-hl">try <span class="j-sym">{
+</span></span>  something<span class="j-sym">()</span>;
+<span class="j-hl"><span class="j-sym">}
+</span><span class="j-key">finally </span><span class="j-sym">{
+  </span>cleanup<span class="j-sym">()</span>;
+<span class="j-sym">}
+</span></span>System.out.println<span class="j-sym">( </span>a <span class="j-sym">)</span>;</pre>
+
+	<p>Or, including the block, without highlighting:</p>
+
+
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleOmission; strip -try-]</pre>
+<pre class="java"><span class="j-typ">int </span>a = <span class="j-num">0</span>;
+<span class="j-key">try </span><span class="j-sym">{
+  </span>something<span class="j-sym">()</span>;
+<span class="j-sym">}
+</span><span class="j-key">finally </span><span class="j-sym">{
+  </span>cleanup<span class="j-sym">()</span>;
+<span class="j-sym">}
+</span>System.out.println<span class="j-sym">( </span>a <span class="j-sym">)</span>;</pre>
+
+	<h5>Hint</h5>
+
+
+	<p>If you forget to specify <code>strip -try-</code>, you get the block with internal marker comments left intact:</p>
+
+
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleOmission]</pre>
+<pre class="java"><span class="j-typ">int </span>a = <span class="j-num">0</span>;
+<span class="j-cmt">// -try-
+</span><span class="j-key">try </span><span class="j-sym">{
+  </span><span class="j-cmt">// -try-
+  </span>something<span class="j-sym">()</span>;
+  <span class="j-cmt">// -try-
+</span><span class="j-sym">}
+</span><span class="j-key">finally </span><span class="j-sym">{
+  </span>cleanup<span class="j-sym">()</span>;
+<span class="j-sym">}
+</span><span class="j-cmt">// -try-
+</span>System.out.println<span class="j-sym">( </span>a <span class="j-sym">)</span>;</pre>
+
+	<h2><a name="pagetoc__5">Showing <code>/**/</code> Markers</a></h2>
+
+
+	<p>Not that you&#8217;d need to, but for the sake of completeness, here&#8217;s how to cite code with the internal highlighting markers of the form <code>/**/</code> left intact:</p>
+
+
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- simpleHighlighting;show]</pre>
+<pre class="java"><span class="j-typ">int </span>c = <span class="j-num">2 </span><span class="j-blk">/**/</span>* b<span class="j-blk">/**/</span>;
+System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</pre>
+
+		</div>
+        <div class="footer">
+		
+<p>Copyright &copy; 2006 by Peter Arrenbrecht. All rights reserved.</p>
+
+
+        </div>
+    </div>
+</body>
+</html>

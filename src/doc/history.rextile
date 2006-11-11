@@ -1,0 +1,50 @@
+
+h1. JCite Version History
+
+
+h2. JCite 1.6
+
+h5. New
+
+	* Split processing logic into central class JCite and multiple JCitelets.
+	* Added support for loading plugins as instances of @JCiteletProvider@ using @sun.misc.Service@.
+	* Added plugin for "citing Excel sheets":excel.htm.
+	* Added citelet for "citing plain text/HTML snippets":include.htm.
+
+h5. Better
+
+	* Citation instructions embedded within @<pre><code>@ now strip both of these tags. More precisely, the inner tag is always stripped and if the next outer tag is @<pre>...</pre>@ (without anything intervening), then it is stripped too.
+	* Switched documentation sources from a proprietary solution to "Rextile":-rex.
+
+
+h2. JCite 1.5
+
+h5. New
+
+	* "Recursive folder processing":usage.htm - you can let JCite process source files from entire folder hierarchies in one go.
+
+
+
+h2. JCite 1.4
+
+h5. New
+
+	* "JavaDoc support":javadoc.htm - you can cite source code within doc comments with the @{@.jcite ...}@ tag.
+
+
+h5. Better
+
+	* Inline markers like @/* tag */@ are now also recognized as @/*tag*/@. This makes source code with inline markers more compact.
+	* The @/**/@ tag is automatically recognized as a highlight marker, unless it has been overridden by one of the @strip@ (formerly @use@) or @omit@ instructions, as in @jc:temp.MyClass:---- marker; strip@.
+	* JCite does not print its banner when the command-line option @-q@ is present.
+
+h5. Changed
+
+	* The instruction @use <tag>@ has been renamed to @strip <tag>@.
+	* JCite no longer lists the citation markers processed, unless explicitly told to do so using the @-v@ command-line option.
+
+
+
+h2. Earlier Versions
+
+... were used only by me. I did not keep a version history for them.

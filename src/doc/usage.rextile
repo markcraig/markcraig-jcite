@@ -1,0 +1,67 @@
+
+h1. Running JCite
+
+JCite can be run either "stand-alone":#standalone, or as an "Ant task":#ant. In both cases, it recognizes the following command-line arguments.
+
+<dl>
+
+<dt>@-i <file/pattern>@</dt><dd>specifies the input file(s) JCite should process. This is typically the name of an HTML file. If it is a pattern containing wildcard characters (@*@ and @?@), then all files matching the pattern are processed. (Note: Mimicking Unix shells, @java.exe@ "expands the wildcards":http://www.thescripts.com/forum/thread16647.html before passing them to the @main@ function unless you enclose the pattern in double quotes.)</dd>
+
+<dt>@-o <file/folder>@</dt><dd>specifies the output file or folder that JCite should write to. For a single input file, this must be the name of the output file. It can be the same file as the input file. If the input is a file pattern, then this must be an output folder.</dd>
+
+<dt>@-r@</dt><dd>specifies that JCite should recursively descend into subfolders of the input pattern.</dd>
+
+<dt>@-sp <path>@</dt><dd>specifies a Java source path to search when looking for source files to cite from. You can specify the @-sp@ option multiple times if you must specify more than one path.</dd>
+
+<dt>@-tt@</dt><dd>emits @<TT>@ tags instead of @<PRE>@ tags around the Java source fragments. Use this to have automatic line wrapping.</dd>
+
+</dl>
+
+
+h2. <a name="standalone">Command Line</a>
+
+Run JCite from the command line as follows (put everything on one line).
+
+h5. Single File
+
+	java
+	  -cp /path/to/jcite/build/jcite.jar;/path/to/jcite/lib/java2html.jar
+	  ch.arrenbrecht.jcite.JCite
+	  -sp ../test
+	  -i samples.html
+	  -o samples.html
+
+h5. Multiple Files
+
+	java
+	  -cp /path/to/jcite/build/jcite.jar;/path/to/jcite/lib/java2html.jar
+	  ch.arrenbrecht.jcite.JCite
+	  -sp ../test
+	  -i "in/*.html"
+	  -o out
+
+Note the double quotes around the pattern, @"in/*.html"@, to prevent @java.exe@ from expanding them itself.
+
+h5. Excel Support
+
+If you want to be able to "cite Excel sheets":excel.htm, you need to add
+
+	/path/to/jcite/build/jcite-excel.jar;/path/to/jcite/lib/jxl.jar
+	
+to the classpath.
+
+
+h2. <a name="ant">Ant Task</a>
+
+To run JCite 1.0 from within Ant, you have to use Ant's Java task (a proper Ant task for JCite is on the roadmap). Here's how (excerpt from JCite's own @build.xml@):
+
+<pre><code
+><java classname="ch.arrenbrecht.jcite.JCite" classpath="${run.classpath}" failonerror="yes">
+  <arg value="-sp" />
+  <arg path="${src.test.dir}" />
+  <arg value="-i" />
+  <arg file="${src.doc.dir}/samples.html" />
+  <arg value="-o" />
+  <arg file="${doc.dir}/samples.html" />
+</java>
+</code></pre>

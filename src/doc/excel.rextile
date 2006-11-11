@@ -1,0 +1,57 @@
+
+h1. JCite With Excel
+
+This document shows how JCite can cite examples from within "Microsoft Excel":-excel spreadsheets.
+
+<%= toc 2, 3 %>
+
+h5. Note
+
+You need to enable the Excel citing plugin for this to work. See the "notes about running JCite":usage.htm for details.
+
+
+h2. Citing An Entire Sheet
+
+Using JCite, you can very easily cite the entire first sheet of an Excel workbook file:
+
+	[xc:EntireSheet.xls]
+
+This was produced by the following JCite instruction in the source HTML document:
+
+<notextile><pre class="jc">[x<b></b>c:EntireSheet.xls]</pre></notextile>
+
+The part @EntireSheet.xls@ tells JCite what Excel file to cite from. Note how names denoting single cells are shown directly in the cell, while named ranges are colored and their names listed at the bottom.
+
+
+h2. Citing Ranges
+
+You can also cite only a single range instead of an entire sheet:
+
+	[xc:EntireSheet.xls:OrdersForLastThreeMonths]
+
+Here's the instruction for this:
+
+<notextile><pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersForLastThreeMonths]</pre></notextile>
+
+Note that the named range _OrdersHeader_ is not listed because it does not intersect the shown range.
+
+Instead of just a single one, you can cite multiple ranges:
+
+	[xc:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths,Rating]
+	
+with an instruction such as:
+
+<notextile><pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths,Rating]</pre></notextile>
+
+If you want the ranges to be identified still, suffix them with a @+@ sign:
+
+	[xc:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+]
+	
+with an instruction such as:
+
+<notextile><pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+]</pre></notextile>
+
+
+h2. Style Sheet
+
+The formatting of the generated output is "controlled by a CSS style sheet":styling.htm.

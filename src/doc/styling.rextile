@@ -1,0 +1,41 @@
+
+h1. CSS Styles Used By JCite
+
+
+JCite emits HTML which relies on CSS styles for formatting the various syntactical elements of the cited Java source code. JCite comes with two different sample CSS stylesheets:
+
+
+<dl>
+
+<dt>"doc/plainstyle/style.css":plainstyle/style.css</dt><dd>A simple default CSS stylesheet for on-screen display of cited Java code. This file gives a good overview of the different elements you can format.</dd>
+
+<dt>"doc/plainstyle/printstyle.css":plainstyle/printstyle.css</dt><dd>A simple alternate CSS stylesheet for printing cited Java code. Modern browsers (like, for example, "Firefox":http://www.mozilla.com/) automatically switch to a print media stylesheet for printing if one is specified (see below for how to do this). This documentation also has a print media style. So go ahead, open the print preview now! :)</dd>
+
+</dl>
+
+
+To test the plain styles, open "this sample page":simplestyle.html.
+
+
+h3. HTML Docs
+
+The provided style sheets can be referenced as-is in your own HTML files like, for example:
+
+<pre><code
+><html>
+<head>
+  ...
+  <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+  <link rel="stylesheet" type="text/css" media="print" href="printstyle.css" />
+  ...
+</head>
+...
+</html>
+</code></pre>
+
+You can also copy/paste them into your own stylesheets, and adjust the formatting as you please. This is what I did to format this documentation itself.
+
+
+h3. JavaDoc
+
+When using JCite with JavaDoc, you have to instruct JavaDoc to include a reference to a particular stylesheet in the HTML files in generates. Please see the "JCite with JavaDoc":javadoc.htm#Setup documentation for details.

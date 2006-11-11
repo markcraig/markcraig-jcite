@@ -13,7 +13,7 @@ h5. New
 
 h5. Better
 
-	* Citation instructions embedded within @<pre><code>@ now strip both of these tags. More precisely, the inner tag is always stripped and if the next outer tag is @<pre>...</pre>@ (without anything intervening), then it is stripped too.
+	* Citation instructions embedded within @pre@ and @code@ tags now strip both of these tags. More precisely, the inner tag is always stripped and if the next outer tag is a @pre@ tag (without anything intervening), then it is stripped too.
 	* Switched documentation sources from a proprietary solution to "Rextile":-rex.
 
 

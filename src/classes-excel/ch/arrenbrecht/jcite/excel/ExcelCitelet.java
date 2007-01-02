@@ -43,6 +43,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeSet;
 
 import ch.arrenbrecht.describable.DescriptionBuilder;
 import ch.arrenbrecht.jcite.JCite;
@@ -400,7 +401,9 @@ public class ExcelCitelet extends JCitelet
 
 			b.appendLine( "</table>" );
 
-			for (String rangeName : this.namedRanges.keySet()) {
+			final Collection<String> rangeNames = new TreeSet<String>();
+			rangeNames.addAll( this.namedRanges.keySet() );
+			for (String rangeName : rangeNames) {
 				final String rangeColor = this.namedRangeColors.get( rangeName );
 				final Range[] rangeDef = this.namedRanges.get( rangeName );
 				b.append( "<br/><span class=\"" );

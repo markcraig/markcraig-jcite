@@ -2,6 +2,17 @@
 h1. JCite Version History
 
 
+h2. JCite 1.7
+
+h5. New
+
+	* Added option to cite entire class files.
+	
+h5. Better
+
+	* Excel named ranges always listed in alphabetically ascending order.
+
+
 h2. JCite 1.6
 
 h5. New

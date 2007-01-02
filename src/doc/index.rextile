@@ -11,6 +11,8 @@ h1. JCite - Java Source Code Citation System
 
 </div>
 
+??"Example isn't another way to teach, it is the only way to teach."?? (Albert Einstein)
+
 JCite cites snippets of Java source code or Excel sheets into HTML documents - API documentation, for instance. Citing from tests, or tested code, guarantees that examples really work. And, thanks to the excellent "Java2Html":-j2h library, they get automatic syntax highlighting.
 
 To get a feel for the results you can achieve, take a look at

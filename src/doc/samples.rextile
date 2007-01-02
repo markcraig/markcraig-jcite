@@ -104,3 +104,11 @@ h2. Showing @/**/@ Markers
 Not that you'd need to, but for the sake of completeness, here's how to cite code with the internal highlighting markers of the form @/**/@ left intact:
 
 <%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- simpleHighlighting;show' %>
+
+
+h2. Citing Entire Files
+
+Sometimes you simply want to cite entire class files. This can be done as follows:
+
+<%= ex 'ch.arrenbrecht.jcite.examples.AdderTest' %>
+

@@ -121,18 +121,20 @@ public class JavaCitelet extends JCitelet
 		final Collection<String> highlights = new ArrayList<String>();
 
 		int endClassName = _markup.indexOf( ':' );
-		int endFragmentName;
-		int posOfSemicolon = _markup.indexOf( ';' );
-		if (posOfSemicolon >= 0) {
-			endFragmentName = posOfSemicolon;
-			final String options = _markup.substring( posOfSemicolon );
-			extractOptions( options, stripPattern, strips );
-			extractOptions( options, showPattern, shows );
-			extractOptions( options, omitPattern, omissions );
-			extractOptions( options, highlightPattern, highlights );
+		int endFragmentName = _markup.length();
+		if (endClassName < 0) {
+			endClassName = endFragmentName;
 		}
 		else {
-			endFragmentName = _markup.length();
+			int posOfSemicolon = _markup.indexOf( ';' );
+			if (posOfSemicolon >= 0) {
+				endFragmentName = posOfSemicolon;
+				final String options = _markup.substring( posOfSemicolon );
+				extractOptions( options, stripPattern, strips );
+				extractOptions( options, showPattern, shows );
+				extractOptions( options, omitPattern, omissions );
+				extractOptions( options, highlightPattern, highlights );
+			}
 		}
 
 		// If not otherwise specified, make /**/ a highlight marker
@@ -141,9 +143,13 @@ public class JavaCitelet extends JCitelet
 		}
 
 		final String className = _markup.substring( 0, endClassName );
-		final String fragmentName = _markup.substring( endClassName + 1, endFragmentName );
 		final String classSource = getSourceForClass( className );
-		String fragment = getFragmentFrom( classSource, fragmentName );
+		
+		String fragment = classSource;
+		if (endClassName < endFragmentName) {
+			final String fragmentName = _markup.substring( endClassName + 1, endFragmentName );
+			fragment = getFragmentFrom( classSource, fragmentName );
+		}
 
 		fragment = stripIndentation( fragment );
 		fragment = omissionsIterator.iterate( fragment, omissions );

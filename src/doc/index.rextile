@@ -3,11 +3,11 @@ h1. JCite - Java Source Code Citation System
 
 <div class="news">
 
+"JCite 1.7":history.htm with minor improvements.
+<br/>%(when)January 2, 2007%
+
 "JCite 1.6":history.htm with "Excel support":excel.htm.
 <br/>%(when)November 11, 2006%
-
-"CSS styling documented":styling.htm.
-<br/>%(when)June 21, 2006%
 
 </div>
 
@@ -37,20 +37,13 @@ JCite is open source under a "BSD-style license":LICENSE.html. The required "Jav
 
 h2. Download
 
-<% ver = '1.6' %>
+<% ver = '1.7' %>
 
-<dl>
+"jcite-<%=ver%>-bin.zip":http://arrenbrecht.ch/jcite/dist/jcite-<%=ver%>-bin.zip : Binary release, including the required open-source "Java2Html":-j2h library. Needs at least "Java 1.5":http://www.java.com/en/download/index.jsp to run.
 
-<dt>"jcite-<%=ver%>-bin.zip":http://arrenbrecht.ch/jcite/dist/jcite-<%=ver%>-bin.zip</dt>
-<dd>Binary release, including the required open-source "Java2Html":-j2h library. Needs at least "Java 1.5":http://www.java.com/en/download/index.jsp to run.</dd>
+"jcite-<%=ver%>-excel-bin.zip":http://arrenbrecht.ch/jcite/dist/jcite-<%=ver%>-excel-bin.zip : Binary release for the "Excel citation":excel.htm plugin, including the required open-source "JExcelAPI":-jxl library.
 
-<dt>"jcite-<%=ver%>-excel-bin.zip":http://arrenbrecht.ch/jcite/dist/jcite-<%=ver%>-excel-bin.zip</dt>
-<dd>Binary release for the "Excel citation":excel.htm plugin, including the required open-source "JExcelAPI":-jxl library.</dd>
-
-<dt>"jcite-<%=ver%>-src.zip":http://arrenbrecht.ch/jcite/dist/jcite-<%=ver%>-src.zip</dt>
-<dd>Source code for JCite, including tests and examples. External libraries and build tools are not included in the download. For the required libraries, download the respective binary release of JCite first. In order to run the Ant build script, you need "Ant":http://ant.apache.org/. If you want to run the tests, you need "JUnit":http://www.junit.org/ and "Rextile":-rex. To build a distribution, you need "CheckStyle":http://checkstyle.sourceforge.net/.</dd>
-
-</dl>
+"jcite-<%=ver%>-src.zip":http://arrenbrecht.ch/jcite/dist/jcite-<%=ver%>-src.zip : Source code for JCite, including tests and examples. External libraries and build tools are not included in the download. For the required libraries, download the respective binary release of JCite first. In order to run the Ant build script, you need "Ant":http://ant.apache.org/. If you want to run the tests, you need "JUnit":http://www.junit.org/ and "Rextile":-rex. To build a distribution, you need "CheckStyle":http://checkstyle.sourceforge.net/.
 
 "Release History":history.htm
 

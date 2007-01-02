@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="jcite" default="build" basedir="." xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
+<project name="jcite" default="build" basedir=".">
 	<description>Builds, tests, and runs the project JCite.</description>
 
+	<property file="build.properties" />
+	<property file="build.default.properties" />
+	
 	<property name="Name" value="JCite" />
 	<property name="name" value="jcite" />
 
@@ -202,7 +205,7 @@
 			</fileset>
 		</copy>
 
-		<exec dir="${src.doc.dir}" executable="rextile" vmlauncher="false">
+		<exec dir="${src.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" >
 		</exec>
 
 		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${run.classpath}" failonerror="yes">
@@ -271,7 +274,8 @@
 	<!-- ================================================================= -->
 
 	<target name="style" depends="prepare" description="Runs checkstyle">
-		<cs:checkstyle config="${src.dir}\checkstyle-config.xml">
+		<taskdef resource="checkstyletask.properties" classpath="${checkstyle-all.jar}" />
+		<checkstyle config="${src.dir}\checkstyle-config.xml">
 			<property key="checkstyle.header.file" file="${src.dir}\copyright-header.txt" />
 			<fileset dir="${src.classes.dir}">
 				<include name="**/*.java" />
@@ -285,7 +289,7 @@
 			<fileset dir="${src.examples.dir}">
 				<include name="**/*.java" />
 			</fileset>
-		</cs:checkstyle>
+		</checkstyle>
 	</target>
 
 	<!-- ================================================================= -->

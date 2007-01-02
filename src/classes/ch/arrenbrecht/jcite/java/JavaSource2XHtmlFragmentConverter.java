@@ -136,9 +136,10 @@ public class JavaSource2XHtmlFragmentConverter extends JavaSourceConverter
 		int start = 0;
 		int end = 0;
 
-		while (start < this.sourceTypes.length) {
+		final int length = this.sourceTypes.length;
+		while (start < length) {
 
-			while (end < this.sourceTypes.length - 1
+			while (end < length - 1
 					&& (this.sourceTypes[ end + 1 ] == this.sourceTypes[ start ] || this.sourceTypes[ end + 1 ] == JavaSourceType.BACKGROUND)) {
 				++end;
 			}
@@ -154,7 +155,7 @@ public class JavaSource2XHtmlFragmentConverter extends JavaSourceConverter
 
 	protected void toXml( int start, int end, BufferedWriter writer ) throws IOException
 	{
-		final String sourceTypeName = this.SOURCE_TYPE_NAMES[ this.sourceTypes[ start ].getID() ];
+		final String sourceTypeName = SOURCE_TYPE_NAMES[ this.sourceTypes[ start ].getID() ];
 		if (!sourceTypeName.equals( "" )) writer.write( TAG_START + sourceTypeName + TAG_END );
 
 		String t = HTMLTools.encode( this.sourceCode, start, end + 1, "\r\n " );

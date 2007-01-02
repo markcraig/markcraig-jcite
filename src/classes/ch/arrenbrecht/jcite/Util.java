@@ -62,7 +62,7 @@ public class Util
 		return result;
 	}
 
-	
+
 	public static int scanBackTo( String _in, char _scanTo, int _startingAt )
 	{
 		int result = _startingAt;
@@ -71,7 +71,7 @@ public class Util
 		return result;
 	}
 
-	
+
 	public static String readStringFrom( File _source ) throws IOException
 	{
 		StringBuffer sb = new StringBuffer( 1024 );
@@ -147,7 +147,7 @@ public class Util
 
 		if (_recurse) {
 			for (File dirOrFile : _inputFolder.listFiles()) {
-				if (dirOrFile.isDirectory() && dirOrFile.getName() != "." && dirOrFile.getName() != "..") {
+				if (dirOrFile.isDirectory() && !dirOrFile.getName().equals( "." ) && !dirOrFile.getName().equals( ".." )) {
 					final File subInputFolder = dirOrFile;
 					final File subOutputFolder = new File( _outputFolder, subInputFolder.getName() );
 					iterateFiles( subInputFolder, _pattern, subOutputFolder, _recurse, _visitor );

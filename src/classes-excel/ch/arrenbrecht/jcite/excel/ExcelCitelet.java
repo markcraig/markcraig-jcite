@@ -38,6 +38,7 @@ package ch.arrenbrecht.jcite.excel;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -224,6 +225,7 @@ public class ExcelCitelet extends JCitelet
 		private void setupNames( String[] _except )
 		{
 			final String[] rangeNames = this.workbook.getRangeNames();
+			Arrays.sort( rangeNames );
 			int nextRangeNo = 1;
 			for (String rangeName : rangeNames) {
 				if (!rangeName.equals( "ERROR" )) { // this is how JExcelAPI flags naming errors

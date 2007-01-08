@@ -66,6 +66,8 @@ import jxl.read.biff.BiffException;
 
 public class ExcelCitelet extends JCitelet
 {
+	private static final String[] EMPTY_STRING_ARRAY = new String[ 0 ];
+
 
 	public ExcelCitelet(JCite _jcite)
 	{
@@ -81,10 +83,10 @@ public class ExcelCitelet extends JCitelet
 
 
 	@Override
-	protected String insertionFor( String _markup ) throws JCiteError, IOException
+	protected String citationFor( String _markup ) throws JCiteError, IOException
 	{
 		String sourceFileName = _markup;
-		String[] ranges = new String[ 0 ];
+		String[] ranges = EMPTY_STRING_ARRAY;
 		final int posOfColon = _markup.indexOf( ':' );
 		if (posOfColon >= 0) {
 			sourceFileName = _markup.substring( 0, posOfColon );
@@ -109,6 +111,13 @@ public class ExcelCitelet extends JCitelet
 		catch (BiffException e) {
 			throw new JCiteError( e );
 		}
+	}
+
+
+	@Override
+	protected String formattingFor( String _markup, String _cited )
+	{
+		return "Inline citations are not supported by the Excel citelet.";
 	}
 
 

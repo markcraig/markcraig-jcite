@@ -112,3 +112,16 @@ Sometimes you simply want to cite entire class files. This can be done as follow
 
 <%= ex 'ch.arrenbrecht.jcite.examples.AdderTest' %>
 
+
+h2. Formatting Inline Blocks
+
+While I don't recommend it for hand-written examples, sometimes you may want to highlight source code generated during test runs. For this, JCite supports inlined blocks. You enclose them in @pre@ blocks with the @jcite="..."@ attribute, where @...@ is the markup for the citelet to use. @jc@ is the markup for the Java source code citelet. Example:
+
+<notextile><pre>&lt;pre jcite="jc"&gt;public void /**/foo/**/() {
+	bar();
+}&lt;/pre&gt;</pre></notextile>
+
+<notextile><pre jcite="jc">public void /**/foo/**/() {
+	bar();
+}</pre></notextile>
+

@@ -28,7 +28,7 @@
 	<p>This is a quick demo of JCite. You can use it to cite fragments of Java source code in <span class="caps">HTML</span> documentation. This is especially useful if the cited fragments are part of automated tests, thus ensuring their correctness.</p>
 
 
-<div class="toc"><ul class="toc toc1"><li><a href="#pagetoc__1">Citing Entire Blocks</a></li><li><a href="#pagetoc__2">Individual Snippets</a></li><li><a href="#pagetoc__3">Highlighting</a></li><li><a href="#pagetoc__4">Omissions</a></li><li><a href="#pagetoc__5">Showing <code>/**/</code> Markers</a></li><li><a href="#pagetoc__6">Citing Entire Files</a></li></ul></div>
+<div class="toc"><ul class="toc toc1"><li><a href="#pagetoc__1">Citing Entire Blocks</a></li><li><a href="#pagetoc__2">Individual Snippets</a></li><li><a href="#pagetoc__3">Highlighting</a></li><li><a href="#pagetoc__4">Omissions</a></li><li><a href="#pagetoc__5">Showing <code>/**/</code> Markers</a></li><li><a href="#pagetoc__6">Citing Entire Files</a></li><li><a href="#pagetoc__7">Formatting Inline Blocks</a></li></ul></div>
 
 	<h2><a name="pagetoc__1">Citing Entire Blocks</a></h2>
 
@@ -391,6 +391,20 @@ System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</
   </span><span class="j-cmt">// ---- fullPathTarget
 
 </span><span class="j-sym">}</span></pre>
+
+	<h2><a name="pagetoc__7">Formatting Inline Blocks</a></h2>
+
+
+	<p>While I don&#8217;t recommend it for hand-written examples, sometimes you may want to highlight source code generated during test runs. For this, JCite supports inlined blocks. You enclose them in <code>pre</code> blocks with the <code>jcite="..."</code> attribute, where <code>...</code> is the markup for the citelet to use. <code>jc</code> is the markup for the Java source code citelet. Example:</p>
+
+
+<pre>&lt;pre jcite="jc"&gt;public void /**/foo/**/() {
+    bar();
+}&lt;/pre&gt;</pre>
+
+<pre class="java"><span class="j-key">public </span><span class="j-typ">void </span><span class="j-hl">foo</span><span class="j-sym">() {
+    </span>bar<span class="j-sym">()</span>;
+<span class="j-sym">}</span></pre>
 
 		</div>
         <div class="footer">

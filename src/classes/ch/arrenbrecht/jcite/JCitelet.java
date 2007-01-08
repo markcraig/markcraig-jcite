@@ -40,7 +40,6 @@ import java.io.IOException;
 import java.util.List;
 
 
-
 public abstract class JCitelet
 {
 	private final JCite jcite;
@@ -56,37 +55,78 @@ public abstract class JCitelet
 	private static final String PRE_START = "<pre>";
 	private static final String PRE_END = "</pre>";
 
+
 	public String process( String _source ) throws JCiteError, IOException
 	{
-		final String markupStartTag = markupStartTag();
-		final char markupEndTag = markupEndTag();
-		final int markupStartTagLength = markupStartTag.length();
+		return processInlines( processCitations( _source ) );
+	}
 
-		final StringBuilder result = new StringBuilder( _source.length() );
-		int processedUpto = 0;
-		int beginMarkup;
-		while ((beginMarkup = _source.indexOf( markupStartTag, processedUpto )) > 0) {
-			final int endMarkup = _source.indexOf( markupEndTag, beginMarkup );
-			if (endMarkup < 0) throw new UnclosedMarkupError();
-			final String markup = _source.substring( beginMarkup + markupStartTagLength, endMarkup );
-			final String insertion = insertionFor( markup );
-			int beginDeletion = Util.scanBackTo( _source, '<', beginMarkup );
-			int endDeletion = Util.scanForwardTo( _source, '>', endMarkup );
-			if (beginDeletion >= PRE_START.length()
-					&& _source.substring( beginDeletion - PRE_START.length(), beginDeletion ).equals( PRE_START )
-					&& _source.substring( endDeletion + 1, endDeletion + 1 + PRE_END.length() ).equals( PRE_END )) {
-				beginDeletion -= PRE_START.length();
-				endDeletion += PRE_END.length();
+	protected String processCitations( String _source ) throws JCiteError, IOException
+	{
+		return processElements( _source, markupStartTag(), markupEndTag(), new ElementVisitor()
+		{
+
+			public String insertionFor( String _markup ) throws JCiteError, IOException
+			{
+				return citationFor( _markup );
 			}
 
-			result.append( _source.substring( processedUpto, beginDeletion ) );
-			result.append( insertion );
+		} );
+	}
 
-			processedUpto = endDeletion + 1;
+	protected String processInlines( String _source ) throws JCiteError, IOException
+	{
+		return processElements( _source, inlineStartTag(), inlineEndTag(), new ElementVisitor()
+		{
+
+			public String insertionFor( String _citation ) throws JCiteError, IOException
+			{
+				return formattingFor( "", _citation );
+			}
+
+		} );
+	}
+
+
+	protected final String processElements( String _source, String _markupStartTag, String _markupEndTag,
+			ElementVisitor _visitor ) throws JCiteError, IOException
+	{
+		final int markupStartTagLength = _markupStartTag.length();
+		int processedUpto = 0;
+		int beginMarkup = _source.indexOf( _markupStartTag, processedUpto );
+		if (beginMarkup > 0) {
+			final StringBuilder result = new StringBuilder( _source.length() );
+			do {
+				final int endMarkup = _source.indexOf( _markupEndTag, beginMarkup );
+				if (endMarkup < 0) throw new UnclosedMarkupError();
+				final String markup = _source.substring( beginMarkup + markupStartTagLength, endMarkup );
+				final String insertion = _visitor.insertionFor( markup );
+				int beginDeletion = Util.scanBackTo( _source, '<', beginMarkup );
+				int endDeletion = Util.scanForwardTo( _source, '>', endMarkup );
+				if (beginDeletion >= PRE_START.length()
+						&& _source.substring( beginDeletion - PRE_START.length(), beginDeletion ).equals( PRE_START )
+						&& _source.substring( endDeletion + 1, endDeletion + 1 + PRE_END.length() ).equals( PRE_END )) {
+					beginDeletion -= PRE_START.length();
+					endDeletion += PRE_END.length();
+				}
+
+				result.append( _source.substring( processedUpto, beginDeletion ) );
+				result.append( insertion );
+
+				processedUpto = endDeletion + 1;
+			} while ((beginMarkup = _source.indexOf( _markupStartTag, processedUpto )) > 0);
+			result.append( _source.substring( processedUpto ) );
+			return result.toString();
 		}
-		result.append( _source.substring( processedUpto ) );
+		else {
+			return _source;
+		}
 
-		return result.toString();
+	}
+
+	protected interface ElementVisitor
+	{
+		String insertionFor( String _markup ) throws JCiteError, IOException;
 	}
 
 
@@ -95,25 +135,40 @@ public abstract class JCitelet
 		return false;
 	}
 
+
+	protected abstract String markupTag();
+
+	protected abstract String citationFor( String _markup ) throws JCiteError, IOException;
+
+	protected abstract String formattingFor( String _markup, String _cited ) throws JCiteError, IOException;
+
+
 	protected String markupStartTag()
 	{
 		return "[" + markupTag() + ":";
 	}
 
-	protected char markupEndTag() {
-		return ']';
+	protected String markupEndTag()
+	{
+		return "]";
 	}
 
-	protected abstract String markupTag();
+	protected String inlineStartTag()
+	{
+		return "<pre jcite=\"" + markupTag() + "\">";
+	}
 
-	protected abstract String insertionFor( String _markup ) throws JCiteError, IOException;
+	protected String inlineEndTag()
+	{
+		return "</pre>";
+	}
 
 
 	protected final boolean isVerbose()
 	{
-		return this.jcite.isVerbose(); 
+		return this.jcite.isVerbose();
 	}
-	
+
 	protected final List<String> sourceFolders()
 	{
 		return this.jcite.sourceFolders();
@@ -128,5 +183,5 @@ public abstract class JCitelet
 		}
 		throw new FileNotFoundError( "File " + _relativeFilePath + " not found." );
 	}
-	
+
 }

@@ -108,18 +108,14 @@ public class JavaCitelet extends JCitelet
 
 
 	@Override
-	public String insertionFor( String _markup ) throws JCiteError, IOException
+	public String citationFor( String _markup ) throws JCiteError, IOException
 	{
 		if (isVerbose()) {
 			System.out.print( "  JCite citing " );
 			System.out.println( _markup );
 		}
 
-		final Collection<String> strips = new ArrayList<String>();
-		final Collection<String> shows = new ArrayList<String>();
-		final Collection<String> omissions = new ArrayList<String>();
-		final Collection<String> highlights = new ArrayList<String>();
-
+		String options = "";
 		int endClassName = _markup.indexOf( ':' );
 		int endFragmentName = _markup.length();
 		if (endClassName < 0) {
@@ -129,19 +125,10 @@ public class JavaCitelet extends JCitelet
 			int posOfSemicolon = _markup.indexOf( ';' );
 			if (posOfSemicolon >= 0) {
 				endFragmentName = posOfSemicolon;
-				final String options = _markup.substring( posOfSemicolon );
-				extractOptions( options, stripPattern, strips );
-				extractOptions( options, showPattern, shows );
-				extractOptions( options, omitPattern, omissions );
-				extractOptions( options, highlightPattern, highlights );
+				options = _markup.substring( posOfSemicolon );
 			}
 		}
-
-		// If not otherwise specified, make /**/ a highlight marker
-		if (!strips.contains( "" ) && !omissions.contains( "" ) && !highlights.contains( "" ) && !shows.contains( "" )) {
-			highlights.add( "" );
-		}
-
+		
 		final String className = _markup.substring( 0, endClassName );
 		final String classSource = getSourceForClass( className );
 		
@@ -150,7 +137,35 @@ public class JavaCitelet extends JCitelet
 			final String fragmentName = _markup.substring( endClassName + 1, endFragmentName );
 			fragment = getFragmentFrom( classSource, fragmentName );
 		}
+		
+		return formattingFor( options, fragment );
+	}
 
+
+	@Override
+	public String formattingFor( String _markup, String _cited ) throws JCiteError
+	{
+		if (isVerbose()) {
+			System.out.print( "  JCite citing inline element " );
+			System.out.println( _markup );
+		}
+
+		final Collection<String> strips = new ArrayList<String>();
+		final Collection<String> shows = new ArrayList<String>();
+		final Collection<String> omissions = new ArrayList<String>();
+		final Collection<String> highlights = new ArrayList<String>();
+
+		extractOptions( _markup, stripPattern, strips );
+		extractOptions( _markup, showPattern, shows );
+		extractOptions( _markup, omitPattern, omissions );
+		extractOptions( _markup, highlightPattern, highlights );
+
+		// If not otherwise specified, make /**/ a highlight marker
+		if (!strips.contains( "" ) && !omissions.contains( "" ) && !highlights.contains( "" ) && !shows.contains( "" )) {
+			highlights.add( "" );
+		}
+
+		String fragment = _cited;
 		fragment = stripIndentation( fragment );
 		fragment = omissionsIterator.iterate( fragment, omissions );
 		fragment = usedMarkersIterator.iterate( fragment, strips );

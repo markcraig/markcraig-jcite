@@ -28,7 +28,7 @@
 	<p>This document shows how JCite can cite examples from within <a href="http://office.microsoft.com/">Microsoft Excel</a> spreadsheets.</p>
 
 
-<div class="toc"><ul class="toc toc1"><li><a href="#pagetoc__1">Citing An Entire Sheet</a></li><li><a href="#pagetoc__2">Citing Ranges</a></li><li><a href="#pagetoc__3">Style Sheet</a></li></ul></div>
+<div class="toc"><ul class="toc toc1"><li><a href="#pagetoc__1">Citing An Entire Sheet</a></li><li><a href="#pagetoc__2">Citing Ranges</a></li><li><a href="#pagetoc__3">Citing Formulas Only</a></li><li><a href="#pagetoc__4">Style Sheet</a></li></ul></div>
 
 	<h5>Note</h5>
 
@@ -442,7 +442,94 @@
 
 <pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+]</pre>
 
-	<h2><a name="pagetoc__3">Style Sheet</a></h2>
+	<h2><a name="pagetoc__3">Citing Formulas Only</a></h2>
+
+
+	<p>In the examples so far, JCite cited cell formulas beneath their saved values. You can make JCite omit the values to make the formulas more prominent:</p>
+
+
+	<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">2</td>
+			<td>Total</td>
+			<td>Date</td>
+			<td>DaysBack</td>
+			<td>Weight</td>
+			<td>Value</td>
+		</tr>
+		<tr>
+			<td class="xl-row">3</td>
+			<td class="xl-num xl-r1">$450.00<br/><span class="xl-name">(OrderTotal)</span></td>
+			<td class="xl-date xl-r1">10/08/2006<br/><span class="xl-name">(OrderDate)</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B$11-C3</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=(90.0-D3)/90.0</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B3*E3</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">4</td>
+			<td class="xl-num xl-r1">$1,320.00</td>
+			<td class="xl-date xl-r1">29/08/2006</td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B$11-C4</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=(90.0-D4)/90.0</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B4*E4</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">5</td>
+			<td class="xl-num xl-r1">$1,540.00</td>
+			<td class="xl-date xl-r1">24/09/2006</td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B$11-C5</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=(90.0-D5)/90.0</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B5*E5</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">6</td>
+			<td class="xl-num xl-r1">$60.00</td>
+			<td class="xl-date xl-r1">08/10/2006</td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B$11-C6</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=(90.0-D6)/90.0</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B6*E6</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">7</td>
+			<td class="xl-num xl-r1">$5,870.00</td>
+			<td class="xl-date xl-r1">05/11/2006</td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B$11-C7</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=(90.0-D7)/90.0</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B7*E7</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">14</td>
+			<td class="xl-num"><span class="xl-exp-only">=MATCH(B10,C14:G14)</span><br/><span class="xl-name">(Rating)</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+	</table>
+	<br/><span class="xl-r1">B3:F7</span> <span class="xl-name">(OrdersForLastThreeMonths)</span>
+
+
+	<p>with an instruction such as:</p>
+
+
+<pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+;formulas-only]</pre>
+
+	<p>The option <code>fo</code> is shorthand for <code>formulas-only</code>.</p>
+
+
+	<h2><a name="pagetoc__4">Style Sheet</a></h2>
 
 
 	<p>The formatting of the generated output is <a href="styling.htm">controlled by a <span class="caps">CSS</span> style sheet</a>.</p>

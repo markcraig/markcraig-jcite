@@ -86,11 +86,19 @@ public class ExcelCitelet extends JCitelet
 	protected String citationFor( String _markup ) throws JCiteError, IOException
 	{
 		String sourceFileName = _markup;
+
+		String[] options = EMPTY_STRING_ARRAY;
+		final int posOfSemicolon = sourceFileName.indexOf( ';' );
+		if (posOfSemicolon >= 0) {
+			options = sourceFileName.substring( posOfSemicolon + 1 ).split( "," );
+			sourceFileName = sourceFileName.substring( 0, posOfSemicolon );
+		}
+
 		String[] ranges = EMPTY_STRING_ARRAY;
-		final int posOfColon = _markup.indexOf( ':' );
+		final int posOfColon = sourceFileName.indexOf( ':' );
 		if (posOfColon >= 0) {
-			sourceFileName = _markup.substring( 0, posOfColon );
-			ranges = _markup.substring( posOfColon + 1 ).split( "," );
+			ranges = sourceFileName.substring( posOfColon + 1 ).split( "," );
+			sourceFileName = sourceFileName.substring( 0, posOfColon );
 		}
 
 		final File sourceFile = findSourceFile( sourceFileName );
@@ -104,7 +112,7 @@ public class ExcelCitelet extends JCitelet
 			final Workbook workbook = jxl.Workbook.getWorkbook( sourceFile, xlsSettings );
 			final DescriptionBuilder b = new DescriptionBuilder();
 
-			new WorkbookFormatter( workbook, workbook.getSheet( 0 ), ranges ).convertSheet( b );
+			new WorkbookFormatter( workbook, workbook.getSheet( 0 ), ranges, options ).convertSheet( b );
 
 			return b.toString();
 		}
@@ -125,6 +133,7 @@ public class ExcelCitelet extends JCitelet
 	{
 		private final Workbook workbook;
 		private final Sheet sheet;
+		private final boolean formulasOnly;
 		private final Collection<Range> scope = new ArrayList<Range>();
 		private final int firstColumnInScope;
 		private final int lastColumnInScope;
@@ -134,11 +143,14 @@ public class ExcelCitelet extends JCitelet
 		private final Map<String, String> namedRangeColors = new HashMap<String, String>();
 
 
-		public WorkbookFormatter(Workbook _workbook, Sheet _sheet, String[] _rangeNames) throws JCiteError
+		public WorkbookFormatter(Workbook _workbook, Sheet _sheet, String[] _rangeNames, String[] _options)
+				throws JCiteError
 		{
 			super();
 			this.workbook = _workbook;
 			this.sheet = _sheet;
+			this.formulasOnly = contains( _options, "formulas-only" ) || contains( _options, "fo" );
+
 			if (_rangeNames != null && _rangeNames.length > 0) {
 				setupScope( _rangeNames );
 				this.firstColumnInScope = getFirstColumnInScope();
@@ -258,10 +270,10 @@ public class ExcelCitelet extends JCitelet
 			}
 		}
 
-		private boolean contains( String[] _except, String _rangeName )
+		private boolean contains( String[] _strings, String _string )
 		{
-			for (String r : _except) {
-				if (r.equals( _rangeName )) return true;
+			for (String candidate : _strings) {
+				if (candidate.equals( _string )) return true;
 			}
 			return false;
 		}
@@ -343,6 +355,37 @@ public class ExcelCitelet extends JCitelet
 							contents = cell.getContents();
 
 							final CellType cellType = cell.getType();
+							if (cellType == CellType.NUMBER || cellType == CellType.NUMBER_FORMULA) {
+								clazz += " xl-num";
+							}
+							else if (cellType == CellType.DATE || cellType == CellType.DATE_FORMULA) {
+								clazz += " xl-date";
+							}
+
+							if (cell instanceof FormulaCell) {
+								final FormulaCell formulaCell = (FormulaCell) cell;
+								
+								String formula;
+								try {
+									formula = formulaCell.getFormula(); 
+								}
+								catch (FormulaException e) {
+									formula = "FORMULA ERROR: " + e.getMessage();
+								}
+
+								if (this.formulasOnly) {
+									contents = "<span class=\"xl-exp-only\">=" + formula + "</span>";
+								}
+								else {
+									annotations += "<br/><span class=\"xl-exp\">=" + formula + "</span>";
+								}
+							}
+
+							final String cellName = this.namedCells.get( cell );
+							if (cellName != null) {
+								annotations += "<br/><span class=\"xl-name\">(" + cellName + ")</span>";
+							}
+
 							final CellFormat cellFormat = cell.getCellFormat();
 							if (cellFormat != null) {
 								final Alignment cellAlignment = cellFormat.getAlignment();
@@ -360,28 +403,7 @@ public class ExcelCitelet extends JCitelet
 									}
 								}
 							}
-							if (cellType == CellType.NUMBER || cellType == CellType.NUMBER_FORMULA) {
-								clazz += " xl-num";
-							}
-							else if (cellType == CellType.DATE || cellType == CellType.DATE_FORMULA) {
-								clazz += " xl-date";
-							}
-
-							if (cell instanceof FormulaCell) {
-								final FormulaCell formulaCell = (FormulaCell) cell;
-								try {
-									annotations += "<br/><span class=\"xl-exp\">=" + formulaCell.getFormula() + "</span>";
-								}
-								catch (FormulaException e) {
-									annotations += "<br/><span class=\"xl-exp\">FORMULA ERROR: " + e.getMessage() + "</span>";
-								}
-							}
-
-							final String cellName = this.namedCells.get( cell );
-							if (cellName != null) {
-								annotations += "<br/><span class=\"xl-name\">(" + cellName + ")</span>";
-							}
-
+							
 						}
 
 						final String cellColor = this.rangedCellColors.get( cellToLong( iCol, iRow ) );

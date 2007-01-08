@@ -52,6 +52,19 @@ with an instruction such as:
 <notextile><pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+]</pre></notextile>
 
 
+h2. Citing Formulas Only
+
+In the examples so far, JCite cited cell formulas beneath their saved values. You can make JCite omit the values to make the formulas more prominent:
+
+	[xc:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+;formulas-only]
+
+with an instruction such as:
+
+<notextile><pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+;formulas-only]</pre></notextile>
+
+The option @fo@ is shorthand for @formulas-only@.
+
+
 h2. Style Sheet
 
 The formatting of the generated output is "controlled by a CSS style sheet":styling.htm.

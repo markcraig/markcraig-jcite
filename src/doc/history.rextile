@@ -2,6 +2,13 @@
 h1. JCite Version History
 
 
+h2. JCite 1.8
+
+h5. New
+
+	* Added option to format inline blocks (rather than citing them from sources). See the "samples page":samples.htm for details.
+
+
 h2. JCite 1.7
 
 h5. New

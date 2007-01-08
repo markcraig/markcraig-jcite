@@ -222,6 +222,23 @@ System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</
 <pre class="java"><span class="j-typ">int </span>c = <span class="j-num">2 </span><span class="j-hl">* b</span>;
 System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</pre>
 
+	<p>Eclipse&#8217;s code formatter sometimes removes spaces around JCite&#8217;s highlighting comments, like so:</p>
+
+
+	<pre class="java"><span class="j-key">interface </span>Foo
+<span class="j-sym">{
+  </span><span class="j-cmt">// ---- fixedHighlighting
+  </span><span class="j-key">public</span><span class="j-blk">/**/</span><span class="j-typ">int</span><span class="j-blk">/**/</span>bar<span class="j-sym">()</span>;
+  <span class="j-cmt">// ---- fixedHighlighting
+</span><span class="j-sym">}</span></pre>
+
+
+	<p>JCite therefore inserts spaces around highlights if otherwise a highlighted and a non-highlighted letter or digit would be adjacent. Here&#8217;s an example:</p>
+
+
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- fixedHighlighting]</pre>
+<pre class="java"><span class="j-key">public </span><span class="j-hl">int</span> bar<span class="j-sym">()</span>;</pre>
+
 	<h2><a name="pagetoc__4">Omissions</a></h2>
 
 

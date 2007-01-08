@@ -47,26 +47,34 @@ abstract class MarkerIterator
 	{
 		String result = _fragment;
 		for (String markerName : _markerNames) {
+			final StringBuilder builder = new StringBuilder();
 			final FragmentMarker[] markers = FragmentMarker.markersFor( markerName );
 			final FragmentLocator locator = new FragmentLocator();
 			int scanFrom = 0;
 			while (scanFrom < result.length()) {
-				if (FragmentMarker.findFragment( result, scanFrom, markers, locator )) {
+				if (FragmentMarker.findFragment( _fragment, scanFrom, markers, locator )) {
 					if (locator.marker.isBlock()) {
-						locator.beginPrefix = Util.scanBackTo( result, '\n', locator.beginPrefix ) + 1;
+						locator.beginPrefix = Util.scanBackTo( _fragment, '\n', locator.beginPrefix ) + 1;
 					}
-					result = visit( result, locator );
-					scanFrom = locator.beginPrefix;
+					final String prefix = _fragment.substring( scanFrom, locator.beginPrefix );
+					final String infix = _fragment.substring( locator.beginFragment, locator.endFragment );
+					builder.append( prefix );
+					visit( _fragment, locator, infix, builder );
+					scanFrom = locator.endSuffix;
 				}
 				else {
 					break;
 				}
+			}
+			if (scanFrom > 0) {
+				builder.append( _fragment.substring( scanFrom ) );
+				result = builder.toString();
 			}
 		}
 		return result;
 	}
 
 
-	protected abstract String visit( String _result, FragmentLocator _locator );
+	protected abstract void visit( String _source, FragmentLocator _locator, String _fragment, StringBuilder _result );
 
 }

@@ -41,11 +41,39 @@ class HighlightMarkersIterator extends MarkerIterator
 {
 
 	@Override
-	protected String visit( String _result, FragmentLocator _locator )
+	protected void visit( String _source, FragmentLocator _locator, String _fragment, StringBuilder _result )
 	{
-		return _result.substring( 0, _locator.beginPrefix ) + Constants.BEGIN_HIGHLIGHT
-				+ _result.substring( _locator.beginFragment, _locator.endFragment ) + Constants.END_HIGHLIGHT
-				+ _result.substring( _locator.endSuffix );
+		insertSpaceBeforeIfNeeded( _source, _locator, _fragment, _result );
+
+		_result.append( Constants.BEGIN_HIGHLIGHT ).append( _fragment ).append( Constants.END_HIGHLIGHT );
+
+		insertSpaceAfterIfNeeded( _source, _locator, _fragment, _result );
+	}
+
+	private final void insertSpaceBeforeIfNeeded( String _source, FragmentLocator _locator, String _fragment,
+			StringBuilder _result )
+	{
+		if (_locator.beginPrefix > 0 && _fragment.length() > 0) {
+			insertSpaceIfNeeded( _source, _fragment, _result, _locator.beginPrefix - 1, 0 );
+		}
+	}
+
+	private final void insertSpaceAfterIfNeeded( String _source, FragmentLocator _locator, String _fragment,
+			StringBuilder _result )
+	{
+		if (_locator.endSuffix < _source.length() && _fragment.length() > 0) {
+			insertSpaceIfNeeded( _source, _fragment, _result, _locator.endSuffix, _fragment.length() - 1 );
+		}
+	}
+
+	private final void insertSpaceIfNeeded( String _source, String _fragment, StringBuilder _result,
+			final int _outsideIndex, final int _insideIndex )
+	{
+		final char outside = _source.charAt( _outsideIndex );
+		final char inside = _fragment.charAt( _insideIndex );
+		if (Character.isLetterOrDigit( outside ) && Character.isLetterOrDigit( inside )) {
+			_result.append( ' ' );
+		}
 	}
 
 }

@@ -39,12 +39,12 @@ import junit.framework.TestCase;
 
 public class JCiteTest extends TestCase
 {
-	
+
 	public void testDummy() throws Exception
 	{
 		// This class defines sample source only.
 	}
-	
+
 
 	// ---- sampleMethodSrc
 	// ---- sampleMethod
@@ -134,7 +134,18 @@ public class JCiteTest extends TestCase
 		System.out.println( c );
 		// ---- simpleHighlighting
 	}
+
 	// ---- simpleHighlightingSrc
+
+
+	// ---- fixedHighlightingSrc
+	interface Foo
+	{
+		// ---- fixedHighlighting
+		public/**/int/**/bar();
+		// ---- fixedHighlighting
+	}
+	// ---- fixedHighlightingSrc
 
 
 	// ---- sampleOmissionSrc

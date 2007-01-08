@@ -71,6 +71,13 @@ Then you can cite the fragment without needing to tell JCite what to highlight (
 
 <%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- simpleHighlighting' %>
 
+Eclipse's code formatter sometimes removes spaces around JCite's highlighting comments, like so:
+
+	[jc:ch.arrenbrecht.jcite.JCiteTest:---- fixedHighlightingSrc; show]
+
+JCite therefore inserts spaces around highlights if otherwise a highlighted and a non-highlighted letter or digit would be adjacent. Here's an example:
+
+<%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- fixedHighlighting' %>
 
 
 h2. Omissions

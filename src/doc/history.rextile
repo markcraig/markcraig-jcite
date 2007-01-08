@@ -8,6 +8,10 @@ h5. New
 
 	* Can now format inline blocks (rather than citing them from sources). See the "samples page":samples.htm for details.
 	* Added option to cite Excel formulas only (rather than citing current value + formula). See the "Excel page":excel.htm for details.
+	
+h5. Better
+
+	* The Java source code highlighter now inserts additional spaces in situations where a highlighted and an non-highlighted letter or digit would be adjacent. This works around an Eclipse code formatter quirk.
 
 
 h2. JCite 1.7

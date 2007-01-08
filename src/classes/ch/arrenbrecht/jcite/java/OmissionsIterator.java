@@ -39,9 +39,9 @@ class OmissionsIterator extends MarkerIterator
 {
 
 	@Override
-	protected String visit( String _result, FragmentLocator _locator )
+	protected void visit( String _source, FragmentLocator _locator, String _fragment, StringBuilder _result )
 	{
-		return _result.substring( 0, _locator.beginPrefix ) + _result.substring( _locator.endSuffix );
+		// Just drop it.
 	}
 
 }

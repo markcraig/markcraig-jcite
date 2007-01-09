@@ -75,7 +75,7 @@ Eclipse's code formatter sometimes removes spaces around JCite's highlighting co
 
 	[jc:ch.arrenbrecht.jcite.JCiteTest:---- fixedHighlightingSrc; show]
 
-JCite therefore inserts spaces around highlights if otherwise a highlighted and a non-highlighted letter or digit or closing @>@ or @]@ or @)@ would be adjacent. Here's an example:
+JCite therefore inserts spaces around highlights if otherwise a highlighted and a non-highlighted letter or digit or @=@ sign would be adjacent. It also handles spacing for closing @})]>,;@ characters. Here's an example:
 
 <%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- fixedHighlighting' %>
 

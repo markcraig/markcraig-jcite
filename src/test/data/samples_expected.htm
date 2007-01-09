@@ -225,13 +225,17 @@ System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</
 	<p>Eclipse&#8217;s code formatter sometimes removes spaces around JCite&#8217;s highlighting comments, like so:</p>
 
 
-	<pre class="java"><span class="j-key">interface </span>Foo
+	<pre class="java"><span class="j-key">abstract class </span>Foo
 <span class="j-sym">{
   </span><span class="j-cmt">// ---- fixedHighlighting
-  </span><span class="j-key">public</span><span class="j-blk">/**/</span><span class="j-typ">int</span><span class="j-blk">/**/</span>bar<span class="j-sym">()</span>;
-  <span class="j-key">public</span><span class="j-blk">/**/</span><span class="j-typ">int</span><span class="j-sym">[]</span><span class="j-blk">/**/</span>baz<span class="j-sym">()</span>;
-  <span class="j-key">public</span><span class="j-blk">/**/</span>Collection&lt;String&gt;<span class="j-blk">/**/</span>duh<span class="j-sym">()</span>;
-  <span class="j-cmt">// ---- fixedHighlighting
+  </span><span class="j-key">abstract</span><span class="j-blk">/**/</span><span class="j-typ">int</span><span class="j-blk">/**/</span>bar<span class="j-sym">()</span>;
+  <span class="j-key">abstract</span><span class="j-blk">/**/</span><span class="j-typ">int</span><span class="j-sym">[]</span><span class="j-blk">/**/</span>baz<span class="j-sym">()</span>;
+  <span class="j-key">abstract</span><span class="j-blk">/**/</span>Collection&lt;String&gt;<span class="j-blk">/**/</span>duh<span class="j-sym">()</span>;
+  <span class="j-typ">void </span>doh<span class="j-sym">()
+  {
+    </span><span class="j-typ">int </span><span class="j-blk">/**/</span>var<span class="j-blk">/**/</span>= <span class="j-num">0</span>;
+  <span class="j-sym">}
+  </span><span class="j-cmt">// ---- fixedHighlighting
 </span><span class="j-sym">}</span></pre>
 
 
@@ -239,9 +243,13 @@ System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</
 
 
 <pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- fixedHighlighting]</pre>
-<pre class="java"><span class="j-key">public </span><span class="j-hl">int</span> bar<span class="j-sym">()</span>;
-<span class="j-key">public </span><span class="j-hl">int<span class="j-sym">[]</span></span> baz<span class="j-sym">()</span>;
-<span class="j-key">public </span><span class="j-hl">Collection&lt;String&gt;</span> duh<span class="j-sym">()</span>;</pre>
+<pre class="java"><span class="j-key">abstract </span><span class="j-hl">int</span> bar<span class="j-sym">()</span>;
+<span class="j-key">abstract </span><span class="j-hl">int<span class="j-sym">[]</span></span> baz<span class="j-sym">()</span>;
+<span class="j-key">abstract </span><span class="j-hl">Collection&lt;String&gt;</span> duh<span class="j-sym">()</span>;
+<span class="j-typ">void </span>doh<span class="j-sym">()
+{
+  </span><span class="j-typ">int </span><span class="j-hl">var</span> = <span class="j-num">0</span>;
+<span class="j-sym">}</span></pre>
 
 	<h2><a name="pagetoc__4">Omissions</a></h2>
 

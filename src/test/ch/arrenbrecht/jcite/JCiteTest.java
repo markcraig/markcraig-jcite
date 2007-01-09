@@ -141,12 +141,16 @@ public class JCiteTest extends TestCase
 
 
 	// ---- fixedHighlightingSrc
-	interface Foo
+	abstract class Foo
 	{
 		// ---- fixedHighlighting
-		public/**/int/**/bar();
-		public/**/int[]/**/baz();
-		public/**/Collection<String>/**/duh();
+		abstract/**/int/**/bar();
+		abstract/**/int[]/**/baz();
+		abstract/**/Collection<String>/**/duh();
+		void doh()
+		{
+			int /**/var/**/= 0;
+		}
 		// ---- fixedHighlighting
 	}
 	// ---- fixedHighlightingSrc

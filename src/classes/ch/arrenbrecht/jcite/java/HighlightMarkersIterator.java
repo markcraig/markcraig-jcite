@@ -54,7 +54,7 @@ class HighlightMarkersIterator extends MarkerIterator
 			StringBuilder _result )
 	{
 		if (_locator.beginPrefix > 0 && _fragment.length() > 0) {
-			insertSpaceIfNeeded( _source, _fragment, _result, _locator.beginPrefix - 1, 0, "" );
+			insertSpaceIfNeeded( _source, _fragment, _result, _locator.beginPrefix - 1, 0, "=,;", "=" );
 		}
 	}
 
@@ -62,16 +62,16 @@ class HighlightMarkersIterator extends MarkerIterator
 			StringBuilder _result )
 	{
 		if (_locator.endSuffix < _source.length() && _fragment.length() > 0) {
-			insertSpaceIfNeeded( _source, _fragment, _result, _locator.endSuffix, _fragment.length() - 1, "})]>" );
+			insertSpaceIfNeeded( _source, _fragment, _result, _locator.endSuffix, _fragment.length() - 1, "=", "=})]>,;" );
 		}
 	}
 
 	private final void insertSpaceIfNeeded( String _source, String _fragment, StringBuilder _result, int _outsideIndex,
-			int _insideIndex, String _insidesLikeLetters )
+			int _insideIndex, String _outsidesLikeLetters, String _insidesLikeLetters )
 	{
 		final char outside = _source.charAt( _outsideIndex );
 		final char inside = _fragment.charAt( _insideIndex );
-		if (Character.isLetterOrDigit( outside )
+		if ((Character.isLetterOrDigit( outside ) || _outsidesLikeLetters.indexOf( outside ) >= 0)
 				&& (Character.isLetterOrDigit( inside ) || _insidesLikeLetters.indexOf( inside ) >= 0)) {
 			_result.append( ' ' );
 		}

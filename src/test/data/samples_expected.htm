@@ -229,15 +229,19 @@ System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</
 <span class="j-sym">{
   </span><span class="j-cmt">// ---- fixedHighlighting
   </span><span class="j-key">public</span><span class="j-blk">/**/</span><span class="j-typ">int</span><span class="j-blk">/**/</span>bar<span class="j-sym">()</span>;
+  <span class="j-key">public</span><span class="j-blk">/**/</span><span class="j-typ">int</span><span class="j-sym">[]</span><span class="j-blk">/**/</span>baz<span class="j-sym">()</span>;
+  <span class="j-key">public</span><span class="j-blk">/**/</span>Collection&lt;String&gt;<span class="j-blk">/**/</span>duh<span class="j-sym">()</span>;
   <span class="j-cmt">// ---- fixedHighlighting
 </span><span class="j-sym">}</span></pre>
 
 
-	<p>JCite therefore inserts spaces around highlights if otherwise a highlighted and a non-highlighted letter or digit would be adjacent. Here&#8217;s an example:</p>
+	<p>JCite therefore inserts spaces around highlights if otherwise a highlighted and a non-highlighted letter or digit or closing <code>&gt;</code> or <code>]</code> or <code>)</code> would be adjacent. Here&#8217;s an example:</p>
 
 
 <pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- fixedHighlighting]</pre>
-<pre class="java"><span class="j-key">public </span><span class="j-hl">int</span> bar<span class="j-sym">()</span>;</pre>
+<pre class="java"><span class="j-key">public </span><span class="j-hl">int</span> bar<span class="j-sym">()</span>;
+<span class="j-key">public </span><span class="j-hl">int<span class="j-sym">[]</span></span> baz<span class="j-sym">()</span>;
+<span class="j-key">public </span><span class="j-hl">Collection&lt;String&gt;</span> duh<span class="j-sym">()</span>;</pre>
 
 	<h2><a name="pagetoc__4">Omissions</a></h2>
 

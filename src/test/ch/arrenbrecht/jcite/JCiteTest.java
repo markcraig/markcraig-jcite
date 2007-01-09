@@ -35,6 +35,8 @@
  */
 package ch.arrenbrecht.jcite;
 
+import java.util.Collection;
+
 import junit.framework.TestCase;
 
 public class JCiteTest extends TestCase
@@ -143,6 +145,8 @@ public class JCiteTest extends TestCase
 	{
 		// ---- fixedHighlighting
 		public/**/int/**/bar();
+		public/**/int[]/**/baz();
+		public/**/Collection<String>/**/duh();
 		// ---- fixedHighlighting
 	}
 	// ---- fixedHighlightingSrc

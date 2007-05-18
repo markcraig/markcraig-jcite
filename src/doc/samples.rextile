@@ -11,15 +11,15 @@ h2. Citing Entire Blocks
 
 Using JCite, you can cite entire blocks, such as methods, classes, etc., including, if desired, their JavaDoc comments. Let's, for example, cite an entire method:
 
-	[jc:ch.arrenbrecht.jcite.JCiteTest:---- sampleMethod]
+	[jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleMethod]
 
 This was produced by the following JCite instruction in the source HTML document:
 
-<notextile><pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleMethod]</pre></notextile>
+<notextile><pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleMethod]</pre></notextile>
 
-The part @ch.arrenbrecht.jcite.JCiteTest@ tells JCite what Java class's source to cite from. The part @---- sampleMethod@ tells it what fragment to cite. You surround citable fragments with special comments in the source code:
+The part @ch.arrenbrecht.jcite.examples.JCiteSampleCode@ tells JCite what Java class's source to cite from. The part @---- sampleMethod@ tells it what fragment to cite. You surround citable fragments with special comments in the source code:
 
-	[jc:ch.arrenbrecht.jcite.JCiteTest:---- sampleMethodSrc]
+	[jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleMethodSrc]
 
 The part @---- sampleMethod@ is freely choosable. It must simply match the respective comment in the source file.
 
@@ -37,19 +37,19 @@ h2. Individual Snippets
 
 You can also cite smaller fragments of code if you annotate your source code accordingly. Here's an example of such annotated source code:
 
-	[jc:ch.arrenbrecht.jcite.JCiteTest:---- fragmentSrc]
+	[jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fragmentSrc]
 
 From this, we can cite a fragment of two lines:
 
-<%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- fragment1' %>
+<%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fragment1' %>
 
 Or a fragment consisting of multiple snippets of code taken from the source file:
 
-<%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- fragment2' %>
+<%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fragment2' %>
 
 We can also display line fragments:
 
-<%= ex 'ch.arrenbrecht.jcite.JCiteTest:-lineFragment-' %>
+<%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:-lineFragment-' %>
 
 
 
@@ -57,52 +57,52 @@ h2. Highlighting
 
 With JCite you can highlight parts of the cited code. Given the following source code:
 
-	[jc:ch.arrenbrecht.jcite.JCiteTest:---- sampleHighlightingSrc]
+	[jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleHighlightingSrc]
 
 We highlight an entire line and a line fragment:
 
-<%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- sampleHighlighting; highlight -hl-' %>
+<%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleHighlighting; highlight -hl-' %>
 
 If you just want to highlight line fragments, there is an even shorter version. You simply surround each part in the source code which JCite should highlight with @/**/.../**/@, as in:
 
-	[jc:ch.arrenbrecht.jcite.JCiteTest:---- simpleHighlightingSrc; show]
+	[jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- simpleHighlightingSrc; show]
 
 Then you can cite the fragment without needing to tell JCite what to highlight (no @highlight@ part in the @jc@ instruction).
 
-<%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- simpleHighlighting' %>
+<%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- simpleHighlighting' %>
 
 Eclipse's code formatter sometimes removes spaces around JCite's highlighting comments, like so:
 
-	[jc:ch.arrenbrecht.jcite.JCiteTest:---- fixedHighlightingSrc; show]
+	[jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fixedHighlightingSrc; show]
 
 JCite therefore inserts spaces around highlights if otherwise a highlighted and a non-highlighted letter or digit or @=@ sign would be adjacent. It also handles spacing for closing @})]>,;@ characters. Here's an example:
 
-<%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- fixedHighlighting' %>
+<%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fixedHighlighting' %>
 
 
 h2. Omissions
 
 You can omit parts from cited fragments, too. This can be used to show the buildup of a method. Given the following source:
 
-	[jc:ch.arrenbrecht.jcite.JCiteTest:---- sampleOmissionSrc]
+	[jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmissionSrc]
 
 We first show the method without the try-finally block (note that JCite does not currently support correcting indentation levels; this is a planned feature):
 
-<%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- sampleOmission; omit -try-' %>
+<%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission; omit -try-' %>
 
 Then, including the block, highlighted:
 
-<%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- sampleOmission; highlight -try-' %>
+<%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission; highlight -try-' %>
 
 Or, including the block, without highlighting:
 
-<%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- sampleOmission; strip -try-' %>
+<%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission; strip -try-' %>
 
 h5. Hint
 
 If you forget to specify @strip -try-@, you get the block with internal marker comments left intact:
 
-<%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- sampleOmission' %>
+<%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission' %>
 
 
 
@@ -110,7 +110,7 @@ h2. Showing @/**/@ Markers
 
 Not that you'd need to, but for the sake of completeness, here's how to cite code with the internal highlighting markers of the form @/**/@ left intact:
 
-<%= ex 'ch.arrenbrecht.jcite.JCiteTest:---- simpleHighlighting;show' %>
+<%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- simpleHighlighting;show' %>
 
 
 h2. Citing Entire Files

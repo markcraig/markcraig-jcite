@@ -61,9 +61,9 @@
 	<p>This was produced by the following JCite instruction in the source <span class="caps">HTML</span> document:</p>
 
 
-<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleMethod]</pre>
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleMethod]</pre>
 
-	<p>The part <code>ch.arrenbrecht.jcite.JCiteTest</code> tells JCite what Java class&#8217;s source to cite from. The part <code>---- sampleMethod</code> tells it what fragment to cite. You surround citable fragments with special comments in the source code:</p>
+	<p>The part <code>ch.arrenbrecht.jcite.examples.JCiteSampleCode</code> tells JCite what Java class&#8217;s source to cite from. The part <code>---- sampleMethod</code> tells it what fragment to cite. You surround citable fragments with special comments in the source code:</p>
 
 
 	<pre class="java"><span class="j-cmt">// ---- sampleMethod
@@ -150,14 +150,14 @@
 	<p>From this, we can cite a fragment of two lines:</p>
 
 
-<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- fragment1]</pre>
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fragment1]</pre>
 <pre class="java"><span class="j-key">if </span><span class="j-sym">(</span><span class="j-num">1 </span>== <span class="j-num">2</span><span class="j-sym">) </span>a = <span class="j-num">0</span>;
 <span class="j-key">else </span>a = <span class="j-num">1</span>;</pre>
 
 	<p>Or a fragment consisting of multiple snippets of code taken from the source file:</p>
 
 
-<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- fragment2]</pre>
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fragment2]</pre>
 <pre class="java"><span class="j-cmt">// Part 1
 </span><span class="j-key">if </span><span class="j-sym">(</span>a == <span class="j-num">1</span><span class="j-sym">) {
   </span>b = <span class="j-num">0</span>;
@@ -171,7 +171,7 @@
 	<p>We can also display line fragments:</p>
 
 
-<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:-lineFragment-]</pre>
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:-lineFragment-]</pre>
 <pre class="java">println<span class="j-sym">( </span><span class="j-str">&#34;Hello, world!&#34; </span><span class="j-sym">)</span></pre>
 
 	<h2><a name="pagetoc__3">Highlighting</a></h2>
@@ -196,7 +196,7 @@
 	<p>We highlight an entire line and a line fragment:</p>
 
 
-<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleHighlighting; highlight -hl-]</pre>
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleHighlighting; highlight -hl-]</pre>
 <pre class="java"><span class="j-typ">int </span>a = <span class="j-num">0</span>;
 <span class="j-hl">int b = <span class="j-num">1</span>;
 </span>int c = a + <span class="j-num">2 </span><span class="j-hl">* b</span>;
@@ -218,7 +218,7 @@ System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</
 	<p>Then you can cite the fragment without needing to tell JCite what to highlight (no <code>highlight</code> part in the <code>jc</code> instruction).</p>
 
 
-<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- simpleHighlighting]</pre>
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- simpleHighlighting]</pre>
 <pre class="java"><span class="j-typ">int </span>c = <span class="j-num">2 </span><span class="j-hl">* b</span>;
 System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</pre>
 
@@ -242,7 +242,7 @@ System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</
 	<p>JCite therefore inserts spaces around highlights if otherwise a highlighted and a non-highlighted letter or digit or <code>=</code> sign would be adjacent. It also handles spacing for closing <code>})]&gt;,;</code> characters. Here&#8217;s an example:</p>
 
 
-<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- fixedHighlighting]</pre>
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fixedHighlighting]</pre>
 <pre class="java"><span class="j-key">abstract </span><span class="j-hl">int</span> bar<span class="j-sym">()</span>;
 <span class="j-key">abstract </span><span class="j-hl">int<span class="j-sym">[]</span></span> baz<span class="j-sym">()</span>;
 <span class="j-key">abstract </span><span class="j-hl">Collection&lt;String&gt;</span> duh<span class="j-sym">()</span>;
@@ -279,7 +279,7 @@ System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</
 	<p>We first show the method without the try-finally block (note that JCite does not currently support correcting indentation levels; this is a planned feature):</p>
 
 
-<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleOmission; omit -try-]</pre>
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission; omit -try-]</pre>
 <pre class="java"><span class="j-typ">int </span>a = <span class="j-num">0</span>;
   something<span class="j-sym">()</span>;
 System.out.println<span class="j-sym">( </span>a <span class="j-sym">)</span>;</pre>
@@ -287,7 +287,7 @@ System.out.println<span class="j-sym">( </span>a <span class="j-sym">)</span>;</
 	<p>Then, including the block, highlighted:</p>
 
 
-<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleOmission; highlight -try-]</pre>
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission; highlight -try-]</pre>
 <pre class="java"><span class="j-typ">int </span>a = <span class="j-num">0</span>;
 <span class="j-hl">try <span class="j-sym">{
 </span></span>  something<span class="j-sym">()</span>;
@@ -300,7 +300,7 @@ System.out.println<span class="j-sym">( </span>a <span class="j-sym">)</span>;</
 	<p>Or, including the block, without highlighting:</p>
 
 
-<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleOmission; strip -try-]</pre>
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission; strip -try-]</pre>
 <pre class="java"><span class="j-typ">int </span>a = <span class="j-num">0</span>;
 <span class="j-key">try </span><span class="j-sym">{
   </span>something<span class="j-sym">()</span>;
@@ -316,7 +316,7 @@ System.out.println<span class="j-sym">( </span>a <span class="j-sym">)</span>;</
 	<p>If you forget to specify <code>strip -try-</code>, you get the block with internal marker comments left intact:</p>
 
 
-<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- sampleOmission]</pre>
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission]</pre>
 <pre class="java"><span class="j-typ">int </span>a = <span class="j-num">0</span>;
 <span class="j-cmt">// -try-
 </span><span class="j-key">try </span><span class="j-sym">{
@@ -336,7 +336,7 @@ System.out.println<span class="j-sym">( </span>a <span class="j-sym">)</span>;</
 	<p>Not that you&#8217;d need to, but for the sake of completeness, here&#8217;s how to cite code with the internal highlighting markers of the form <code>/**/</code> left intact:</p>
 
 
-<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.JCiteTest:---- simpleHighlighting;show]</pre>
+<pre class="jc">[j<b></b>c:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- simpleHighlighting;show]</pre>
 <pre class="java"><span class="j-typ">int </span>c = <span class="j-num">2 </span><span class="j-blk">/**/</span>* b<span class="j-blk">/**/</span>;
 System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</pre>
 

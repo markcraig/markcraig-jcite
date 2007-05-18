@@ -33,13 +33,13 @@
  * Peter Arrenbrecht
  * http://www.arrenbrecht.ch/jcite
  */
-package ch.arrenbrecht.jcite;
+package ch.arrenbrecht.jcite.examples;
 
 import java.util.Collection;
 
 import junit.framework.TestCase;
 
-public class JCiteTest extends TestCase
+public class JCiteSampleCode extends TestCase
 {
 
 	public void testDummy() throws Exception

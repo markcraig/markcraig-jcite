@@ -310,6 +310,7 @@
 		<mkdir dir="${dist.staging.dir}" />
 		<copy todir="${dist.staging.dir}">
 			<fileset dir="${basedir}">
+				<include name="bin/*" />
 				<include name="lib/java2html.*" />
 				<include name="build/jcite.jar" />
 				<include name="*.html" />

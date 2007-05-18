@@ -1,0 +1,11 @@
+#!/bin/sh
+
+jcite_home=$(dirname $(dirname "$0"))
+jar="$jcite_home/build/jcite.jar"
+
+cp=$jar
+for lib in "$jcite_home/lib/"*; do
+  cp="$cp:$lib"
+done
+
+java -cp "$cp:$CLASSPATH" ch.arrenbrecht.jcite.JCite "$@"

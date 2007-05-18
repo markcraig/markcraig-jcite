@@ -2,6 +2,13 @@
 h1. JCite Version History
 
 
+h2. JCite 1.9
+
+h5. Better
+
+	* Using @-o file@ no longer fails because no parent folder was specified for @file@ (see "bug #1708328":http://sourceforge.net/tracker/index.php?func=detail&aid=1708328&group_id=169404&atid=850253).
+
+
 h2. JCite 1.8
 
 h5. New

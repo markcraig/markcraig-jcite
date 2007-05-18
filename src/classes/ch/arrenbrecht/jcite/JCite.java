@@ -66,7 +66,7 @@ public class JCite
 	 * 
 	 * @param _args lists the command line arguments.
 	 */
-	public static void main( String[] _args )
+	public static void main( String... _args )
 	{
 		new JCite().runWith( _args );
 	}
@@ -261,7 +261,8 @@ public class JCite
 	{
 		String source = Util.readStringFrom( _source );
 		String target = process( source );
-		_target.getParentFile().mkdirs();
+		final File parentDir = _target.getParentFile();
+		if (null != parentDir) parentDir.mkdirs();
 		Util.writeStringTo( target, _target );
 	}
 

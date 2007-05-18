@@ -3,11 +3,11 @@ h1. JCite - Java Source Code Citation System
 
 <div class="news">
 
+"JCite 1.9":history.htm with minor improvements.
+<br/>%(when)May 18, 2007%
+
 "JCite 1.8":history.htm with support for formatting inline Java source blocks and citing Excel sheets showing formulas only.
 <br/>%(when)January 22, 2007%
-
-"JCite 1.7":history.htm with minor improvements.
-<br/>%(when)January 2, 2007%
 
 </div>
 
@@ -37,7 +37,7 @@ JCite is open source under a "BSD-style license":LICENSE.html. The required "Jav
 
 h2. Download
 
-<% ver = '1.8' %>
+<% ver = '1.9' %>
 
 "jcite-<%=ver%>-bin.zip":http://arrenbrecht.ch/jcite/dist/jcite-<%=ver%>-bin.zip : Binary release, including the required open-source "Java2Html":-j2h library. Needs at least "Java 1.5":http://www.java.com/en/download/index.jsp to run.
 

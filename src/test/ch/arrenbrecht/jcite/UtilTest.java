@@ -93,7 +93,7 @@ public class UtilTest extends TestCase
 		Util.iterateFiles( _inRoot, "*.txt", _outRoot, _recurse, new Util.FileVisitor()
 		{
 
-			public void visit( File _inputFile, File _outputFile ) throws IOException, JCiteError
+			public void visit( File _inputFile, File _outputFile )
 			{
 				files.put( _inputFile.getPath(), _outputFile.getPath() );
 			}

@@ -69,17 +69,18 @@ public final class JCite
 	{
 		try {
 			final JCite jcite = new JCite();
+
 			jcite.runWith( _args );
+			
 			if (jcite.errorCount() > 0) {
+				System.err.println();
 				System.err.println( "" + jcite.errorCount() + " error(s) encountered." );
 				System.exit( 1 );
 			}
 			if (jcite.warningsCount() > 0) {
+				System.err.println();
 				System.err.println( "" + jcite.warningsCount() + " warning(s) encountered." );
 				System.exit( 2 );
-			}
-			if (jcite.citationCount() > 0) {
-				System.out.println( "" + jcite.citationCount() + " citations processed." );
 			}
 		}
 		catch (Exception e) {
@@ -136,7 +137,7 @@ public final class JCite
 
 	void runWith( String... _args ) throws IOException, JCiteError
 	{
-		File input = null;
+		final Collection<File> inputs = new ArrayList<File>( 1 );
 		File output = null;
 		boolean quiet = false;
 		boolean recurse = false;
@@ -145,7 +146,7 @@ public final class JCite
 		while (++iArg < _args.length) {
 			String arg = _args[ iArg ];
 			if (arg.equalsIgnoreCase( "-i" ) || arg.equalsIgnoreCase( "--input" )) {
-				input = new File( _args[ ++iArg ] );
+				inputs.add( new File( _args[ ++iArg ] ) );
 			}
 			else if (arg.equalsIgnoreCase( "-o" ) || arg.equalsIgnoreCase( "--output" )) {
 				output = new File( _args[ ++iArg ] );
@@ -206,32 +207,38 @@ public final class JCite
 			this.tripwires.load();
 		}
 
-		if (null == input) {
+		if (0 == inputs.size()) {
 			System.out.println( "No input specified. Use -i <file>, or -h for help." );
 		}
 		else if (null == output) {
 			System.out.println( "No output specified. Use -o <file>, or -h for help." );
 		}
 		else {
-			if (!quiet) {
-				System.out.println();
-				System.out.println( "Processing " + input.getPath() );
-			}
-			if (isPattern( input.getName() )) {
-				processPattern( input.getParentFile(), input.getName(), output, recurse );
-			}
-			else {
-				process( input, output );
+			for (File input : inputs) {
+				if (!quiet) {
+					System.out.println();
+					System.out.println( "Processing " + input.getPath() );
+				}
+				if (isPattern( input.getName() )) {
+					processPattern( input.getParentFile(), input.getName(), output, recurse );
+				}
+				else {
+					process( input, output );
+				}
 			}
 		}
 
-
-		if (null != this.tripwires) {
+		if (null != this.tripwires && errorCount() + warningsCount() == 0) {
 			if (!quiet) {
 				System.out.println();
 				System.out.println( "Saving tripwire data to " + this.tripwires.toString() );
 			}
 			this.tripwires.save();
+		}
+
+		if (citationCount() > 0) {
+			System.out.println();
+			System.out.println( "" + citationCount() + " citations processed." );
 		}
 	}
 

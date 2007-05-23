@@ -3,13 +3,13 @@ h1. Running JCite
 
 JCite can be run either "stand-alone":#standalone, or as an "Ant task":#ant. In both cases, it recognizes the following command-line arguments.
 
-dt. @--input <file/pattern>@ / @-i <file/pattern>@ : specifies the input file(s) JCite should process. This is typically the name of an HTML file. If it is a pattern containing wildcard characters (@*@ and @?@), then all files matching the pattern are processed. (Note: Mimicking Unix shells, @java.exe@ "expands the wildcards":http://www.thescripts.com/forum/thread16647.html before passing them to the @main@ function unless you enclose the pattern in double quotes.)
+dt. @--input <file/pattern>@ / @-i <file/pattern>@ : specifies the input file(s) JCite should process. This is typically the name of an HTML file. If it is a pattern containing wildcard characters (@*@ and @?@), then all files matching the pattern are processed. You can specify the @-i@ option multiple times if you must specify more than one path. (Note: Mimicking Unix shells, @java.exe@ "expands the wildcards":http://www.thescripts.com/forum/thread16647.html before passing them to the @main@ function unless you enclose the pattern in double quotes.)
 
 dt. @--output <file/folder>@ / @-o <file/folder>@ : specifies the output file or folder that JCite should write to. For a single input file, this must be the name of the output file. It can be the same file as the input file. If the input is a file pattern, then this must be an output folder.
 
-dt. @--recursive@ / @-r@ : specifies that JCite should recursively descend into subfolders of the input pattern.</dd>
+dt. @--recursive@ / @-r@ : specifies that JCite should recursively descend into subfolders of the input pattern.
 
-dt. @--source-path <path>@ / @-sp <path>@ : specifies a Java source path to search when looking for source files to cite from. You can specify the @-sp@ option multiple times if you must specify more than one path.</dd>
+dt. @--source-path <path>@ / @-sp <path>@ : specifies a Java source path to search when looking for source files to cite from. You can specify the @-sp@ option multiple times if you must specify more than one path.
 
 dt. @--tripwire-path <dbpath>@ / @-tw <dbpath>@ : Maintains the "tripwire database":-trip in the given path as a folder of small files.
 

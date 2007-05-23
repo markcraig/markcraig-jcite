@@ -66,9 +66,16 @@ public abstract class JCitelet
 		return processElements( _source, markupStartTag(), markupEndTag(), new ElementVisitor()
 		{
 
+			@Override
 			public String insertionFor( String _markup ) throws JCiteError, IOException
 			{
 				return citationFor( _markup );
+			}
+
+			@Override
+			public String formatInsertion( String _markup, String _insertionSource ) throws JCiteError, IOException
+			{
+				return formattingFor( _markup, _insertionSource );
 			}
 
 		} );
@@ -79,9 +86,16 @@ public abstract class JCitelet
 		return processElements( _source, inlineStartTag(), inlineEndTag(), new ElementVisitor()
 		{
 
-			public String insertionFor( String _citation ) throws JCiteError, IOException
+			@Override
+			public String insertionFor( String _citation )
 			{
-				return formattingFor( "", _citation );
+				return _citation;
+			}
+
+			@Override
+			public String formatInsertion( String _markup, String _insertionSource ) throws JCiteError, IOException
+			{
+				return formattingFor( _insertionSource );
 			}
 
 		} );
@@ -100,7 +114,6 @@ public abstract class JCitelet
 				final int endMarkup = _source.indexOf( _markupEndTag, beginMarkup );
 				if (endMarkup < 0) throw new UnclosedMarkupError();
 				final String markup = _source.substring( beginMarkup + markupStartTagLength, endMarkup );
-				final String insertion = _visitor.insertionFor( markup );
 				int beginDeletion = Util.scanBackTo( _source, '<', beginMarkup );
 				int endDeletion = Util.scanForwardTo( _source, '>', endMarkup );
 				if (beginDeletion >= PRE_START.length()
@@ -109,9 +122,23 @@ public abstract class JCitelet
 					beginDeletion -= PRE_START.length();
 					endDeletion += PRE_END.length();
 				}
-
 				result.append( _source.substring( processedUpto, beginDeletion ) );
-				result.append( insertion );
+
+				try {
+					final String insertionSource = _visitor.insertionFor( markup );
+					final String insertion = _visitor.formatInsertion( markup, insertionSource );
+					result.append( insertion );
+					this.jcite.checkTripwires( markup, insertionSource, beginMarkup );
+					this.jcite.logCitation( markup, beginMarkup );
+				}
+				catch (JCiteError e) {
+					this.jcite.logCitationError( e, markup, beginMarkup );
+					result.append( _source.substring( beginDeletion, endDeletion + 1 ) );
+				}
+				catch (IOException e) {
+					this.jcite.logCitationError( e, markup, beginMarkup );
+					result.append( _source.substring( beginDeletion, endDeletion + 1 ) );
+				}
 
 				processedUpto = endDeletion + 1;
 			} while ((beginMarkup = _source.indexOf( _markupStartTag, processedUpto )) > 0);
@@ -127,6 +154,7 @@ public abstract class JCitelet
 	protected interface ElementVisitor
 	{
 		String insertionFor( String _markup ) throws JCiteError, IOException;
+		String formatInsertion( String _markup, String _insertionSource ) throws JCiteError, IOException;
 	}
 
 
@@ -141,6 +169,11 @@ public abstract class JCitelet
 	protected abstract String citationFor( String _markup ) throws JCiteError, IOException;
 
 	protected abstract String formattingFor( String _markup, String _cited ) throws JCiteError, IOException;
+
+	protected String formattingFor( String _inlined ) throws JCiteError, IOException
+	{
+		return formattingFor( "", _inlined );
+	}
 
 
 	protected String markupStartTag()

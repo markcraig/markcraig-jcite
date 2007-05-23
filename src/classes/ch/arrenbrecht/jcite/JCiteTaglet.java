@@ -125,7 +125,7 @@ public class JCiteTaglet implements Taglet
 	{
 		super();
 		this.jcite.setPRE( true );
-		this.jcite.setVerbose( true );
+		this.jcite.setVerbose( "true".equalsIgnoreCase( System.getProperty( "jciteverbose" ) ) );
 
 		addSourcePath( this.cfg.sourcepath );
 		addSourcePath( System.getProperty( "jcitesourcepath" ) );
@@ -141,7 +141,7 @@ public class JCiteTaglet implements Taglet
 		}
 	}
 
-	public String toString( Tag _tag ) 
+	public String toString( Tag _tag )
 	{
 		try {
 			String markup = _tag.text();
@@ -152,7 +152,7 @@ public class JCiteTaglet implements Taglet
 			else if (markup.substring( 0, posOfColon - 1 ).indexOf( '.' ) < 0) {
 				markup = getSourcePackagePathOf( _tag ) + markup;
 			}
-			return this.citer.citationFor( markup );
+			return this.citer.formattingFor( markup, this.citer.citationFor( markup ) );
 		}
 		catch (Exception e) {
 			this.root.printError( _tag.position(), "JCite: " + e.getMessage() );

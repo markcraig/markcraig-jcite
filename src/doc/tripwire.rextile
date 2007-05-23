@@ -1,0 +1,38 @@
+
+h1. Using Citations As Tripwires
+
+Citing examples from automated tests ensures that they are always correct. But the surrounding text of the documentation may still get out of sync. Using your citations as tripwires can help avoid this. 
+
+<%= toc %>
+
+
+h2. Background
+
+With modern IDEs, automated refactoring may change cited code without anyone properly noticing it. Much less will anyone notice that the text surrounding the citation should have changed as well. For instance if the renamed identifier is referred to.
+The cited code, however, can act as a tripwire. Whenever a citation changes from one run of JCite to the next, it alerts us to this. We should then inspect the text surrounding the changed citation for necessary updates. If we use examples liberally, sprinkling our documentation with fragments from actual code, chances are high that we will catch all outdated text without having to reread the whole documentation before every release. (And since people learn well from examples, having a lot of them is a good thing anyway.)
+
+For this scheme to work, JCite must archive a copy of the cited source after every run. Then, when it is run again, it compares the new source to the archived version. If the source has changed, it alerts us. Only when we have confirmed that all changes are OK, meaning that we have checked the text surrounding every change, do we tell it to go ahead and overwrite the archived versions with the new ones.
+
+
+h2. Usage
+
+JCite can keep its tripwire database as either a single file or as a collection of small files in a dedicated folder. So run JCite with either of
+
+dt. @--tripwire-path <dbpath>@ / @-tw <dbpath>@ : Maintains the tripwire database in the given path as a folder of small files.
+
+dt. @--tripwire-file <dbfile>@ / @-twf <dbfile>@ : Maintains the tripwire database in the given file.
+
+On the first run JCite simply adds all citations to the database.
+
+On subsequent runs,
+
+	* new citations are added,
+	* unused citations are removed, and
+	* changed citations are listed, along with where in the source code they occurred.
+
+To update changed citations in the database, run JCite with the option
+
+dt. @--accept-changes@ / @-ac@ : Accepts changed citations and updates the tripwire database accordingly.
+
+Do this only when you have verified the surrounding text of each changed citation.
+

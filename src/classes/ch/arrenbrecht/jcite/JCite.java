@@ -47,8 +47,7 @@ import ch.arrenbrecht.jcite.Util.FileVisitor;
 import ch.arrenbrecht.jcite.include.IncludeCitelet;
 import ch.arrenbrecht.jcite.java.JavaCitelet;
 
-
-public class JCite
+public final class JCite
 {
 
 	/**
@@ -68,7 +67,25 @@ public class JCite
 	 */
 	public static void main( String... _args )
 	{
-		new JCite().runWith( _args );
+		try {
+			final JCite jcite = new JCite();
+			jcite.runWith( _args );
+			if (jcite.errorCount() > 0) {
+				System.err.println( "" + jcite.errorCount() + " error(s) encountered." );
+				System.exit( 1 );
+			}
+			if (jcite.warningsCount() > 0) {
+				System.err.println( "" + jcite.warningsCount() + " warning(s) encountered." );
+				System.exit( 2 );
+			}
+			if (jcite.citationCount() > 0) {
+				System.out.println( "" + jcite.citationCount() + " citations processed." );
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.exit( 1 );
+		}
 	}
 
 
@@ -76,6 +93,9 @@ public class JCite
 	private List<String> sourceFolders = new ArrayList<String>();
 	private boolean pre = false;
 	private boolean verbose = false;
+	private Collection<String> tripUpCollection = null;
+	private TripwireDatabase tripwires = null;
+	private boolean acceptTripUps = false;
 
 
 	public JCite()
@@ -108,7 +128,13 @@ public class JCite
 	}
 
 
-	private void runWith( String[] _args )
+	void setTripUpCollection( Collection<String> _tripUps )
+	{
+		this.tripUpCollection = _tripUps;
+	}
+
+
+	void runWith( String... _args ) throws IOException, JCiteError
 	{
 		File input = null;
 		File output = null;
@@ -118,30 +144,40 @@ public class JCite
 		int iArg = -1;
 		while (++iArg < _args.length) {
 			String arg = _args[ iArg ];
-			if (arg.equalsIgnoreCase( "-i" )) {
+			if (arg.equalsIgnoreCase( "-i" ) || arg.equalsIgnoreCase( "--input" )) {
 				input = new File( _args[ ++iArg ] );
 			}
-			else if (arg.equalsIgnoreCase( "-o" )) {
+			else if (arg.equalsIgnoreCase( "-o" ) || arg.equalsIgnoreCase( "--output" )) {
 				output = new File( _args[ ++iArg ] );
 			}
-			else if (arg.equalsIgnoreCase( "-sp" )) {
+			else if (arg.equalsIgnoreCase( "-sp" ) || arg.equalsIgnoreCase( "--source-path" )) {
 				addSourceFolder( _args[ ++iArg ] );
 			}
-			else if (arg.equalsIgnoreCase( "-v" )) {
+			else if (arg.equalsIgnoreCase( "-tw" ) || arg.equalsIgnoreCase( "--tripwire-path" )) {
+				this.tripwires = new TripwireDatabase( new File( _args[ ++iArg ] ), true );
+			}
+			else if (arg.equalsIgnoreCase( "-twf" ) || arg.equalsIgnoreCase( "--tripwire-file" )) {
+				this.tripwires = new TripwireDatabase( new File( _args[ ++iArg ] ), false );
+			}
+			else if (arg.equalsIgnoreCase( "-ac" ) || arg.equalsIgnoreCase( "--accept-changes" )) {
+				this.acceptTripUps = true;
+			}
+			else if (arg.equalsIgnoreCase( "-v" ) || arg.equalsIgnoreCase( "--verbose" )) {
 				setVerbose( true );
 			}
-			else if (arg.equalsIgnoreCase( "-q" )) {
+			else if (arg.equalsIgnoreCase( "-q" ) || arg.equalsIgnoreCase( "--quiet" )) {
 				quiet = true;
 			}
-			else if (arg.equalsIgnoreCase( "-r" )) {
+			else if (arg.equalsIgnoreCase( "-r" ) || arg.equalsIgnoreCase( "--recursive" )) {
 				recurse = true;
 			}
-			else if (arg.equalsIgnoreCase( "-license" )) {
+			else if (arg.equalsIgnoreCase( "-license" ) || arg.equalsIgnoreCase( "--license" )) {
 				System.out.println( Constants.INTRO );
 				System.out.println( Constants.LICENSE );
 				quiet = true;
 			}
-			else if (arg.equalsIgnoreCase( "-?" ) || arg.equalsIgnoreCase( "-h" ) || arg.equalsIgnoreCase( "-help" )) {
+			else if (arg.equalsIgnoreCase( "-?" )
+					|| arg.equalsIgnoreCase( "-h" ) || arg.equalsIgnoreCase( "-help" ) || arg.equalsIgnoreCase( "--help" )) {
 				System.out.println( Constants.INTRO );
 				System.out.println( Constants.HELP );
 				quiet = true;
@@ -162,6 +198,14 @@ public class JCite
 			printCitelets();
 		}
 
+		if (null != this.tripwires) {
+			if (!quiet) {
+				System.out.println();
+				System.out.println( "Loading tripwire data from " + this.tripwires.toString() );
+			}
+			this.tripwires.load();
+		}
+
 		if (null == input) {
 			System.out.println( "No input specified. Use -i <file>, or -h for help." );
 		}
@@ -169,18 +213,25 @@ public class JCite
 			System.out.println( "No output specified. Use -o <file>, or -h for help." );
 		}
 		else {
-			try {
-				if (isPattern( input.getName() )) {
-					processPattern( input.getParentFile(), input.getName(), output, recurse );
-				}
-				else {
-					process( input, output );
-				}
+			if (!quiet) {
+				System.out.println();
+				System.out.println( "Processing " + input.getPath() );
 			}
-			catch (Exception e) {
-				e.printStackTrace();
-				System.exit( 1 );
+			if (isPattern( input.getName() )) {
+				processPattern( input.getParentFile(), input.getName(), output, recurse );
 			}
+			else {
+				process( input, output );
+			}
+		}
+
+
+		if (null != this.tripwires) {
+			if (!quiet) {
+				System.out.println();
+				System.out.println( "Saving tripwire data to " + this.tripwires.toString() );
+			}
+			this.tripwires.save();
 		}
 	}
 
@@ -257,23 +308,135 @@ public class JCite
 	}
 
 
+	private File currentSourceFile = null;
+	private String currentSourceText = null;
+	private String currentCitationPrefix = null;
+
 	public void process( File _source, File _target ) throws IOException, JCiteError
 	{
-		String source = Util.readStringFrom( _source );
-		String target = process( source );
-		final File parentDir = _target.getParentFile();
-		if (null != parentDir) parentDir.mkdirs();
-		Util.writeStringTo( target, _target );
+		this.currentSourceFile = _source;
+		try {
+			String source = Util.readStringFrom( _source );
+			String target = process( source );
+			final File parentDir = _target.getParentFile();
+			if (null != parentDir) parentDir.mkdirs();
+			Util.writeStringTo( target, _target );
+		}
+		finally {
+			this.currentSourceFile = null;
+		}
 	}
-
 
 	public String process( String _source ) throws JCiteError, IOException
 	{
-		String result = _source;
-		for (JCitelet citelet : this.citelets) {
-			result = citelet.process( result );
+		this.currentSourceText = _source;
+		try {
+			String result = _source;
+			for (JCitelet citelet : this.citelets) {
+				this.currentCitationPrefix = citelet.markupTag();
+				try {
+					result = citelet.process( result );
+				}
+				finally {
+					this.currentCitationPrefix = null;
+				}
+			}
+			return result;
+		}
+		finally {
+			this.currentSourceText = null;
+		}
+	}
+
+
+	void checkTripwires( String _citation, String _value, int _sourceIndex )
+	{
+		if (null != this.tripwires) {
+			final String citation = this.currentCitationPrefix + ":" + _citation;
+			final String name = this.tripwires.sanitizeName( citation );
+			final String value = _value.trim();
+			if (!this.tripwires.check( name, value )) {
+				if (this.acceptTripUps) {
+					this.tripwires.update( name, value );
+				}
+				else {
+					final String tripUp = this.currentSourceFile.getName()
+							+ ":" + indexToLineNumber( _sourceIndex, this.currentSourceText );
+					if (null != this.tripUpCollection) {
+						this.tripUpCollection.add( tripUp );
+					}
+					else {
+						warn( "Cited text changed in " + tripUp + " for " + citation );
+					}
+				}
+			}
+		}
+	}
+
+	void logCitationError( Exception _e, String _markup, int _sourceIndex )
+	{
+		final StringBuilder msg = new StringBuilder( _e.getMessage() );
+		if (null != this.currentSourceFile) {
+			msg.append( " In file " ).append( this.currentSourceFile.getPath() );
+			msg.append( ':' ).append( indexToLineNumber( _sourceIndex, this.currentSourceText ) );
+		}
+		error( msg.toString() );
+	}
+
+	private int indexToLineNumber( int _index, String _text )
+	{
+		int result = 1;
+		for (int i = 0; i <= _index; i++) {
+			switch (_text.charAt( i )) {
+				case '\n':
+					result++;
+					break;
+			}
 		}
 		return result;
+	}
+
+
+	private int warningsCount = 0;
+
+	public void warn( String _message )
+	{
+		System.err.print( "WARNING: " );
+		System.err.println( _message );
+		this.warningsCount++;
+	}
+
+	public int warningsCount()
+	{
+		return this.warningsCount;
+	}
+
+
+	private int errorCount = 0;
+
+	public void error( String _message )
+	{
+		System.err.print( "ERROR: " );
+		System.err.println( _message );
+		this.errorCount++;
+	}
+
+	public int errorCount()
+	{
+		return this.errorCount;
+	}
+
+
+	private int citationCount = 0;
+
+	public void logCitation( String _markup, int _sourceIndex )
+	{
+		this.citationCount++;
+	}
+
+	public int citationCount()
+	{
+		return this.citationCount;
 	}
 
 

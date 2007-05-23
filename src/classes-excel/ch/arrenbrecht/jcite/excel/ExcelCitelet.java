@@ -125,7 +125,7 @@ public class ExcelCitelet extends JCitelet
 	@Override
 	protected String formattingFor( String _markup, String _cited )
 	{
-		return "Inline citations are not supported by the Excel citelet.";
+		return _cited;
 	}
 
 

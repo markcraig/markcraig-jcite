@@ -3,19 +3,25 @@ h1. Running JCite
 
 JCite can be run either "stand-alone":#standalone, or as an "Ant task":#ant. In both cases, it recognizes the following command-line arguments.
 
-<dl>
+dt. @--input <file/pattern>@ / @-i <file/pattern>@ : specifies the input file(s) JCite should process. This is typically the name of an HTML file. If it is a pattern containing wildcard characters (@*@ and @?@), then all files matching the pattern are processed. (Note: Mimicking Unix shells, @java.exe@ "expands the wildcards":http://www.thescripts.com/forum/thread16647.html before passing them to the @main@ function unless you enclose the pattern in double quotes.)
 
-<dt>@-i <file/pattern>@</dt><dd>specifies the input file(s) JCite should process. This is typically the name of an HTML file. If it is a pattern containing wildcard characters (@*@ and @?@), then all files matching the pattern are processed. (Note: Mimicking Unix shells, @java.exe@ "expands the wildcards":http://www.thescripts.com/forum/thread16647.html before passing them to the @main@ function unless you enclose the pattern in double quotes.)</dd>
+dt. @--output <file/folder>@ / @-o <file/folder>@ : specifies the output file or folder that JCite should write to. For a single input file, this must be the name of the output file. It can be the same file as the input file. If the input is a file pattern, then this must be an output folder.
 
-<dt>@-o <file/folder>@</dt><dd>specifies the output file or folder that JCite should write to. For a single input file, this must be the name of the output file. It can be the same file as the input file. If the input is a file pattern, then this must be an output folder.</dd>
+dt. @--recursive@ / @-r@ : specifies that JCite should recursively descend into subfolders of the input pattern.</dd>
 
-<dt>@-r@</dt><dd>specifies that JCite should recursively descend into subfolders of the input pattern.</dd>
+dt. @--source-path <path>@ / @-sp <path>@ : specifies a Java source path to search when looking for source files to cite from. You can specify the @-sp@ option multiple times if you must specify more than one path.</dd>
 
-<dt>@-sp <path>@</dt><dd>specifies a Java source path to search when looking for source files to cite from. You can specify the @-sp@ option multiple times if you must specify more than one path.</dd>
+dt. @--tripwire-path <dbpath>@ / @-tw <dbpath>@ : Maintains the "tripwire database":-trip in the given path as a folder of small files.
 
-<dt>@-tt@</dt><dd>emits @<TT>@ tags instead of @<PRE>@ tags around the Java source fragments. Use this to have automatic line wrapping.</dd>
+dt. @--tripwire-file <dbfile>@ / @-twf <dbfile>@ : Maintains the "tripwire database":-trip in the given file.
 
-</dl>
+dt. @--accept-changes@ / @-ac@ : Accepts changed citations and updates the tripwire database accordingly.
+
+dt. @--quiet@ / @-q@ : Run quietly, i.e. don't print header information.
+
+dt. @--verbose@ / @-v@ : Verbose, i.e. give detailed information about citations processed.
+
+dt. @-tt@ : emits @<TT>@ tags instead of @<PRE>@ tags around the Java source fragments. Use this to have automatic line wrapping.
 
 
 h2. <a name="standalone">Command Line</a>
@@ -65,3 +71,6 @@ To run JCite 1.0 from within Ant, you have to use Ant's Java task (a proper Ant 
   <arg file="${doc.dir}/samples.html" />
 </java>
 </code></pre>
+
+
+[-trip]tripwire.htm

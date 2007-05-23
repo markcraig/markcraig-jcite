@@ -6,11 +6,15 @@ h2. JCite 1.9
 
 h5. New
 
-	* Added the bash script @bin/jcite@ to run JCite from the command line.
+	* Added support for "tripwire databases":tripwire.htm.
+	* Added the bash script @bin/jcite@ to run JCite from the command line in Linux.
 
 h5. Better
 
+	* Errors in citations are now reported with proper file and line information. JCite no longer aborts after the first error, either. Failed citation instructions are left in the file as-is.
+	* JCite reports the input spec its processing and final statistics unless in quiet mode.
 	* Using @-o file@ no longer fails because no parent folder was specified for @file@ (see "bug #1708328":http://sourceforge.net/tracker/index.php?func=detail&aid=1708328&group_id=169404&atid=850253).
+	* The "JavaDoc taglet":javadoc.htm no longer defaults to verbose mode.
 
 
 h2. JCite 1.8

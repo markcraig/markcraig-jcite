@@ -4,12 +4,12 @@
 
 	<property file="build.properties" />
 	<property file="build.default.properties" />
-	
+
 	<property name="Name" value="JCite" />
 	<property name="name" value="jcite" />
 
 	<property name="dist.version" value="1.9" />
-	
+
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
 	<property name="doc.dir" location="${basedir}/doc" />
@@ -178,7 +178,23 @@
 		<property name="javadoc.title" value="${Name} API ${dist.version.long}" />
 		<delete dir="${javadoc.dir}" />
 		<mkdir dir="${javadoc.dir}" />
-		<javadoc sourcepath="${src.examples.dir}" destdir="${javadoc.dir}" packagenames="${javadoc.packages}" public="true" windowtitle="${javadoc.title}" use="false" additionalParam="-tagletPath ${lib.dir}/java2html.jar;${lib.dir}/jxl.jar;${build.dir}/jcite.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.test.dir}" stylesheetfile="${src.doc.dir}/plainstyle/style.css" overview="${src.examples.dir}/overview.html">
+		<path id="taglet.path">
+			<pathelement location="${lib.dir}/java2html.jar"/>
+			<pathelement location="${lib.dir}/jxl.jar"/>
+			<pathelement location="${build.dir}/jcite.jar"/>
+		</path>
+		<property name="taglet.path" refid="taglet.path" />
+		<javadoc 
+			sourcepath="${src.examples.dir}" 
+			destdir="${javadoc.dir}" 
+			packagenames="${javadoc.packages}" 
+			public="true" 
+			windowtitle="${javadoc.title}" 
+			use="false" 
+			additionalParam="-tagletPath ${taglet.path} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.test.dir}" 
+			stylesheetfile="${src.doc.dir}/plainstyle/style.css" 
+			overview="${src.examples.dir}/overview.html"
+		>
 			<classpath refid="build.classpath" />
 		</javadoc>
 	</target>
@@ -188,8 +204,10 @@
 	<!-- Generates documentation                                           -->
 	<!-- ================================================================= -->
 
-	<target name="doc" description="Builds documentation" depends="prepare-run, compile">
-
+	<target name="doc" description="Builds documentation" depends="prepare-doc, rextile, cite">
+	</target>
+	
+	<target name="prepare-doc" depends="prepare">
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
 		<copy todir="${doc.dir}">
@@ -204,10 +222,14 @@
 				<include name="**/*.css" />
 			</fileset>
 		</copy>
-
-		<exec dir="${src.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" >
+	</target>
+	
+	<target name="rextile" depends="prepare">
+		<exec dir="${src.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true">
 		</exec>
-
+	</target>
+	
+	<target name="cite" depends="prepare-run, compile">
 		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${run.classpath}" failonerror="yes">
 			<arg value="-sp" />
 			<arg path="${src.examples.dir}" />
@@ -221,7 +243,6 @@
 			<arg value="-o" />
 			<arg file="${doc.dir}" />
 		</java>
-
 	</target>
 
 	<!-- ================================================================= -->

@@ -3,23 +3,23 @@ h1. JCite - Java Source Code Citation System
 
 <div class="news">
 
-"JCite 1.9":history.htm with minor improvements.
-<br/>%(when)May 18, 2007%
+"JCite 1.9":history.htm with support for "tripwire databases":tripwire.htm and better error reporting.
+<br/>%(when)May 23, 2007%
 
 "JCite 1.8":history.htm with support for formatting inline Java source blocks and citing Excel sheets showing formulas only.
 <br/>%(when)January 22, 2007%
 
 </div>
 
-??"Example isn't another way to teach, it is the only way to teach."?? (Albert Einstein)
 
-JCite cites snippets of Java source code or Excel sheets into HTML documents - API documentation, for instance. Citing from tests, or tested code, guarantees that examples really work. And, thanks to the excellent "Java2Html":-j2h library, they get automatic syntax highlighting.
+JCite cites snippets of Java source code or Excel sheets into HTML documents - API documentation, for instance. Citing from tests, or tested code, lets you "guarantee that your examples really work":-citing. And they get automatic syntax highlighting.
 
 To get a feel for the results you can achieve, take a look at
 
 	* "Citing Java Source Code (Examples)":samples.htm
 	* "Citing Excel Spreadsheets (Examples)":excel.htm
 	* "Including HTML Files":include.htm
+	* "Using Citations As Tripwires":tripwire.htm
 	* "Running JCite":usage.htm
 	* "Using JCite with JavaDoc":javadoc.htm
 	* "CSS Styles Used":styling.htm
@@ -28,6 +28,8 @@ I have also written a blog post and an article which put JCite into a broader pe
 
 	* "Beyond TDD: Documentation Driven Development":-tdd (blog post)
 	* "Source Citing: Making Examples Work":-citing (article)
+
+??"Example isn't another way to teach, it is the only way to teach."?? (Albert Einstein)
 
 
 h2. License

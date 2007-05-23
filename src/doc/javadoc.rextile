@@ -109,6 +109,18 @@ Typically you want to cite source code from special unit tests (which I call _ex
 </code></pre>
 
 
+h3. Verbosity
+
+To make the JCite taglet report citations, use:
+
+<pre><code
+>javadoc
+  ...
+  -J-Djciteverbose=true
+  ...
+</code></pre>
+
+
 h3. Style Sheet
 
 Finally, since JCite emits HTML that "relies on CSS for formatting":styling.htm, you should specify a stylesheet for JavaDoc's output. If you already have one, integrate the JCite-specific instructions into it. Otherwise you may want to use JCite's default stylesheet. In any case, you need to tell JavaDoc to use it:
@@ -132,6 +144,7 @@ Here's a complete example which I use to produce the test documentation for JCit
   -public
   -sourcepath src/examples
   -J-Djcitesourcepath=src/test
+  -J-Djciteverbose=true
   -d temp
   -stylesheetfile src/test/data/style.css
   -overview src/examples/overview.html

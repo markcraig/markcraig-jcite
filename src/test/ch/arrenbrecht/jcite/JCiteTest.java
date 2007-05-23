@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -65,7 +66,7 @@ public class JCiteTest extends TestCase
 		new TripwireTest( false ).run();
 	}
 
-	
+
 	@SuppressWarnings("unqualified-field-access")
 	private final class TripwireTest
 	{
@@ -196,11 +197,10 @@ public class JCiteTest extends TestCase
 			final Collection<String> tripUps = new ArrayList<String>();
 			jc.setTripUpCollection( tripUps );
 			if (_args.length > 0) {
-				final String[] args = Arrays.copyOf( ARGS, ARGS.length + _args.length );
-				for (int i = 0; i < _args.length; i++) {
-					args[ ARGS.length + i ] = _args[ i ];
-				}
-				jc.runWith( args );
+				final List<String> argList = new ArrayList<String>( ARGS.length + _args.length );
+				argList.addAll( Arrays.asList( ARGS ) );
+				argList.addAll( Arrays.asList( _args ) );
+				jc.runWith( argList.toArray( new String[ argList.size() ] ) );
 			}
 			else {
 				jc.runWith( ARGS );
@@ -231,7 +231,7 @@ public class JCiteTest extends TestCase
 				while (i < _namesAndValues.length) {
 					String name = _namesAndValues[ i++ ];
 					String value = _namesAndValues[ i++ ];
-					assertFileContains( value, new File( this.DB, TripwireDatabase.sanitizeName(name) + ".txt" ) );
+					assertFileContains( value, new File( this.DB, TripwireDatabase.sanitizeNameInFolder( name ) + ".txt" ) );
 				}
 			}
 		}

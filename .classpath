@@ -14,8 +14,7 @@
 			<attribute name="javadoc_location" value="file:/J:/jexcelapi-2.5.9/docs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JDK Tools Library [JDK 1.6.0]"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3.8.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.5"/>
 	<classpathentry kind="output" path="build/dev"/>
 </classpath>

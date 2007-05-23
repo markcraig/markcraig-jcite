@@ -327,7 +327,7 @@ public final class JCite
 		}
 	}
 
-	public String process( String _source ) throws JCiteError, IOException
+	public String process( String _source ) throws JCiteError
 	{
 		this.currentSourceText = _source;
 		try {
@@ -354,7 +354,7 @@ public final class JCite
 		if (null != this.tripwires) {
 			final String citation = this.currentCitationPrefix + ":" + _citation;
 			final String name = this.tripwires.sanitizeName( citation );
-			final String value = _value.trim();
+			final String value = this.tripwires.sanitizeValue( _value );
 			if (!this.tripwires.check( name, value )) {
 				if (this.acceptTripUps) {
 					this.tripwires.update( name, value );

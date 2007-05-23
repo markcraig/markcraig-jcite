@@ -56,23 +56,21 @@ public abstract class JCitelet
 	private static final String PRE_END = "</pre>";
 
 
-	public String process( String _source ) throws JCiteError, IOException
+	public String process( String _source ) throws JCiteError
 	{
 		return processInlines( processCitations( _source ) );
 	}
 
-	protected String processCitations( String _source ) throws JCiteError, IOException
+	protected String processCitations( String _source ) throws JCiteError
 	{
 		return processElements( _source, markupStartTag(), markupEndTag(), new ElementVisitor()
 		{
 
-			@Override
 			public String insertionFor( String _markup ) throws JCiteError, IOException
 			{
 				return citationFor( _markup );
 			}
 
-			@Override
 			public String formatInsertion( String _markup, String _insertionSource ) throws JCiteError, IOException
 			{
 				return formattingFor( _markup, _insertionSource );
@@ -81,18 +79,16 @@ public abstract class JCitelet
 		} );
 	}
 
-	protected String processInlines( String _source ) throws JCiteError, IOException
+	protected String processInlines( String _source ) throws JCiteError
 	{
 		return processElements( _source, inlineStartTag(), inlineEndTag(), new ElementVisitor()
 		{
 
-			@Override
 			public String insertionFor( String _citation )
 			{
 				return _citation;
 			}
 
-			@Override
 			public String formatInsertion( String _markup, String _insertionSource ) throws JCiteError, IOException
 			{
 				return formattingFor( _insertionSource );
@@ -103,7 +99,7 @@ public abstract class JCitelet
 
 
 	protected final String processElements( String _source, String _markupStartTag, String _markupEndTag,
-			ElementVisitor _visitor ) throws JCiteError, IOException
+			ElementVisitor _visitor ) throws JCiteError
 	{
 		final int markupStartTagLength = _markupStartTag.length();
 		int processedUpto = 0;

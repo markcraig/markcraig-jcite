@@ -82,18 +82,20 @@ final class TripwireDatabase
 	}
 
 
-	private static final String ENTRY_SEP = "___§_§___";
-	private static final String VALUE_SEP = "__§§__";
+	private static final String ENTRY_SEP = "___@_@___";
+	private static final String VALUE_SEP = "__@@__";
 
 	private void loadFromFile() throws IOException
 	{
 		if (this.path.exists()) {
 			final String text = Util.readStringFrom( this.path );
-			final String[] entries = text.split( "\\n" + ENTRY_SEP + "\\n" );
-			final String valueSep = "\\n" + VALUE_SEP + "\\n";
+			final String[] entries = text.split( ENTRY_SEP );
+			final String valueSep = VALUE_SEP;
 			for (final String entry : entries) {
-				final String[] nameAndValue = entry.split( valueSep );
-				this.wiresAsLoaded.put( nameAndValue[ 0 ], nameAndValue[ 1 ] );
+				if (entry.trim().length() > 0) {
+					final String[] nameAndValue = entry.split( valueSep );
+					this.wiresAsLoaded.put( nameAndValue[ 0 ].trim(), nameAndValue[ 1 ].trim() );
+				}
 			}
 		}
 	}
@@ -171,13 +173,24 @@ final class TripwireDatabase
 
 	private static final char[] ILLEGAL_CHARS = "\\/:,<>'\"\t\n\f\r".toCharArray();
 
-	public static String sanitizeName( String _name )
+	public String sanitizeName( String _name )
+	{
+		return this.saveAsFolder ? sanitizeNameInFolder( _name ) : _name.trim();
+	}
+
+	public static String sanitizeNameInFolder( String _name )
 	{
 		String result = _name;
 		for (char c : ILLEGAL_CHARS) {
 			result = result.replace( c, ' ' );
 		}
 		return result.trim();
+	}
+
+
+	public String sanitizeValue( String _value )
+	{
+		return _value.trim();
 	}
 
 	public boolean check( String _name, String _value )
@@ -203,7 +216,6 @@ final class TripwireDatabase
 	{
 		private static final Pattern NAME_FILTER = Pattern.compile( ".*\\.txt", Pattern.CASE_INSENSITIVE );
 
-		@Override
 		public boolean accept( File _dir, String _name )
 		{
 			return NAME_FILTER.matcher( _name ).matches();

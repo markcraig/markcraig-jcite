@@ -1,10 +1,31 @@
 #!/bin/sh
 
-jcite_home=$(dirname $(dirname "$0"))
-jar="$jcite_home/build/jcite.jar"
+# Adapted from ant's startup script:
+if [ -z "$JCITE_HOME" -o ! -d "$JCITE_HOME" ] ; then
+  ## resolve links - $0 may be a link to jcite's home
+  PRG="$0"
+  # need this for relative symlinks
+  while [ -h "$PRG" ] ; do
+    ls=`ls -ld "$PRG"`
+    link=`expr "$ls" : '.*-> \(.*\)$'`
+    if expr "$link" : '/.*' > /dev/null; then
+    PRG="$link"
+    else
+    PRG=`dirname "$PRG"`"/$link"
+    fi
+  done
+  JCITE_HOME=`dirname "$PRG"`/..
+  # make it fully qualified
+  JCITE_HOME=`cd "$JCITE_HOME" && pwd`
+fi
 
-cp=$jar
-for lib in "$jcite_home/lib/"*; do
+jar="$JCITE_HOME/build/jcite.jar"
+
+cp=""
+for lib in "$JCITE_HOME/build/"*; do
+  cp="$cp:$lib"
+done
+for lib in "$JCITE_HOME/lib/"*; do
   cp="$cp:$lib"
 done
 

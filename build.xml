@@ -318,7 +318,14 @@
 	<!-- Package distribution version                                      -->
 	<!-- ================================================================= -->
 
-	<target name="dist" depends="clean,doc,javadoc,test,style" description="Builds distribution">
+	<target name="check-jre1.5" description="Checks that ANT is running on JRE 1.5.">
+		<condition property="is.jre15">
+			<matches pattern="^1\.5\.0.*" string="${java.version}" />
+		</condition>
+		<fail message="Distributions must be built with JDK 1.5.0. Aborting." unless="is.jre15" />
+	</target>
+
+	<target name="dist" depends="check-jre1.5, clean,doc,javadoc,test,style" description="Builds distribution">
 		<echo>Bundling dist: ${dist.version.long}</echo>
 		<property name="dist.name" value="${name}-${dist.version}" />
 		<property name="dist.file" value="${dist.dir}/${dist.name}" />

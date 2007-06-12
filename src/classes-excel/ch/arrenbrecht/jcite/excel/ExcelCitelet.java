@@ -430,6 +430,7 @@ public class ExcelCitelet extends JCitelet
 			b.outdent();
 			b.appendLine( "</tbody>" );
 
+			b.outdent();
 			b.appendLine( "</table>" );
 
 			final Collection<String> rangeNames = new TreeSet<String>();

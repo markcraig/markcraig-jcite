@@ -37,9 +37,7 @@ package ch.arrenbrecht.jcite;
 
 import java.io.File;
 
-import junit.framework.TestCase;
-
-public class JCiteIncludeTest extends TestCase
+public class JCiteIncludeTest extends AbstractJCiteTest
 {
 
 	public void testInclude() throws Exception
@@ -50,9 +48,7 @@ public class JCiteIncludeTest extends TestCase
 		htmlTarget.getParentFile().mkdirs();
 		new JCite( (new String[] { "src/test/data" }), true, false ).process( htmlSource, htmlTarget );
 
-		String expected = Util.readStringFrom( htmlExpected ).replaceAll( "\r\n", "\n" );
-		String actual = Util.readStringFrom( htmlTarget ).replaceAll( "\r\n", "\n" );
-		assertEquals( expected, actual );
+		assertEquivalentHtmlFiles( htmlExpected, htmlTarget );
 	}
 	
 }

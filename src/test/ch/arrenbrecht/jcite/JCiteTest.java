@@ -42,9 +42,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-public class JCiteTest extends TestCase
+public class JCiteTest extends AbstractJCiteTest
 {
 
 

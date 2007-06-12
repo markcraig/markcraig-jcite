@@ -7,6 +7,7 @@ h2. JCite 1.9
 h5. New
 
 	* Added support for "tripwire databases":tripwire.htm.
+	* Added "Ant task":usage.htm.
 	* Added the bash script @bin/jcite@ to run JCite from the command line in Linux.
 	* You can specify multiple input paths/patterns. Simply repeat the @-i@ switch.
 

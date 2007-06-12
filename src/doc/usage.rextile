@@ -17,11 +17,15 @@ dt. @--tripwire-file <dbfile>@ / @-twf <dbfile>@ : Maintains the "tripwire datab
 
 dt. @--accept-changes@ / @-ac@ : Accepts changed citations and updates the tripwire database accordingly.
 
+dt. @--diff-path <path>@ / @-dp <path>@ : Emits tripwire trip-ups to the given path.
+
+dt. @--differ <command>@ : Runs the given command with the two citation versions (as files) causing a trip-up. So, on Linux, you might use @--differ /usr/bin/diff@.  
+
 dt. @--quiet@ / @-q@ : Run quietly, i.e. don't print header information.
 
 dt. @--verbose@ / @-v@ : Verbose, i.e. give detailed information about citations processed.
 
-dt. @-tt@ : emits @<TT>@ tags instead of @<PRE>@ tags around the Java source fragments. Use this to have automatic line wrapping.
+dt. @-tt@ : emits HTML @TT@ tags instead of @PRE@ tags around the Java source fragments. Use this to have automatic line wrapping.
 
 
 h2. <a name="standalone">Command Line</a>
@@ -59,7 +63,7 @@ to the classpath.
 
 h2. <a name="ant">Ant Task</a>
 
-To run JCite 1.0 from within Ant, you have to use Ant's Java task (a proper Ant task for JCite is on the roadmap). Here's how (excerpt from JCite's own @build.xml@):
+To run JCite 1.0 from within Ant, you can either use Ant's Java task, or the proper Ant task for JCite. Here's how to use the Java task:
 
 <pre><code
 ><java classname="ch.arrenbrecht.jcite.JCite" classpath="${run.classpath}" failonerror="yes">
@@ -71,6 +75,42 @@ To run JCite 1.0 from within Ant, you have to use Ant's Java task (a proper Ant 
   <arg file="${doc.dir}/samples.html" />
 </java>
 </code></pre>
+
+The proper Ant task works like this (excerpt from JCite's own @build.xml@):
+
+<pre><code
+><taskdef name="jcite" classname="ch.arrenbrecht.jcite.JCiteTask" classpathref="run.classpath" />
+<jcite srcdir="${build.doc.dir}" destdir="${doc.dir}">
+  <sourcepath>
+    <pathelement location="${src.examples.dir}" />
+    <pathelement location="${src.test.dir}" />
+    <pathelement location="${src.test.dir}/data" />
+  </sourcepath>
+  <include name="**/*.htm*" />
+</jcite>
+</code></pre>
+
+We have the following mapping to the ordinary parameters:
+
+dt. @srcDir@ : replaces @--input@, together with the embedded @<include...>@ directives. The @--recursive@ option is not supported as you can instead use Ant's @**/*@ notation.
+
+dt. @destDir@ : replaces @--output@.
+
+dt. @sourcePath@ : replaces @--sourcepath@.
+
+dt. @tripwirePath@ : replaces @--tripwire-path@.  
+
+dt. @tripwireFile@ : replaces @--tripwire-file@.
+
+dt. @acceptChanges@ : replaces @--accept-changes@.
+
+dt. @diffPath@ : replaces @--diff-path@.
+
+dt. @differ@ : same as @--differ@.
+
+dt. @usePRE@ : opposite of @-tt@.
+
+dt. @verbose@ : same as @--verbose@.  
 
 
 [-trip]tripwire.htm

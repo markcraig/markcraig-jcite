@@ -17,7 +17,7 @@ dt. @--tripwire-file <dbfile>@ / @-twf <dbfile>@ : Maintains the "tripwire datab
 
 dt. @--accept-changes@ / @-ac@ : Accepts changed citations and updates the tripwire database accordingly.
 
-dt. @--diff-path <path>@ / @-dp <path>@ : Emits tripwire trip-ups to the given path.
+dt. @--diff-path <path>@ / @-dp <path>@ : Emits both the old and new version of citations for tripwire trip-ups to the given path. Use this to run a diff against them. But see below for how to automate this.
 
 dt. @--differ <command>@ : Runs the given command with the two citation versions (as files) causing a trip-up. So, on Linux, you might use @--differ /usr/bin/diff@.  
 

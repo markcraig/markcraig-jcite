@@ -34,5 +34,10 @@ To update changed citations in the database, run JCite with the option
 
 dt. @--accept-changes@ / @-ac@ : Accepts changed citations and updates the tripwire database accordingly.
 
-Do this only when you have verified the surrounding text of each changed citation.
+Do this only when you have verified the surrounding text of each changed citation. To help with this, you can use the options
 
+dt. @--diff-path <path>@ / @-dp <path>@ : Emits both the old and new version of citations for tripwire trip-ups to the given path. Use this to run a diff against them. But see below for how to automate this.
+
+dt. @--differ <command>@ : Runs the given command with the two citation versions (as files) causing a trip-up. So, on Linux, you might use @--differ /usr/bin/diff@.  
+
+When you specify both options, JCite automatically displays the differences for changed citations.

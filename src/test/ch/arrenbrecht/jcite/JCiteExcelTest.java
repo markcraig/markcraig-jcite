@@ -36,10 +36,13 @@
 package ch.arrenbrecht.jcite;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
-import junit.framework.TestCase;
-
-public class JCiteExcelTest extends TestCase
+public class JCiteExcelTest extends AbstractJCiteTest
 {
 
 	public void testExcel() throws Exception
@@ -51,10 +54,117 @@ public class JCiteExcelTest extends TestCase
 		File htmlTarget = new File( "build/test/data/excel_out.htm" );
 		htmlTarget.getParentFile().mkdirs();
 		new JCite( (new String[] { "src/test/data" }), true, false ).process( htmlSource, htmlTarget );
-
-		String expected = Util.readStringFrom( htmlExpected ).replaceAll( "\r\n", "\n" );
-		String actual = Util.readStringFrom( htmlTarget ).replaceAll( "\r\n", "\n" );
-		assertEquals( expected, actual );
+		
+		assertEquivalentHtmlFiles( htmlExpected, htmlTarget );
 	}
+
+	public void testTripwireWithFolder() throws Exception
+	{
+		new TripwireTest().run();
+	}
+
+
+	@SuppressWarnings("unqualified-field-access")
+	private final class TripwireTest
+	{
+		private final File IN = new File( "src/test/data" );
+		private final File OUT = new File( "build/test/data" );
+		private final File DB = new File( OUT, "tripwire" );
+		private final File SRC_PATH = new File( OUT, "src" );
+		private final String DOC_NAME = "Tripwired_Excel.htm";
+		private final File DOC = new File( OUT, DOC_NAME );
+		private final File GEN = new File( OUT, DOC_NAME + ".gen.htm" );
+		private final String TRIP1 = "xc:TripSource.xls";
+		private String doc;
+
+		public TripwireTest() throws IOException
+		{
+			this.doc = Util.readStringFrom( new File( IN, DOC_NAME ) );
+		}
+
+		public void run() throws Exception
+		{
+			setupInitialSource();
+			cleanExistingDb();
+			runWithEmptyDb();
+		}
+
+		private void setupInitialSource() throws Exception
+		{
+			OUT.mkdirs();
+			SRC_PATH.mkdirs();
+			Util.writeStringTo( this.doc, DOC );
+			Util.copy( new File( IN, "TripSource.xls" ), new File( SRC_PATH, "TripSource.xls" ) );
+		}
+
+		private void cleanExistingDb()
+		{
+			if (DB.exists()) {
+				if (DB.isDirectory()) {
+					for (final File f : DB.listFiles()) {
+						f.delete();
+					}
+				}
+				DB.delete();
+			}
+		}
+
+		private void runWithEmptyDb() throws Exception
+		{
+			assertDb();
+			final Collection<String> tripUps = jcite();
+			assertEquals( "Tripped", 0, tripUps.size() );
+			assertDb( TRIP1 );
+		}
+
+		final String[] ARGS = new String[] { "-i", DOC.getPath(), "-o", GEN.getPath(), "-tw", DB.getPath(), "-sp",
+				SRC_PATH.getPath() };
+
+		private Collection<String> jcite( String... _args ) throws Exception
+		{
+			final JCite jc = new JCite();
+			final Collection<String> tripUps = new ArrayList<String>();
+			jc.setTripUpCollection( tripUps );
+			if (_args.length > 0) {
+				final List<String> argList = new ArrayList<String>( ARGS.length + _args.length );
+				argList.addAll( Arrays.asList( ARGS ) );
+				argList.addAll( Arrays.asList( _args ) );
+				jc.runWith( argList.toArray( new String[ argList.size() ] ) );
+			}
+			else {
+				jc.runWith( ARGS );
+			}
+			return tripUps;
+		}
+
+
+		private void assertDb( String... _names ) throws Exception
+		{
+			assertDbFolder( _names );
+		}
+
+
+		private void assertDbFolder( String[] _names ) throws Exception
+		{
+			if (_names.length == 0) {
+				assertNull( DB.listFiles() );
+			}
+			else {
+				assertEquals( _names.length, DB.listFiles().length );
+				int i = 0;
+				while (i < _names.length) {
+					String name = _names[ i++ ];
+					assertFileExists( new File( this.DB, TripwireDatabase.sanitizeNameInFolder( name ) + ".txt" ) );
+				}
+			}
+		}
+
+		private void assertFileExists( File _file )
+		{
+			assertTrue( _file.getPath() + " does not exist", _file.exists() );
+		}
+
+	}
+
 
 }

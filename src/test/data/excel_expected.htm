@@ -24,23 +24,18 @@
 
 <h1>JCite With Excel</h1>
 
-
 	<p>This document shows how JCite can cite examples from within <a href="http://office.microsoft.com/">Microsoft Excel</a> spreadsheets.</p>
 
 
 <div class="toc"><ul class="toc toc1"><li><a href="#pagetoc__1">Citing An Entire Sheet</a></li><li><a href="#pagetoc__2">Citing Ranges</a></li><li><a href="#pagetoc__3">Citing Formulas Only</a></li><li><a href="#pagetoc__4">Style Sheet</a></li></ul></div>
-
 	<h5>Note</h5>
-
 
 	<p>You need to enable the Excel citing plugin for this to work. See the <a href="usage.htm">notes about running JCite</a> for details.</p>
 
 
 	<h2><a name="pagetoc__1">Citing An Entire Sheet</a></h2>
 
-
 	<p>Using JCite, you can very easily cite the entire first sheet of an Excel workbook file:</p>
-
 
 	<table class="xl">
 	<thead>
@@ -197,23 +192,20 @@
 			<td class="xl-num">$10,000.00</td>
 		</tr>
 	</tbody>
-	</table>
-	<br/><span class="xl-r1">B3:F7</span> <span class="xl-name">(OrdersForLastThreeMonths)</span><br/><span class="xl-r2">B2:F2</span> <span class="xl-name">(OrdersHeader)</span>
+</table>
+<br/><span class="xl-r1">B3:F7</span> <span class="xl-name">(OrdersForLastThreeMonths)</span><br/><span class="xl-r2">B2:F2</span> <span class="xl-name">(OrdersHeader)</span>
 
 
 	<p>This was produced by the following JCite instruction in the source <span class="caps">HTML</span> document:</p>
 
 
 <pre class="jc">[x<b></b>c:EntireSheet.xls]</pre>
-
 	<p>The part <code>EntireSheet.xls</code> tells JCite what Excel file to cite from. Note how names denoting single cells are shown directly in the cell, while named ranges are colored and their names listed at the bottom.</p>
 
 
 	<h2><a name="pagetoc__2">Citing Ranges</a></h2>
 
-
 	<p>You can also cite only a single range instead of an entire sheet:</p>
-
 
 	<table class="xl">
 	<thead>
@@ -268,7 +260,7 @@
 			<td class="xl-num">$5,674.33<br/><span class="xl-exp">=B7*E7</span></td>
 		</tr>
 	</tbody>
-	</table>
+</table>
 
 
 
@@ -276,12 +268,10 @@
 
 
 <pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersForLastThreeMonths]</pre>
-
 	<p>Note that the named range <em>OrdersHeader</em> is not listed because it does not intersect the shown range.</p>
 
 
 	<p>Instead of just a single one, you can cite multiple ranges:</p>
-
 
 	<table class="xl">
 	<thead>
@@ -352,7 +342,7 @@
 			<td></td>
 		</tr>
 	</tbody>
-	</table>
+</table>
 
 
 
@@ -360,9 +350,7 @@
 
 
 <pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths,Rating]</pre>
-
 	<p>If you want the ranges to be identified still, suffix them with a <code>+</code> sign:</p>
-
 
 	<table class="xl">
 	<thead>
@@ -433,20 +421,17 @@
 			<td></td>
 		</tr>
 	</tbody>
-	</table>
-	<br/><span class="xl-r1">B3:F7</span> <span class="xl-name">(OrdersForLastThreeMonths)</span>
+</table>
+<br/><span class="xl-r1">B3:F7</span> <span class="xl-name">(OrdersForLastThreeMonths)</span>
 
 
 	<p>with an instruction such as:</p>
 
 
 <pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+]</pre>
-
 	<h2><a name="pagetoc__3">Citing Formulas Only</a></h2>
 
-
 	<p>In the examples so far, JCite cited cell formulas beneath their saved values. You can make JCite omit the values to make the formulas more prominent:</p>
-
 
 	<table class="xl">
 	<thead>
@@ -517,20 +502,18 @@
 			<td></td>
 		</tr>
 	</tbody>
-	</table>
-	<br/><span class="xl-r1">B3:F7</span> <span class="xl-name">(OrdersForLastThreeMonths)</span>
+</table>
+<br/><span class="xl-r1">B3:F7</span> <span class="xl-name">(OrdersForLastThreeMonths)</span>
 
 
 	<p>with an instruction such as:</p>
 
 
 <pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+;formulas-only]</pre>
-
 	<p>The option <code>fo</code> is shorthand for <code>formulas-only</code>.</p>
 
 
 	<h2><a name="pagetoc__4">Style Sheet</a></h2>
-
 
 	<p>The formatting of the generated output is <a href="styling.htm">controlled by a <span class="caps">CSS</span> style sheet</a>.</p>
 

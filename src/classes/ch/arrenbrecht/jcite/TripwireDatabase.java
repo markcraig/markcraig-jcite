@@ -211,6 +211,11 @@ final class TripwireDatabase
 		this.wires.put( _name, _value );
 	}
 
+	public String get( String _name )
+	{
+		return this.wires.get( _name );
+	}
+
 
 	private static final class TextFileFilter implements FilenameFilter
 	{

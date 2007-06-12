@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src/classes"/>
 	<classpathentry kind="src" path="src/classes-excel"/>
+	<classpathentry kind="src" path="src/classes-ant"/>
 	<classpathentry kind="src" path="src/test"/>
 	<classpathentry kind="src" path="src/examples"/>
 	<classpathentry kind="lib" path="lib/java2html.jar" sourcepath="G:/java2html-4.1/java2html_src.zip">
@@ -14,7 +15,10 @@
 			<attribute name="javadoc_location" value="file:/J:/jexcelapi-2.5.9/docs/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/commons-discovery-0.4.jar" sourcepath="/home/peo/local/commons-discovery-0.4-src/src/java"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3.8.1"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.5"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ANT Library"/>
 	<classpathentry kind="output" path="build/dev"/>
 </classpath>

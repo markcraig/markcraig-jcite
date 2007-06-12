@@ -39,10 +39,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.Enumeration;
 import java.util.List;
 
-import sun.misc.Service;
+import org.apache.commons.discovery.tools.Service;
+
 import ch.arrenbrecht.jcite.Util.FileVisitor;
 import ch.arrenbrecht.jcite.include.IncludeCitelet;
 import ch.arrenbrecht.jcite.java.JavaCitelet;
@@ -71,7 +72,7 @@ public final class JCite
 			final JCite jcite = new JCite();
 
 			jcite.runWith( _args );
-			
+
 			if (jcite.errorCount() > 0) {
 				System.err.println();
 				System.err.println( "" + jcite.errorCount() + " error(s) encountered." );
@@ -97,6 +98,8 @@ public final class JCite
 	private Collection<String> tripUpCollection = null;
 	private TripwireDatabase tripwires = null;
 	private boolean acceptTripUps = false;
+	private File diffPath = null;
+	private String differ = "";
 
 
 	public JCite()
@@ -105,9 +108,9 @@ public final class JCite
 		registerCitelet( new JavaCitelet( this ) );
 		registerCitelet( new IncludeCitelet( this ) );
 
-		final Iterator providers = Service.providers( JCiteletProvider.class );
-		while (providers.hasNext()) {
-			final JCiteletProvider provider = (JCiteletProvider) providers.next();
+		final Enumeration providers = Service.providers( JCiteletProvider.class );
+		while (providers.hasMoreElements()) {
+			final JCiteletProvider provider = (JCiteletProvider) providers.nextElement();
 			registerCitelet( provider.getCitelet( this ) );
 		}
 	}
@@ -163,6 +166,12 @@ public final class JCite
 			else if (arg.equalsIgnoreCase( "-ac" ) || arg.equalsIgnoreCase( "--accept-changes" )) {
 				this.acceptTripUps = true;
 			}
+			else if (arg.equalsIgnoreCase( "-dp" ) || arg.equalsIgnoreCase( "--diff-path" )) {
+				this.diffPath = new File( _args[ ++iArg ] );
+			}
+			else if (arg.equalsIgnoreCase( "--differ" )) {
+				this.differ = _args[ ++iArg ];
+			}
 			else if (arg.equalsIgnoreCase( "-v" ) || arg.equalsIgnoreCase( "--verbose" )) {
 				setVerbose( true );
 			}
@@ -199,13 +208,7 @@ public final class JCite
 			printCitelets();
 		}
 
-		if (null != this.tripwires) {
-			if (!quiet) {
-				System.out.println();
-				System.out.println( "Loading tripwire data from " + this.tripwires.toString() );
-			}
-			this.tripwires.load();
-		}
+		setupTripwires( quiet );
 
 		if (0 == inputs.size()) {
 			System.out.println( "No input specified. Use -i <file>, or -h for help." );
@@ -228,13 +231,7 @@ public final class JCite
 			}
 		}
 
-		if (null != this.tripwires && errorCount() + warningsCount() == 0) {
-			if (!quiet) {
-				System.out.println();
-				System.out.println( "Saving tripwire data to " + this.tripwires.toString() );
-			}
-			this.tripwires.save();
-		}
+		finalizeTripwires( quiet );
 
 		if (citationCount() > 0) {
 			System.out.println();
@@ -242,7 +239,29 @@ public final class JCite
 		}
 	}
 
-	private final void printCitelets()
+	public void setupTripwires( boolean quiet ) throws IOException
+	{
+		if (null != this.tripwires) {
+			if (!quiet) {
+				System.out.println();
+				System.out.println( "Loading tripwire data from " + this.tripwires.toString() );
+			}
+			this.tripwires.load();
+		}
+	}
+
+	public void finalizeTripwires( boolean quiet ) throws IOException
+	{
+		if (null != this.tripwires && errorCount() + warningsCount() == 0) {
+			if (!quiet) {
+				System.out.println();
+				System.out.println( "Saving tripwire data to " + this.tripwires.toString() );
+			}
+			this.tripwires.save();
+		}
+	}
+
+	final void printCitelets()
 	{
 		for (JCitelet c : this.citelets) {
 			System.out.println( "Using " + c.getClass().getName() );
@@ -274,7 +293,7 @@ public final class JCite
 	}
 
 
-	boolean isVerbose()
+	final boolean isVerbose()
 	{
 		return this.verbose;
 	}
@@ -282,6 +301,42 @@ public final class JCite
 	final void setVerbose( boolean _verbose )
 	{
 		this.verbose = _verbose;
+	}
+
+
+	public final TripwireDatabase getTripwires()
+	{
+		return this.tripwires;
+	}
+
+	public final void setTripwires( TripwireDatabase _tripwires )
+	{
+		this.tripwires = _tripwires;
+	}
+
+	public final boolean getAcceptTripUps()
+	{
+		return this.acceptTripUps;
+	}
+
+	public final void setAcceptTripUps( boolean _acceptTripUps )
+	{
+		this.acceptTripUps = _acceptTripUps;
+	}
+
+	public File getDiffPath()
+	{
+		return this.diffPath;
+	}
+
+	public void setDiffPath( File _diffPath )
+	{
+		this.diffPath = _diffPath;
+	}
+
+	public void setDiffer( String _differ )
+	{
+		this.differ = _differ;
 	}
 
 
@@ -356,7 +411,7 @@ public final class JCite
 	}
 
 
-	void checkTripwires( String _citation, String _value, int _sourceIndex )
+	void checkTripwires( String _citation, String _value, int _sourceIndex ) throws IOException
 	{
 		if (null != this.tripwires) {
 			final String citation = this.currentCitationPrefix + ":" + _citation;
@@ -367,17 +422,50 @@ public final class JCite
 					this.tripwires.update( name, value );
 				}
 				else {
-					final String tripUp = this.currentSourceFile.getName()
-							+ ":" + indexToLineNumber( _sourceIndex, this.currentSourceText );
 					if (null != this.tripUpCollection) {
-						this.tripUpCollection.add( tripUp );
+						this.tripUpCollection.add( tripUpLocation( _sourceIndex ) );
 					}
 					else {
-						warn( "Cited text changed in " + tripUp + " for " + citation );
+						logTripUp( citation, name, value, _sourceIndex );
 					}
 				}
 			}
 		}
+	}
+
+	void logTripUp( String _citation, String _name, String _value, int _sourceIndex ) throws IOException
+	{
+		warn( "Cited text changed in " + tripUpLocation( _sourceIndex ) + " for " + _citation );
+		if (null != this.diffPath) {
+			diff( this.tripwires.get( _name ), _value, this.currentSourceFile.getName() + "_" + _sourceIndex );
+		}
+	}
+
+	private void diff( String _was, String _is, String _baseName ) throws IOException
+	{
+		this.diffPath.mkdirs();
+		final File wasFile = new File( this.diffPath, _baseName + ".was" );
+		final File isFile = new File( this.diffPath, _baseName + ".is" );
+		Util.writeStringTo( _was, wasFile );
+		Util.writeStringTo( _is, isFile );
+		if (null != this.differ && !"".equals( this.differ )) {
+			try {
+				Util.execAndPipeOutputToSystem( this.differ, quotedName( wasFile ), quotedName( isFile ) );
+			}
+			catch (InterruptedException e) {
+				// swallow
+			}
+		}
+	}
+
+	private String quotedName( File _file ) throws IOException
+	{
+		return _file.getCanonicalPath();
+	}
+
+	private String tripUpLocation( int _sourceIndex )
+	{
+		return this.currentSourceFile.getName() + ":" + indexToLineNumber( _sourceIndex, this.currentSourceText );
 	}
 
 	void logCitationError( Exception _e, String _markup, int _sourceIndex )
@@ -392,8 +480,9 @@ public final class JCite
 
 	private int indexToLineNumber( int _index, String _text )
 	{
+		final int index = Math.min( _index, _text.length() - 1 );
 		int result = 1;
-		for (int i = 0; i <= _index; i++) {
+		for (int i = 0; i <= index; i++) {
 			switch (_text.charAt( i )) {
 				case '\n':
 					result++;

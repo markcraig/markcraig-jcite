@@ -35,13 +35,22 @@
  */
 package ch.arrenbrecht.jcite;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.Reader;
 import java.util.regex.Pattern;
 
 
@@ -80,7 +89,7 @@ public class Util
 			char[] chars = new char[ 1024 ];
 			int red;
 			while ((red = reader.read( chars )) > -1) {
-				sb.append( String.valueOf( chars, 0, red ) );
+				sb.append( chars, 0, red );
 			}
 		}
 		finally {
@@ -98,6 +107,44 @@ public class Util
 		}
 		finally {
 			writer.close();
+		}
+	}
+
+
+	public static int execAndPipeOutputToSystem( String... _args ) throws IOException, InterruptedException
+	{
+		final ProcessBuilder pb = new ProcessBuilder( _args );
+		final Process p = pb.start();
+		final int result = p.waitFor();
+		printStream( p.getInputStream(), System.out );
+		printStream( p.getErrorStream(), System.err );
+		return result;
+	}
+
+	public static void printStream( InputStream _from, PrintStream _printTo ) throws IOException
+	{
+		final Reader in = new BufferedReader( new InputStreamReader( new BufferedInputStream( _from ) ) );
+		while (in.ready())
+			_printTo.write( in.read() );
+	}
+
+
+	public static void copy( File _src, File _tgt ) throws IOException
+	{
+		InputStream in = new BufferedInputStream( new FileInputStream( _src ) );
+		try {
+			OutputStream out = new BufferedOutputStream( new FileOutputStream( _tgt ) );
+			try {
+				while (in.available() > 0) {
+					out.write( in.read() );
+				}
+			}
+			finally {
+				out.close();
+			}
+		}
+		finally {
+			in.close();
 		}
 	}
 

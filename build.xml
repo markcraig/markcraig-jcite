@@ -8,8 +8,6 @@
 	<property name="Name" value="JCite" />
 	<property name="name" value="jcite" />
 
-	<property name="dist.version" value="1.9" />
-
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
 	<property name="doc.dir" location="${basedir}/doc" />
@@ -21,9 +19,6 @@
 	<property name="src.doc.dir" location="${src.dir}/doc" />
 
 	<!-- Targets -->
-
-	<property name="javac.source" value="1.5" />
-	<property name="javac.target" value="1.5" />
 
 	<property name="build.dir" location="${basedir}/build" />
 	<property name="build.classes.dir" location="${build.dir}/classes" />
@@ -387,6 +382,14 @@
 		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-src.zip" filesonly="no" />
 
 		<delete dir="${dist.tmp.dir}" />
+	</target>
+
+	<target name="tools">
+		<mkdir dir="${dist.dir}" />
+		<property name="tools.name" value="${name}-${tools.version}-tools.zip" />
+		<property name="tools.file" value="${dist.dir}/${tools.name}" />
+		<echo>Bundling ${tools.name}</echo>
+		<zip basedir="${basedir}/tools" destfile="${tools.file}" filesonly="no" />
 	</target>
 
 </project>

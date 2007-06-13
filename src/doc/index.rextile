@@ -4,7 +4,7 @@ h1. JCite - Java Source Code Citation System
 <div class="news">
 
 "JCite 1.9":history.htm with support for "tripwire databases":tripwire.htm, an Ant task, and better error reporting.
-<br/>%(when)May 23, 2007%
+<br/>%(when)June 13, 2007%
 
 "JCite 1.8":history.htm with support for formatting inline Java source blocks and citing Excel sheets showing formulas only.
 <br/>%(when)January 22, 2007%

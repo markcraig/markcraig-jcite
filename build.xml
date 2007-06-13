@@ -178,8 +178,7 @@
 		<delete dir="${javadoc.dir}" />
 		<mkdir dir="${javadoc.dir}" />
 		<path id="taglet.path">
-			<pathelement location="${lib.dir}/java2html.jar" />
-			<pathelement location="${lib.dir}/jxl.jar" />
+			<fileset dir="${lib.dir}" includes="*.jar" />
 			<pathelement location="${build.dir}/jcite.jar" />
 		</path>
 		<property name="taglet.path" refid="taglet.path" />

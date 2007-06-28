@@ -8,6 +8,7 @@ h5. Better
 
     * Escape HTML entities properly when citing Excel formulas and cell values.
     * Updated JExcelAPI to 2.6.4.
+    * Fixed "plain style example":simplestyle.html.
 
 
 h2. JCite 1.9

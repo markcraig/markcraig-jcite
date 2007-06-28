@@ -201,8 +201,12 @@
 				<include name="**/*.png" />
 				<include name="**/*.pdf" />
 				<include name="**/*.svg" />
-				<include name="**/*.html" />
 				<include name="**/*.css" />
+			</fileset>
+		</copy>
+		<copy todir="${build.doc.dir}">
+			<fileset dir="${src.doc.dir}">
+				<include name="**/*.html" />
 			</fileset>
 		</copy>
 	</target>

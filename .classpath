@@ -10,12 +10,8 @@
 			<attribute name="javadoc_location" value="file:/G:/java2html-4.1/docs/api/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/jxl.jar" sourcepath="J:/jexcelapi-2.5.9/src">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/J:/jexcelapi-2.5.9/docs/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="lib/commons-discovery-0.4.jar" sourcepath="/home/peo/local/commons-discovery-0.4-src/src/java"/>
+	<classpathentry kind="lib" path="lib/jxl.jar"/>
+	<classpathentry kind="lib" path="lib/commons-discovery-0.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3.8.1"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.5"/>

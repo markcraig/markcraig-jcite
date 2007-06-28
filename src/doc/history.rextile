@@ -2,6 +2,14 @@
 h1. JCite Version History
 
 
+h2. JCite 1.9.1
+
+h5. Better
+
+    * Escape HTML entities properly when citing Excel formulas and cell values.
+    * Updated JExcelAPI to 2.6.4.
+
+
 h2. JCite 1.9
 
 h5. New

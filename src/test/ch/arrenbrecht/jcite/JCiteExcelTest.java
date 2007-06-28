@@ -41,9 +41,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class JCiteExcelTest extends AbstractJCiteTest
 {
+	private Locale prevLocale;
+	private TimeZone prevTimeZone;
+
+
+	@Override
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		this.prevLocale = Locale.getDefault();
+		this.prevTimeZone = TimeZone.getDefault();
+		Locale.setDefault( Locale.US );
+		TimeZone.setDefault( TimeZone.getTimeZone( "UTC" ) );
+	}
+
+	@Override
+	protected void tearDown() throws Exception
+	{
+		Locale.setDefault( this.prevLocale );
+		TimeZone.setDefault( this.prevTimeZone );
+		super.tearDown();
+	}
+
 
 	public void testExcel() throws Exception
 	{
@@ -54,7 +78,7 @@ public class JCiteExcelTest extends AbstractJCiteTest
 		File htmlTarget = new File( "build/test/data/excel_out.htm" );
 		htmlTarget.getParentFile().mkdirs();
 		new JCite( (new String[] { "src/test/data" }), true, false ).process( htmlSource, htmlTarget );
-		
+
 		assertEquivalentHtmlFiles( htmlExpected, htmlTarget );
 	}
 

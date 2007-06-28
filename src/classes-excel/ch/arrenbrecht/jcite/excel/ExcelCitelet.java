@@ -67,7 +67,7 @@ import jxl.read.biff.BiffException;
 public class ExcelCitelet extends JCitelet
 {
 	private static final String[] EMPTY_STRING_ARRAY = new String[ 0 ];
-
+	
 
 	public ExcelCitelet(JCite _jcite)
 	{
@@ -305,20 +305,48 @@ public class ExcelCitelet extends JCitelet
 			}
 		}
 
-		private Long cellToLong( int _col, int _row )
+		private Long cellToLong( final int _col, final int _row )
 		{
 			return Long.valueOf( _row * 1024L + _col );
 		}
 
-		private void convertSheet( DescriptionBuilder _b )
-		{
-			final DescriptionBuilder b = _b;
 
+		private void convertSheet( final DescriptionBuilder b )
+		{
 			b.appendLine( "<table class=\"xl\">" );
 			b.indent();
+			{
 
-			b.appendLine( "<thead>" );
-			b.indent();
+				b.appendLine( "<thead>" );
+				b.indent();
+				{
+					convertHeader( b );
+				}
+				b.outdent();
+				b.appendLine( "</thead>" );
+
+				b.appendLine( "<tbody>" );
+				b.indent();
+				{
+					for (int iRow = 0; iRow < this.sheet.getRows(); iRow++) {
+						final Cell[] row = this.sheet.getRow( iRow );
+						if (isInScope( iRow )) {
+							convertRow( b, iRow, row );
+						}
+					}
+				}
+				b.outdent();
+				b.appendLine( "</tbody>" );
+
+			}
+			b.outdent();
+			b.appendLine( "</table>" );
+
+			convertRangeNames( b );
+		}
+
+		private void convertHeader( final DescriptionBuilder b )
+		{
 			b.appendLine( "<tr>" );
 			b.indent();
 			b.appendLine( "<td/>" );
@@ -329,110 +357,115 @@ public class ExcelCitelet extends JCitelet
 			}
 			b.outdent();
 			b.appendLine( "</tr>" );
-			b.outdent();
-			b.appendLine( "</thead>" );
+		}
 
-			b.appendLine( "<tbody>" );
+		private void convertRow( final DescriptionBuilder b, int _iRow, final Cell[] _row )
+		{
+			b.appendLine( "<tr>" );
 			b.indent();
-			for (int iRow = 0; iRow < this.sheet.getRows(); iRow++) {
-				final Cell[] row = this.sheet.getRow( iRow );
-				if (isInScope( iRow )) {
-					b.appendLine( "<tr>" );
-					b.indent();
+			{
+				b.append( "<td class=\"xl-row\">" );
+				b.append( _iRow + 1 );
+				b.appendLine( "</td>" );
 
-					b.append( "<td class=\"xl-row\">" );
-					b.append( iRow + 1 );
-					b.appendLine( "</td>" );
-
-					for (int iCol = this.firstColumnInScope; iCol <= this.lastColumnInScope; iCol++) {
-						String clazz = "";
-						String attribs = "";
-						String contents = "";
-						String annotations = "";
-
-						final Cell cell = (iCol < row.length) ? row[ iCol ] : null;
-						if (cell != null && isInScope( cell )) {
-							contents = cell.getContents();
-
-							final CellType cellType = cell.getType();
-							if (cellType == CellType.NUMBER || cellType == CellType.NUMBER_FORMULA) {
-								clazz += " xl-num";
-							}
-							else if (cellType == CellType.DATE || cellType == CellType.DATE_FORMULA) {
-								clazz += " xl-date";
-							}
-
-							if (cell instanceof FormulaCell) {
-								final FormulaCell formulaCell = (FormulaCell) cell;
-								
-								String formula;
-								try {
-									formula = formulaCell.getFormula(); 
-								}
-								catch (FormulaException e) {
-									formula = "FORMULA ERROR: " + e.getMessage();
-								}
-
-								if (this.formulasOnly) {
-									contents = "<span class=\"xl-exp-only\">=" + formula + "</span>";
-								}
-								else {
-									annotations += "<br/><span class=\"xl-exp\">=" + formula + "</span>";
-								}
-							}
-
-							final String cellName = this.namedCells.get( cell );
-							if (cellName != null) {
-								annotations += "<br/><span class=\"xl-name\">(" + cellName + ")</span>";
-							}
-
-							final CellFormat cellFormat = cell.getCellFormat();
-							if (cellFormat != null) {
-								final Alignment cellAlignment = cellFormat.getAlignment();
-								if (cellAlignment == Alignment.LEFT) attribs += " style=\"text-align: left\"";
-								if (cellAlignment == Alignment.RIGHT) attribs += " style=\"text-align: right\"";
-								if (cellAlignment == Alignment.CENTRE) attribs += " style=\"text-align: center\"";
-								if (cellAlignment == Alignment.JUSTIFY) attribs += " style=\"text-align: justify\"";
-								Font font = cellFormat.getFont();
-								if (font != null) {
-									if (font.getUnderlineStyle() == UnderlineStyle.SINGLE) {
-										contents = "<span style=\"text-decoration: underline;\">" + contents + "</span>";
-									}
-									if (font.getBoldWeight() > 400) {
-										contents = "<b>" + contents + "</b>";
-									}
-								}
-							}
-							
-						}
-
-						final String cellColor = this.rangedCellColors.get( cellToLong( iCol, iRow ) );
-						if (cellColor != null) {
-							clazz += " " + cellColor;
-						}
-
-						if (!clazz.equals( "" )) {
-							attribs += " class=\"" + clazz.substring( 1 ) + "\"";
-						}
-
-						b.append( "<td" );
-						b.append( attribs );
-						b.append( ">" );
-						b.append( contents );
-						b.append( annotations );
-						b.appendLine( "</td>" );
-					}
-
-					b.outdent();
-					b.appendLine( "</tr>" );
+				for (int iCol = this.firstColumnInScope; iCol <= this.lastColumnInScope; iCol++) {
+					final Cell cell = (iCol < _row.length) ? _row[ iCol ] : null;
+					convertCell( b, _iRow, iCol, cell );
 				}
 			}
 			b.outdent();
-			b.appendLine( "</tbody>" );
+			b.appendLine( "</tr>" );
+		}
 
-			b.outdent();
-			b.appendLine( "</table>" );
+		private void convertCell( final DescriptionBuilder b, final int _iRow, final int _iCol, final Cell _cell )
+		{
+			final StringBuilder clazz = new StringBuilder();
+			final StringBuilder attribs = new StringBuilder();
+			final StringBuilder annotations = new StringBuilder();
 
+			String contents = "";
+
+			if (_cell != null && isInScope( _cell )) {
+				final CellType cellType = _cell.getType();
+				if (cellType == CellType.NUMBER || cellType == CellType.NUMBER_FORMULA) {
+					clazz.append( " xl-num" );
+				}
+				else if (cellType == CellType.DATE || cellType == CellType.DATE_FORMULA) {
+					clazz.append( " xl-date" );
+				}
+
+				if (_cell instanceof FormulaCell) {
+					final FormulaCell formulaCell = (FormulaCell) _cell;
+
+					String formula;
+					try {
+						formula = htmlize( formulaCell.getFormula() );
+					}
+					catch (FormulaException e) {
+						formula = "FORMULA ERROR: " + htmlize( e.getMessage() );
+					}
+
+					if (this.formulasOnly) {
+						contents = "<span class=\"xl-exp-only\">=" + formula + "</span>";
+					}
+					else {
+						contents = convertValue( _cell );
+						annotations.append( "<br/><span class=\"xl-exp\">=" ).append( formula ).append( "</span>" );
+					}
+				}
+				else {
+					contents = convertValue( _cell );
+				}
+
+				final String cellName = this.namedCells.get( _cell );
+				if (cellName != null) {
+					annotations.append( "<br/><span class=\"xl-name\">(" ).append( cellName ).append( ")</span>" );
+				}
+
+				final CellFormat cellFormat = _cell.getCellFormat();
+				if (cellFormat != null) {
+					final Alignment cellAlignment = cellFormat.getAlignment();
+					if (cellAlignment == Alignment.LEFT) attribs.append( " style=\"text-align: left\"" );
+					if (cellAlignment == Alignment.RIGHT) attribs.append( " style=\"text-align: right\"" );
+					if (cellAlignment == Alignment.CENTRE) attribs.append( " style=\"text-align: center\"" );
+					if (cellAlignment == Alignment.JUSTIFY) attribs.append( " style=\"text-align: justify\"" );
+					Font font = cellFormat.getFont();
+					if (font != null) {
+						if (font.getUnderlineStyle() == UnderlineStyle.SINGLE) {
+							contents = "<span style=\"text-decoration: underline;\">" + contents + "</span>";
+						}
+						if (font.getBoldWeight() > 400) {
+							contents = "<b>" + contents + "</b>";
+						}
+					}
+				}
+
+			}
+
+			final String cellColor = this.rangedCellColors.get( cellToLong( _iCol, _iRow ) );
+			if (cellColor != null) {
+				clazz.append( ' ' ).append( cellColor );
+			}
+
+			if (clazz.length() > 0) {
+				attribs.append( " class=\"" ).append( clazz.substring( 1 ) ).append( "\"" );
+			}
+
+			b.append( "<td" );
+			b.append( attribs );
+			b.append( ">" );
+			b.append( contents );
+			b.append( annotations );
+			b.appendLine( "</td>" );
+		}
+
+		private String convertValue( final Cell _cell )
+		{
+			return htmlize( _cell.getContents() );
+		}
+
+		private void convertRangeNames( final DescriptionBuilder b )
+		{
 			final Collection<String> rangeNames = new TreeSet<String>();
 			rangeNames.addAll( this.namedRanges.keySet() );
 			for (String rangeName : rangeNames) {
@@ -457,7 +490,11 @@ public class ExcelCitelet extends JCitelet
 				b.append( rangeName );
 				b.append( ")</span>" );
 			}
+		}
 
+		private String htmlize( String _text )
+		{
+			return _text.replace( "&", "&amp;" ).replace( "<", "&lt;" ).replace( ">", "&gt;" );
 		}
 
 	}

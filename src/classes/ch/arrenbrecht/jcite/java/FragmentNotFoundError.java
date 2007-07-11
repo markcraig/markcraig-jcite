@@ -37,6 +37,7 @@ package ch.arrenbrecht.jcite.java;
 
 import ch.arrenbrecht.jcite.JCiteError;
 
+@SuppressWarnings("serial")
 public class FragmentNotFoundError extends JCiteError
 {
 

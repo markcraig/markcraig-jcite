@@ -35,6 +35,7 @@
  */
 package ch.arrenbrecht.jcite;
 
+@SuppressWarnings("serial")
 public class JCiteError extends Exception
 {
 

@@ -36,6 +36,7 @@
 package ch.arrenbrecht.jcite;
 
 
+@SuppressWarnings("serial")
 public class FileNotFoundError extends JCiteError
 {
 

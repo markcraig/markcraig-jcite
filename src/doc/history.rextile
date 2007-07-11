@@ -2,6 +2,13 @@
 h1. JCite Version History
 
 
+h2. JCite 1.9.2
+
+h5. Better
+
+	* Ant task accepts newline string to use for tripwire database (@tripwireNewLine@).
+
+
 h2. JCite 1.9.1
 
 h5. Better

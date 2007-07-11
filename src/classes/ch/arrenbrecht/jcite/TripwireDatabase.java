@@ -50,14 +50,21 @@ final class TripwireDatabase
 {
 	private final File path;
 	private final boolean saveAsFolder;
+	private final String newLine;
 	private final SortedMap<String, String> wires = new TreeMap<String, String>();
 	private final SortedMap<String, String> wiresAsLoaded = new TreeMap<String, String>();
 
-	public TripwireDatabase(File _path, boolean _isFolder)
+	public TripwireDatabase( File _path, boolean _isFolder )
+	{
+		this( _path, _isFolder, null );
+	}
+
+	public TripwireDatabase( File _path, boolean _isFolder, String _newLineInDatabase )
 	{
 		super();
 		this.path = _path;
 		this.saveAsFolder = _isFolder;
+		this.newLine = (null == _newLineInDatabase)? System.getProperty( "line.separator" ) : _newLineInDatabase;
 	}
 
 
@@ -106,13 +113,13 @@ final class TripwireDatabase
 		try {
 			for (final Entry<String, String> wire : this.wires.entrySet()) {
 				writer.append( wire.getKey() );
-				writer.newLine();
+				writer.append( this.newLine );
 				writer.append( VALUE_SEP );
-				writer.newLine();
+				writer.append( this.newLine );
 				writer.append( wire.getValue() );
-				writer.newLine();
+				writer.append( this.newLine );
 				writer.append( ENTRY_SEP );
-				writer.newLine();
+				writer.append( this.newLine );
 			}
 		}
 		finally {
@@ -137,21 +144,21 @@ final class TripwireDatabase
 	{
 		this.path.mkdirs();
 		final Iterator<Entry<String, String>> hads = this.wiresAsLoaded.entrySet().iterator();
-		Entry<String, String> had = hads.hasNext() ? hads.next() : null;
+		Entry<String, String> had = hads.hasNext()? hads.next() : null;
 		for (final Entry<String, String> have : this.wires.entrySet()) {
 			final String key = have.getKey();
 			final String value = have.getValue();
 
 			while (null != had && had.getKey().compareTo( key ) < 0) {
 				fileForWire( had.getKey() ).delete();
-				had = hads.hasNext() ? hads.next() : null;
+				had = hads.hasNext()? hads.next() : null;
 			}
 
 			if (null != had && had.getKey().equals( key )) {
 				if (!had.getValue().equals( value )) {
 					Util.writeStringTo( value, fileForWire( key ) );
 				}
-				had = hads.hasNext() ? hads.next() : null;
+				had = hads.hasNext()? hads.next() : null;
 			}
 			else {
 				Util.writeStringTo( value, fileForWire( key ) );
@@ -161,7 +168,7 @@ final class TripwireDatabase
 
 		while (null != had) {
 			new File( this.path, had.getKey() + ".txt" ).delete();
-			had = hads.hasNext() ? hads.next() : null;
+			had = hads.hasNext()? hads.next() : null;
 		}
 	}
 
@@ -175,7 +182,7 @@ final class TripwireDatabase
 
 	public String sanitizeName( String _name )
 	{
-		return this.saveAsFolder ? sanitizeNameInFolder( _name ) : _name.trim();
+		return this.saveAsFolder? sanitizeNameInFolder( _name ) : _name.trim();
 	}
 
 	public static String sanitizeNameInFolder( String _name )
@@ -232,7 +239,7 @@ final class TripwireDatabase
 	@Override
 	public String toString()
 	{
-		return (this.saveAsFolder ? "folder " : "file ") + this.path.getPath();
+		return (this.saveAsFolder? "folder " : "file ") + this.path.getPath();
 	}
 
 }

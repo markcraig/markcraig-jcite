@@ -62,6 +62,7 @@ public final class JCiteTask extends MatchingTask
 	private boolean failOnWarning = false;
 	private File tripwireFile = null;
 	private File tripwirePath = null;
+	private String tripwireNewLine = null;
 	private boolean acceptChanges = false;
 	private File diffPath = null;
 	private String differ = "";
@@ -135,6 +136,11 @@ public final class JCiteTask extends MatchingTask
 		this.tripwirePath = _tripwirePath;
 	}
 
+	public void setTripwireNewLine( String _tripwireNewLine )
+	{
+		this.tripwireNewLine = _tripwireNewLine.replace( "\\r", "\r" ).replace( "\\n", "\n" );
+	}
+
 	public void setAcceptChanges( boolean _acceptChanges )
 	{
 		this.acceptChanges = _acceptChanges;
@@ -157,20 +163,20 @@ public final class JCiteTask extends MatchingTask
 		try {
 			validate();
 
-			final String[] sourcePath = (this.sourcePath != null) ? this.sourcePath.list() : new String[ 0 ];
+			final String[] sourcePath = (this.sourcePath != null)? this.sourcePath.list() : new String[ 0 ];
 			final JCite jcite = new JCite( sourcePath, this.usePRE, this.verbose );
-			
+
 			if (this.verbose) {
 				jcite.printCitelets();
 			}
 
 			if (this.tripwireFile != null) {
 				log( "Using tripwires from file " + this.tripwireFile, Project.MSG_VERBOSE );
-				jcite.setTripwires( new TripwireDatabase( this.tripwireFile, false ) );
+				jcite.setTripwires( new TripwireDatabase( this.tripwireFile, false, this.tripwireNewLine ) );
 			}
 			else if (this.tripwirePath != null) {
 				log( "Using tripwires from folder " + this.tripwirePath, Project.MSG_VERBOSE );
-				jcite.setTripwires( new TripwireDatabase( this.tripwirePath, true ) );
+				jcite.setTripwires( new TripwireDatabase( this.tripwirePath, true, this.tripwireNewLine ) );
 			}
 			jcite.setAcceptTripUps( this.acceptChanges );
 			jcite.setDiffPath( this.diffPath );

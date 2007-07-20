@@ -3,8 +3,8 @@ h1. JCite - Java Source Code Citation System
 
 <div class="news">
 
-"JCite 1.9.2":history.htm can accept newline string to use for tripwire database in Ant task.
-<br/>%(when)July ?, 2007%
+"JCite 1.9.2":history.htm can accept newline string to use for tripwire database in Ant task; fixes bugs in release packages and launch docs.
+<br/>%(when)July 20, 2007%
 
 "JCite 1.9.1":history.htm escapes HTML entities properly when citing Excel formulas and cell values.
 <br/>%(when)June 28, 2007%

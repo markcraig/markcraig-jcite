@@ -8,6 +8,10 @@ h5. Better
 
 	* Ant task accepts newline string to use for tripwire database (@tripwireNewLine@).
 
+h5. Fixed
+
+	* "Usage":usage.htm and "JavaDoc":javadoc.htm documentation fixed; need more jars on the classpath.
+
 
 h2. JCite 1.9.1
 

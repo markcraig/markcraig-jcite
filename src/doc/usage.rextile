@@ -34,31 +34,23 @@ Run JCite from the command line as follows (put everything on one line).
 
 h5. Single File
 
-	java
-	  -cp /path/to/jcite/build/jcite.jar;/path/to/jcite/lib/java2html.jar
-	  ch.arrenbrecht.jcite.JCite
-	  -sp ../test
-	  -i samples.html
-	  -o samples.html
+<pre><code
+>...(path to jcite).../bin/jcite
+  -sp ../test
+  -i samples.html
+  -o samples.html
+</code></pre>
 
 h5. Multiple Files
 
-	java
-	  -cp /path/to/jcite/build/jcite.jar;/path/to/jcite/lib/java2html.jar
-	  ch.arrenbrecht.jcite.JCite
-	  -sp ../test
-	  -i "in/*.html"
-	  -o out
+<pre><code
+>...(path to jcite).../bin/jcite
+  -sp ../test
+  -i "in/*.html"
+  -o out
+</code></pre>
 
 Note the double quotes around the pattern, @"in/*.html"@, to prevent @java.exe@ from expanding them itself.
-
-h5. Excel Support
-
-If you want to be able to "cite Excel sheets":excel.htm, you need to add
-
-	/path/to/jcite/build/jcite-excel.jar;/path/to/jcite/lib/jxl.jar
-	
-to the classpath.
 
 
 h2. <a name="ant">Ant Task</a>
@@ -89,6 +81,19 @@ The proper Ant task works like this (excerpt from JCite's own @build.xml@):
   <include name="**/*.htm*" />
 </jcite>
 </code></pre>
+
+h5. Class Path
+
+In both cases, the class path (here @${run.classpath}@) should include all jars from
+
+<pre><code
+>...(path to jcite).../build/*.jar
+...(path to jcite).../lib/*.jar
+</code></pre>
+
+separated by @;@ (Windows) or @:@ (Unix).
+
+h5. Parameters
 
 We have the following mapping to the ordinary parameters:
 

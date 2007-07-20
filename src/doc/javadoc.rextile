@@ -76,14 +76,16 @@ The output "looks like this":-add.
 
 h2. <a name="Setup">Setting Up JavaDoc</a>
 
-Before you can use the <code>{@.jcite ...}</code> tag, you have to configure JavaDoc so it knows where to find JCite. In addition to your own startup options, you have to provide the following (Windows version - substitute @:@ for @;@ on Unix):
+Before you can use the <code>{@.jcite ...}</code> tag, you have to configure JavaDoc so it knows where to find JCite. In addition to your own startup options, you have to provide the following:
 
 <pre><code
 >javadoc
-  -tagletpath <jcitepath>/lib/java2html.jar;<jcitepath>/build/jcite.jar
+  -tagletpath ...(all jars from lib/ and build/)...
   -taglet ch.arrenbrecht.jcite.JCiteTaglet
   ...
 </code></pre>
+
+where for @-tagletpath@ you have to specify all the jars found in JCite's @lib/@ and @build/@ folders, separated by @;@ (Windows) or @:@ (Unix).
 
 This tells JavaDoc to load the JCite taglet (a JavaDoc plugin), which supports the <code>{@.jcite ...}</code> tag.
 
@@ -139,7 +141,7 @@ Here's a complete example which I use to produce the test documentation for JCit
 
 <pre><code
 >javadoc
-  -tagletpath lib/java2html.jar;build/jcite.jar
+  -tagletpath ...(all jars from lib/ and build/)...
   -taglet ch.arrenbrecht.jcite.JCiteTaglet
   -public
   -sourcepath src/examples

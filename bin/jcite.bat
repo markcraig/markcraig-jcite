@@ -1,1 +1,1 @@
-@cmd /V:ON /Q /C jcite-run.bat %*
+@cmd /V:ON /Q /C %~dp0jcite-run.bat %*

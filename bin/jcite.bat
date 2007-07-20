@@ -1,0 +1,1 @@
+@cmd /V:ON /Q /C jcite-run.bat %*

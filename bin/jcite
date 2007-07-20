@@ -19,8 +19,6 @@ if [ -z "$JCITE_HOME" -o ! -d "$JCITE_HOME" ] ; then
   JCITE_HOME=`cd "$JCITE_HOME" && pwd`
 fi
 
-jar="$JCITE_HOME/build/jcite.jar"
-
 cp=""
 for lib in "$JCITE_HOME/build/"*; do
   cp="$cp:$lib"

@@ -6,4 +6,4 @@
 @crumbs << 'JCite'
 
 # Redirect to output path.
-@html_name = '../../build/doc/' + html_name
+@html_name = '../../temp/doc/' + html_name

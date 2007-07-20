@@ -73,9 +73,9 @@ public class JCiteExcelTest extends AbstractJCiteTest
 	{
 		if (!new File( "lib/jxl.jar" ).exists()) return;
 
-		File htmlSource = new File( "build/doc/excel.htm" );
+		File htmlSource = new File( "temp/doc/excel.htm" );
 		File htmlExpected = new File( "src/test/data/excel_expected.htm" );
-		File htmlTarget = new File( "build/test/data/excel_out.htm" );
+		File htmlTarget = new File( "temp/test/data/excel_out.htm" );
 		htmlTarget.getParentFile().mkdirs();
 		new JCite( (new String[] { "src/test/data" }), true, false ).process( htmlSource, htmlTarget );
 
@@ -92,7 +92,7 @@ public class JCiteExcelTest extends AbstractJCiteTest
 	private final class TripwireTest
 	{
 		private final File IN = new File( "src/test/data" );
-		private final File OUT = new File( "build/test/data" );
+		private final File OUT = new File( "temp/test/data" );
 		private final File DB = new File( OUT, "tripwire" );
 		private final File SRC_PATH = new File( OUT, "src" );
 		private final String DOC_NAME = "Tripwired_Excel.htm";

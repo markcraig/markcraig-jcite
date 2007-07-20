@@ -42,9 +42,9 @@ public class JCiteIncludeTest extends AbstractJCiteTest
 
 	public void testInclude() throws Exception
 	{
-		File htmlSource = new File( "build/doc/include.htm" );
+		File htmlSource = new File( "temp/doc/include.htm" );
 		File htmlExpected = new File( "src/test/data/include_expected.htm" );
-		File htmlTarget = new File( "build/test/data/include_out.htm" );
+		File htmlTarget = new File( "temp/test/data/include_out.htm" );
 		htmlTarget.getParentFile().mkdirs();
 		new JCite( (new String[] { "src/test/data" }), true, false ).process( htmlSource, htmlTarget );
 

@@ -70,7 +70,7 @@ public class JCiteTest extends AbstractJCiteTest
 	{
 		private final boolean dbIsFolder;
 		private final File IN = new File( "src/test/data" );
-		private final File OUT = new File( "build/test/data" );
+		private final File OUT = new File( "temp/test/data" );
 		private final File DB = new File( OUT, "tripwire" );
 		private final File SRC_PATH = new File( OUT, "src" );
 		private final File SRC = new File( SRC_PATH, "TripSource.java" );

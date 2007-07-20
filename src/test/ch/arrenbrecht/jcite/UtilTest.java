@@ -50,7 +50,7 @@ public class UtilTest extends TestCase
 	public void testReadStringFrom() throws IOException
 	{
 		File htmlSource = new File( "src/doc/simplestyle.html" );
-		File htmlTarget = new File( "build/test/data/simplestyle_copy.html" );
+		File htmlTarget = new File( "temp/test/data/simplestyle_copy.html" );
 		htmlTarget.getParentFile().mkdirs();
 		String source = Util.readStringFrom( htmlSource );
 		Util.writeStringTo( source, htmlTarget );
@@ -69,7 +69,7 @@ public class UtilTest extends TestCase
 		final String[] paths = new String[] { "root.txt", "other.txt", "other.nomatch", "sub/one.txt", "sub/sub/two.txt",
 				"skip/nomatch.csv", "subsub/sub/match.txt" };
 
-		final File root = new File( "build/test/data/input" );
+		final File root = new File( "temp/test/data/input" );
 		root.deleteOnExit();
 		root.mkdirs();
 		for (String path : paths) {
@@ -78,7 +78,7 @@ public class UtilTest extends TestCase
 			f.createNewFile();
 		}
 
-		final File outRoot = new File( "build/test/data/output" );
+		final File outRoot = new File( "temp/test/data/output" );
 
 		assertFiles( root, outRoot, paths, new int[] { 0, 1 }, false );
 		assertFiles( root, outRoot, paths, new int[] { 0, 1, 3, 4, 6 }, true );

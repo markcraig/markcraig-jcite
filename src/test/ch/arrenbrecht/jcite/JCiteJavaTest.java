@@ -48,9 +48,9 @@ public class JCiteJavaTest extends AbstractJCiteTest
 
 	public void testJavaSourceInHTML() throws Exception
 	{
-		File htmlSource = new File( "build/doc/samples.htm" );
+		File htmlSource = new File( "temp/doc/samples.htm" );
 		File htmlExpected = new File( "src/test/data/samples_expected.htm" );
-		File htmlTarget = new File( "build/test/data/samples_out.htm" );
+		File htmlTarget = new File( "temp/test/data/samples_out.htm" );
 		htmlTarget.getParentFile().mkdirs();
 		new JCite( (new String[] { "src/test" }), true, false ).process( htmlSource, htmlTarget );
 

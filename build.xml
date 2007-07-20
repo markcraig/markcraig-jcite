@@ -20,12 +20,14 @@
 
 	<!-- Targets -->
 
+	<property name="temp.dir" location="${basedir}/temp" />
+	<property name="temp.classes.dir" location="${temp.dir}/classes" />
+	<property name="temp.excel.dir" location="${temp.dir}/excel" />
+	<property name="temp.test.dir" location="${temp.dir}/test" />
+	<property name="temp.examples.dir" location="${temp.dir}/examples" />
+	<property name="temp.doc.dir" location="${temp.dir}/doc" />
+	
 	<property name="build.dir" location="${basedir}/build" />
-	<property name="build.classes.dir" location="${build.dir}/classes" />
-	<property name="build.excel.dir" location="${build.dir}/excel" />
-	<property name="build.test.dir" location="${build.dir}/test" />
-	<property name="build.examples.dir" location="${build.dir}/examples" />
-	<property name="build.doc.dir" location="${build.dir}/doc" />
 	<property name="dist.dir" location="${basedir}/dist" />
 
 	<property name="jar.file" location="${build.dir}/${name}.jar" />
@@ -48,11 +50,12 @@
 
 	<target name="prepare">
 		<mkdir dir="${build.dir}" />
-		<mkdir dir="${build.classes.dir}" />
-		<mkdir dir="${build.excel.dir}" />
-		<mkdir dir="${build.test.dir}" />
-		<mkdir dir="${build.examples.dir}" />
-		<mkdir dir="${build.doc.dir}" />
+		<mkdir dir="${temp.dir}" />
+		<mkdir dir="${temp.classes.dir}" />
+		<mkdir dir="${temp.excel.dir}" />
+		<mkdir dir="${temp.test.dir}" />
+		<mkdir dir="${temp.examples.dir}" />
+		<mkdir dir="${temp.doc.dir}" />
 
 		<path id="build.classpath">
 			<fileset dir="${lib.dir}" includes="**/*.jar" />
@@ -60,11 +63,6 @@
 		<property name="build.classpath" refid="build.classpath" />
 
 		<available file="${lib.dir}/jxl.jar" property="jxl.exists" />
-
-		<tstamp>
-			<format property="timestamp" pattern="yyyy/MM/dd HH:mm:ss z" locale="en" />
-		</tstamp>
-		<property name="dist.version.long" value="${dist.version} [${timestamp}]" />
 	</target>
 
 	<target name="prepare-run" depends="prepare, jar">
@@ -76,8 +74,8 @@
 		<property name="run.classpath" refid="run.classpath" />
 
 		<path id="test.classpath">
-			<pathelement location="${build.examples.dir}" />
-			<pathelement location="${build.test.dir}" />
+			<pathelement location="${temp.examples.dir}" />
+			<pathelement location="${temp.test.dir}" />
 			<path refid="run.classpath" />
 		</path>
 		<property name="test.classpath" refid="test.classpath" />
@@ -91,18 +89,18 @@
 	<!-- ================================================================= -->
 
 	<target name="compile-main" depends="prepare" description="Compiles the source code">
-		<javac srcdir="${src.classes.dir}:${src.classes-ant.dir}" destdir="${build.classes.dir}" classpath="${build.classpath}" debug="false" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.classes.dir}:${src.classes-ant.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="false" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="ch/arrenbrecht/**" />
 		</javac>
 	</target>
 
 	<target name="compile-excel" depends="prepare, compile-main" description="Compiles the source code" if="jxl.exists">
 		<path id="excel.classpath">
-			<pathelement location="${build.classes.dir}" />
+			<pathelement location="${temp.classes.dir}" />
 			<path refid="build.classpath" />
 		</path>
 		<property name="excel.classpath" refid="excel.classpath" />
-		<javac srcdir="${src.classes-excel.dir}" destdir="${build.excel.dir}" classpath="${excel.classpath}" debug="false" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.classes-excel.dir}" destdir="${temp.excel.dir}" classpath="${excel.classpath}" debug="false" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="ch/arrenbrecht/**" />
 		</javac>
 	</target>
@@ -111,7 +109,7 @@
 	</target>
 
 	<target name="compile-examples" depends="prepare, compile" description="Compiles the examples">
-		<javac srcdir="${src.examples.dir}" destdir="${build.examples.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.examples.dir}" destdir="${temp.examples.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="ch/arrenbrecht/jcite/**" />
 		</javac>
 	</target>
@@ -132,13 +130,13 @@
 
 	<target name="jar-main" depends="compile" description="Creates the main jar file">
 		<jar manifest="${jar.manifest}" jarfile="${jar.file}" compress="false">
-			<fileset dir="${build.classes.dir}" />
+			<fileset dir="${temp.classes.dir}" />
 		</jar>
 	</target>
 
 	<target name="jar-excel" depends="compile, jar-main" description="Creates the Excel jar file" if="jxl.exists">
 		<jar manifest="${jar.excel.manifest}" jarfile="${jar.excel.file}" compress="false">
-			<fileset dir="${build.excel.dir}" />
+			<fileset dir="${temp.excel.dir}" />
 			<fileset dir="${src.classes-excel.dir}">
 				<include name="META-INF/services/**" />
 			</fileset>
@@ -169,7 +167,7 @@
 
 	<target name="javadoc" description="Builds javadoc" depends="prepare, doc, build">
 
-		<property name="javadoc.title" value="${Name} API ${dist.version.long}" />
+		<property name="javadoc.title" value="${Name} Demo ${dist.version}" />
 		<delete dir="${javadoc.dir}" />
 		<mkdir dir="${javadoc.dir}" />
 		<path id="taglet.path">
@@ -177,7 +175,15 @@
 			<pathelement location="${build.dir}/jcite.jar" />
 		</path>
 		<property name="taglet.path" refid="taglet.path" />
-		<javadoc sourcepath="${src.examples.dir}" destdir="${javadoc.dir}" packagenames="${javadoc.packages}" public="true" windowtitle="${javadoc.title}" use="false" additionalParam="-tagletPath ${taglet.path} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.test.dir}" stylesheetfile="${src.doc.dir}/plainstyle/style.css" overview="${src.examples.dir}/overview.html">
+		<javadoc sourcepath="${src.examples.dir}"
+		         destdir="${javadoc.dir}"
+		         packagenames="${javadoc.packages}"
+		         public="true"
+		         windowtitle="${javadoc.title}"
+		         use="false"
+		         additionalParam="-tagletPath ${taglet.path} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.test.dir}"
+		         stylesheetfile="${src.doc.dir}/plainstyle/style.css"
+		         overview="${src.examples.dir}/overview.html">
 			<classpath refid="build.classpath" />
 		</javadoc>
 	</target>
@@ -204,7 +210,7 @@
 				<include name="**/*.css" />
 			</fileset>
 		</copy>
-		<copy todir="${build.doc.dir}">
+		<copy todir="${temp.doc.dir}">
 			<fileset dir="${src.doc.dir}">
 				<include name="**/*.html" />
 			</fileset>
@@ -218,7 +224,7 @@
 
 	<target name="cite" depends="prepare-run, compile">
 		<taskdef name="jcite" classname="ch.arrenbrecht.jcite.JCiteTask" classpathref="run.classpath" />
-		<jcite srcdir="${build.doc.dir}" destdir="${doc.dir}">
+		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}">
 			<sourcepath>
 				<pathelement location="${src.examples.dir}" />
 				<pathelement location="${src.test.dir}" />
@@ -235,13 +241,13 @@
 
 	<target name="compile-tests" depends="prepare-run, jar, compile-examples">
 
-		<mkdir dir="${build.test.dir}" />
+		<mkdir dir="${temp.test.dir}" />
 
-		<javac srcdir="${src.test.dir}" destdir="${build.test.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.test.dir}" destdir="${temp.test.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="ch/arrenbrecht/jcite/**" />
 		</javac>
 	</target>
-	
+
 	<target name="test" depends="prepare-run, compile-tests, doc" description="Runs JUnit test suites">
 
 		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${test.classpath}" />
@@ -264,12 +270,21 @@
 
 	<!-- ================================================================= -->
 	<!-- clean:                                                            -->
+	<!-- Removes all temporary  files                                           -->
+	<!-- ================================================================= -->
+
+	<target name="clean" description="Removes all temporary files">
+		<delete dir="${temp.dir}" />
+		<delete dir="${build.dir}" />
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- clobber:                                                            -->
 	<!-- Removes all build files                                           -->
 	<!-- ================================================================= -->
 
-	<target name="clean" description="Removes all build files">
+	<target name="clobber" depends="clean" description="Removes all build files">
 		<delete dir="${doc.dir}" />
-		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
 	</target>
 
@@ -313,7 +328,6 @@
 	</target>
 
 	<target name="dist" depends="check-jre1.5, clean,doc,javadoc,test,style" description="Builds distribution">
-		<echo>Bundling dist: ${dist.version.long}</echo>
 		<property name="dist.name" value="${name}-${dist.version}" />
 		<property name="dist.file" value="${dist.dir}/${dist.name}" />
 
@@ -326,7 +340,8 @@
 		<copy todir="${dist.staging.dir}">
 			<fileset dir="${basedir}">
 				<include name="bin/*" />
-				<include name="lib/java2html.*" />
+				<include name="lib/*" />
+				<exclude name="lib/jxl.*" />
 				<include name="build/jcite.jar" />
 				<include name="*.html" />
 				<include name="doc/**" />
@@ -370,8 +385,14 @@
 		<copy todir="${dist.staging.dir}">
 			<fileset dir="${basedir}">
 				<include name="*.html" />
+				<include name="bin/*" />
+				<include name="lib/**" />
 				<include name="src/**" />
 				<include name="build.xml" />
+				<include name="build.default.properties" />
+				<include name=".project" />
+				<include name=".classpath" />
+				<include name=".settings/**" />
 				<exclude name="**/.DS_Store" />
 			</fileset>
 		</copy>

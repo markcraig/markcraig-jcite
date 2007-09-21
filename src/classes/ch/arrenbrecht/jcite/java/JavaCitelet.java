@@ -48,6 +48,9 @@ import java.util.regex.Pattern;
 
 import ch.arrenbrecht.jcite.Constants;
 import ch.arrenbrecht.jcite.FileNotFoundError;
+import ch.arrenbrecht.jcite.FragmentLocator;
+import ch.arrenbrecht.jcite.FragmentMarker;
+import ch.arrenbrecht.jcite.FragmentNotFoundError;
 import ch.arrenbrecht.jcite.JCite;
 import ch.arrenbrecht.jcite.JCiteError;
 import ch.arrenbrecht.jcite.JCitelet;
@@ -79,11 +82,17 @@ public class JavaCitelet extends JCitelet
 		return Pattern.compile( ";\\s*" + _optionName + "\\s*([^;]*)" );
 	}
 
+	static FragmentMarker[] markersFor( String _fragmentName )
+	{
+		return new FragmentMarker[] { new BlockMarker( _fragmentName ), new InlineMarker( _fragmentName ),
+				new CompactInlineMarker( _fragmentName ) };
+	}
+
 
 	private boolean usePRE = true;
 
 
-	public JavaCitelet(JCite _jcite)
+	public JavaCitelet( JCite _jcite )
 	{
 		super( _jcite );
 	}
@@ -176,7 +185,7 @@ public class JavaCitelet extends JCitelet
 		return fragment;
 	}
 
-	
+
 	@Override
 	protected String formattingFor( String _inlined ) throws JCiteError, IOException
 	{
@@ -221,7 +230,7 @@ public class JavaCitelet extends JCitelet
 	private String getFragmentFrom( String _classSource, String _fragmentName ) throws FragmentNotFoundError,
 			UnclosedMarkupError
 	{
-		final FragmentMarker[] markers = FragmentMarker.markersFor( _fragmentName );
+		final FragmentMarker[] markers = markersFor( _fragmentName );
 		final StringBuffer fragments = new StringBuffer();
 		final FragmentLocator locator = new FragmentLocator();
 		int scanFrom = 0;

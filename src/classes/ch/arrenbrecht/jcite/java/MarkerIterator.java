@@ -37,6 +37,8 @@ package ch.arrenbrecht.jcite.java;
 
 import java.util.Collection;
 
+import ch.arrenbrecht.jcite.FragmentLocator;
+import ch.arrenbrecht.jcite.FragmentMarker;
 import ch.arrenbrecht.jcite.UnclosedMarkupError;
 import ch.arrenbrecht.jcite.Util;
 
@@ -48,7 +50,7 @@ abstract class MarkerIterator
 		String result = _fragment;
 		for (String markerName : _markerNames) {
 			final StringBuilder builder = new StringBuilder();
-			final FragmentMarker[] markers = FragmentMarker.markersFor( markerName );
+			final FragmentMarker[] markers = JavaCitelet.markersFor( markerName );
 			final FragmentLocator locator = new FragmentLocator();
 			int scanFrom = 0;
 			while (scanFrom < result.length()) {

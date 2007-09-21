@@ -35,6 +35,8 @@
  */
 package ch.arrenbrecht.jcite.java;
 
+import ch.arrenbrecht.jcite.FragmentLocator;
+
 class OmissionsIterator extends MarkerIterator
 {
 

@@ -33,14 +33,16 @@
  * Peter Arrenbrecht
  * http://www.arrenbrecht.ch/jcite
  */
-package ch.arrenbrecht.jcite.java;
+package ch.arrenbrecht.jcite;
 
 
-final class FragmentLocator
+@SuppressWarnings("serial")
+public class FragmentNotFoundError extends JCiteError
 {
-	public FragmentMarker marker;
-	public int beginPrefix;
-	public int beginFragment;
-	public int endFragment;
-	public int endSuffix;
+
+	public FragmentNotFoundError(String _classSource, String _fragmentName)
+	{
+		super( "Fragment '" + _fragmentName + "' not found" );
+	}
+
 }

@@ -33,17 +33,49 @@
  * Peter Arrenbrecht
  * http://www.arrenbrecht.ch/jcite
  */
-package ch.arrenbrecht.jcite.java;
+package ch.arrenbrecht.jcite;
 
-import ch.arrenbrecht.jcite.JCiteError;
 
-@SuppressWarnings("serial")
-public class FragmentNotFoundError extends JCiteError
+public abstract class FragmentMarker
 {
 
-	public FragmentNotFoundError(String _classSource, String _fragmentName)
+
+	public static boolean findFragment( String _in, int _startingAt, FragmentMarker[] _markers, FragmentLocator _locator )
+			throws UnclosedMarkupError
 	{
-		super( "Fragment '" + _fragmentName + "' not found" );
+		for (FragmentMarker marker : _markers) {
+			if (marker.find( _in, _startingAt, _locator )) return true;
+		}
+		return false;
 	}
 
+
+	public String prefix;
+	public String suffix;
+
+
+	public boolean isBlock()
+	{
+		return false;
+	}
+
+
+	public final boolean find( String _in, int _startingAt, FragmentLocator _locator ) throws UnclosedMarkupError
+	{
+		final int beginPrefix = _in.indexOf( this.prefix, _startingAt );
+		if (beginPrefix >= 0) {
+			_locator.beginPrefix = beginPrefix;
+			_locator.beginFragment = beginPrefix + this.prefix.length();
+			int beginSuffix = _in.indexOf( this.suffix, _locator.beginFragment );
+			if (beginSuffix < 0) throw new UnclosedMarkupError();
+			_locator.endFragment = beginSuffix;
+			if (isBlock()) {
+				_locator.endFragment = Util.scanBackTo( _in, '\n', _locator.endFragment ) + 1;
+			}
+			_locator.endSuffix = beginSuffix + this.suffix.length();
+			_locator.marker = this;
+			return true;
+		}
+		return false;
+	}
 }

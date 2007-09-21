@@ -35,6 +35,9 @@
  */
 package ch.arrenbrecht.jcite.java;
 
+import ch.arrenbrecht.jcite.FragmentMarker;
+
+
 final class CompactInlineMarker extends FragmentMarker
 {
 	public CompactInlineMarker(String _fragmentName)

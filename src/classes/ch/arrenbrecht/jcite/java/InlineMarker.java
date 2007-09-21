@@ -35,6 +35,9 @@
  */
 package ch.arrenbrecht.jcite.java;
 
+import ch.arrenbrecht.jcite.FragmentMarker;
+
+
 final class InlineMarker extends FragmentMarker
 {
 	public InlineMarker(String _fragmentName)

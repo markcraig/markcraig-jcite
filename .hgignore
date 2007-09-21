@@ -1,0 +1,7 @@
+syntax: regexp
+
+^(build|temp|dist)/.*
+^doc/.*
+^tools/.*
+^build\.properties
+

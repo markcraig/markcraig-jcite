@@ -37,8 +37,8 @@ h5. Single File
 <pre><code
 >...(path to jcite).../bin/jcite
   -sp ../test
-  -i samples.html
-  -o samples.html
+  -i java.html
+  -o java.html
 </code></pre>
 
 h5. Multiple Files
@@ -62,9 +62,9 @@ To run JCite 1.0 from within Ant, you can either use Ant's Java task, or the pro
   <arg value="-sp" />
   <arg path="${src.test.dir}" />
   <arg value="-i" />
-  <arg file="${src.doc.dir}/samples.html" />
+  <arg file="${src.doc.dir}/java.html" />
   <arg value="-o" />
-  <arg file="${doc.dir}/samples.html" />
+  <arg file="${doc.dir}/java.html" />
 </java>
 </code></pre>
 

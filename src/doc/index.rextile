@@ -16,7 +16,7 @@ JCite cites snippets of Java source code or Excel sheets into HTML documents - A
 
 To get a feel for the results you can achieve, take a look at
 
-	* "Citing Java Source Code (Examples)":samples.htm
+	* "Citing Java Source Code (Examples)":java.htm
 	* "Citing Excel Spreadsheets (Examples)":excel.htm
 	* "Including HTML Files":include.htm
 	* "Using Citations As Tripwires":tripwire.htm

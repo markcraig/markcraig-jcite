@@ -43,7 +43,7 @@ h2. JCite 1.8
 
 h5. New
 
-	* Can now format inline blocks (rather than citing them from sources). See the "samples page":samples.htm for details.
+	* Can now format inline blocks (rather than citing them from sources). See the "samples page":java.htm for details.
 	* Added option to cite Excel formulas only (rather than citing current value + formula). See the "Excel page":excel.htm for details.
 	
 h5. Better

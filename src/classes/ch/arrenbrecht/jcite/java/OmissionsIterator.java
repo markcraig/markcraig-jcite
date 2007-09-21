@@ -39,6 +39,11 @@ import ch.arrenbrecht.jcite.FragmentLocator;
 
 class OmissionsIterator extends MarkerIterator
 {
+	
+	public OmissionsIterator( JavaCitelet _citelet )
+	{
+		super( _citelet );
+	}
 
 	@Override
 	protected void visit( String _source, FragmentLocator _locator, String _fragment, StringBuilder _result )

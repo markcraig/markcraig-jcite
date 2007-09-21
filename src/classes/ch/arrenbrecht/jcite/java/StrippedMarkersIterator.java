@@ -40,6 +40,11 @@ import ch.arrenbrecht.jcite.FragmentLocator;
 class StrippedMarkersIterator extends MarkerIterator
 {
 
+	public StrippedMarkersIterator( JavaCitelet _citelet )
+	{
+		super( _citelet );
+	}
+
 	@Override
 	protected void visit( String _source, FragmentLocator _locator, String _fragment, StringBuilder _result )
 	{

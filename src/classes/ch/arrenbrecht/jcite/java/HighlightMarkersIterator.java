@@ -41,6 +41,11 @@ import ch.arrenbrecht.jcite.FragmentLocator;
 class HighlightMarkersIterator extends MarkerIterator
 {
 
+	public HighlightMarkersIterator( JavaCitelet _citelet )
+	{
+		super( _citelet );
+	}
+
 	@Override
 	protected void visit( String _source, FragmentLocator _locator, String _fragment, StringBuilder _result )
 	{

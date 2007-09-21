@@ -44,13 +44,19 @@ import ch.arrenbrecht.jcite.Util;
 
 abstract class MarkerIterator
 {
+	private final JavaCitelet citelet;
+
+	public MarkerIterator( JavaCitelet _citelet )
+	{
+		this.citelet = _citelet;
+	}
 
 	public String iterate( String _fragment, Collection<String> _markerNames ) throws UnclosedMarkupError
 	{
 		String result = _fragment;
 		for (String markerName : _markerNames) {
 			final StringBuilder builder = new StringBuilder();
-			final FragmentMarker[] markers = JavaCitelet.markersFor( markerName );
+			final FragmentMarker[] markers = this.citelet.markersFor( markerName );
 			final FragmentLocator locator = new FragmentLocator();
 			int scanFrom = 0;
 			while (scanFrom < result.length()) {

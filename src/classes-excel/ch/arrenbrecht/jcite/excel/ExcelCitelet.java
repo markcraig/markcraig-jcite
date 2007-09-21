@@ -108,6 +108,10 @@ public class ExcelCitelet extends JCitelet
 			xlsSettings.setLocale( Locale.ENGLISH );
 			xlsSettings.setExcelDisplayLanguage( "EN" );
 			xlsSettings.setExcelRegionalSettings( "EN" );
+			xlsSettings.setCellValidationDisabled( true );
+			xlsSettings.setAutoFilterDisabled( true );
+			xlsSettings.setDrawingsDisabled( true );
+			xlsSettings.setSuppressWarnings( true );
 
 			final Workbook workbook = jxl.Workbook.getWorkbook( sourceFile, xlsSettings );
 			final DescriptionBuilder b = new DescriptionBuilder();

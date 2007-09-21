@@ -9,7 +9,9 @@ dt. @--output <file/folder>@ / @-o <file/folder>@ : specifies the output file or
 
 dt. @--recursive@ / @-r@ : specifies that JCite should recursively descend into subfolders of the input pattern.
 
-dt. @--source-path <path>@ / @-sp <path>@ : specifies a Java source path to search when looking for source files to cite from. You can specify the @-sp@ option multiple times if you must specify more than one path.
+dt. @--source-path <path>@ / @-sp <path>@ : specifies a source path to search when looking for source files to cite from. You can specify the @-sp@ option multiple times if you must specify more than one path.
+
+dt. @--project-path <path>@ / @-pp <path>@ : specifies the project root path which is stripped from "cited paths":path.htm.
 
 dt. @--tripwire-path <dbpath>@ / @-tw <dbpath>@ : Maintains the "tripwire database":-trip in the given path as a folder of small files.
 
@@ -72,7 +74,7 @@ The proper Ant task works like this (excerpt from JCite's own @build.xml@):
 
 <pre><code
 ><taskdef name="jcite" classname="ch.arrenbrecht.jcite.JCiteTask" classpathref="run.classpath" />
-<jcite srcdir="${build.doc.dir}" destdir="${doc.dir}">
+<jcite srcdir="${build.doc.dir}" destdir="${doc.dir}" projectpath="${basedir}">
   <sourcepath>
     <pathelement location="${src.examples.dir}" />
     <pathelement location="${src.test.dir}" />
@@ -101,7 +103,9 @@ dt. @srcDir@ : replaces @--input@, together with the embedded @<include...>@ dir
 
 dt. @destDir@ : replaces @--output@.
 
-dt. @sourcePath@ : replaces @--sourcepath@.
+dt. @projectPath@ : replaces @--project-path@.
+
+dt. @sourcePath@ : replaces @--source-path@.
 
 dt. @tripwirePath@ : replaces @--tripwire-path@.  
 

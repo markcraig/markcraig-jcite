@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+	<title>Citing File Paths</title>
+    <style type="text/css" media="screen">
+		
+    </style>
+	<link href="style_screen.css" rel="stylesheet" type="text/css" media="screen" /><link href="style_print.css" rel="stylesheet" type="text/css" media="print" />
+</head>
+
+<body>
+    <div class="all">
+		<div class="header">
+		
+<div class="nav crumbs">
+	<a href="http://arrenbrecht.ch/">arrenbrecht.ch</a> &gt; <a href="index.htm">JCite</a> &gt; 
+</div>
+
+
+		</div>
+        <div class="content">
+
+<h1>Citing File Paths</h1>
+
+	<p>This document shows how JCite can cite file paths.</p>
+
+
+<div class="toc"><ul class="toc toc1"><li><a href="#pagetoc__1">Citing A Path</a></li><li><a href="#pagetoc__2">Why Should I?</a></li></ul></div>
+	<h2><a name="pagetoc__1">Citing A Path</a></h2>
+
+	<p>Here&#8217;s the path of a file, as cited by JCite:</p>
+
+	<pre class="j-path">src<span class="j-pathsep">/</span>test<span class="j-pathsep">/</span>data<span class="j-pathsep">/</span>EntireSheet.xls</pre>
+
+
+	<p>which was done using the following instruction in the source <span class="caps">HTML</span> document:</p>
+
+
+<pre class="jc">[p<b></b>ath:EntireSheet.xls]</pre>
+	<p>JCite looks for the file in all of its source file search paths. It is an error if the cited file does not exist. If <a href="usage.htm">given</a> the <em>project path</em> is stripped from the start of the final path.</p>
+
+
+	<p>Path separators are formatted using the <span class="caps">CSS</span> class <code>j-pathsep</code>, the entire path is enclosed in a <code>PRE</code> tag with <span class="caps">CSS</span> class <code>j-path</code>.</p>
+
+
+	<h2><a name="pagetoc__2">Why Should I?</a></h2>
+
+	<p>JCite supports citing of paths so your readers can be sure the file really is where you tell them it is.</p>
+
+		</div>
+        <div class="footer">
+		
+<p>Copyright &copy; 2006 by Peter Arrenbrecht. All rights reserved.</p>
+
+
+        </div>
+    </div>
+</body>
+</html>

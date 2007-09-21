@@ -2,6 +2,13 @@
 h1. JCite Version History
 
 
+h2. JCite 1.10.0
+
+h5. New
+
+	* You can now "cite file paths":paths.htm.
+
+
 h2. JCite 1.9.2
 
 h5. Better

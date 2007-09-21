@@ -1,0 +1,27 @@
+
+h1. Citing File Paths
+
+This document shows how JCite can cite file paths.
+
+<%= toc 2, 3 %>
+
+
+h2. Citing A Path
+
+Here's the path of a file, as cited by JCite:
+
+	[path:EntireSheet.xls]
+
+which was done using the following instruction in the source HTML document:
+
+<notextile><pre class="jc">[p<b></b>ath:EntireSheet.xls]</pre></notextile>
+
+JCite looks for the file in all of its source file search paths. It is an error if the cited file does not exist. If "given":usage.htm the _project path_ is stripped from the start of the final path.
+
+Path separators are formatted using the CSS class @j-pathsep@, the entire path is enclosed in a @PRE@ tag with CSS class @j-path@.
+
+
+h2. Why Should I?
+
+JCite supports citing of paths so your readers can be sure the file really is where you tell them it is.
+

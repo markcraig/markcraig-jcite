@@ -47,6 +47,7 @@ import org.apache.commons.discovery.tools.Service;
 import ch.arrenbrecht.jcite.Util.FileVisitor;
 import ch.arrenbrecht.jcite.include.IncludeCitelet;
 import ch.arrenbrecht.jcite.java.JavaCitelet;
+import ch.arrenbrecht.jcite.path.PathCitelet;
 
 public final class JCite
 {
@@ -60,6 +61,7 @@ public final class JCite
 	 * <code>-o file</code> defines the output file/folder. <br>
 	 * <code>-r</code> specifies recursive descent into subfolders.<br>
 	 * <code>-sp path</code> defines a source path (may be repeated). <br>
+	 * <code>-pp path</code> defines the project path which is stripped off the front of cited paths. <br>
 	 * <code>-tt</code> puts the snippets within <code>\TT\></code> tags rather than
 	 * <code>\<PRE\></code> tags.
 	 * </p>
@@ -93,6 +95,7 @@ public final class JCite
 
 	private final Collection<JCitelet> citelets = new ArrayList<JCitelet>();
 	private List<String> sourceFolders = new ArrayList<String>();
+	private String projectPath = "";
 	private boolean pre = false;
 	private boolean verbose = false;
 	private Collection<String> tripUpCollection = null;
@@ -107,6 +110,7 @@ public final class JCite
 	{
 		super();
 		registerCitelet( new JavaCitelet( this ) );
+		registerCitelet( new PathCitelet( this ) );
 		registerCitelet( new IncludeCitelet( this ) );
 
 		final Enumeration providers = Service.providers( JCiteletProvider.class );
@@ -349,6 +353,16 @@ public final class JCite
 	List<String> sourceFolders()
 	{
 		return this.sourceFolders;
+	}
+	
+	public String getProjectPath()
+	{
+		return this.projectPath;
+	}
+	
+	public void setProjectPath( String _projectPath )
+	{
+		this.projectPath = _projectPath;
 	}
 
 

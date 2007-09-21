@@ -224,7 +224,7 @@
 
 	<target name="cite" depends="prepare-run, compile">
 		<taskdef name="jcite" classname="ch.arrenbrecht.jcite.JCiteTask" classpathref="run.classpath" />
-		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}">
+		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" projectpath="${basedir}">
 			<sourcepath>
 				<pathelement location="${src.examples.dir}" />
 				<pathelement location="${src.test.dir}" />

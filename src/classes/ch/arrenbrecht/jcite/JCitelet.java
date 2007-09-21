@@ -45,7 +45,7 @@ public abstract class JCitelet
 	private final JCite jcite;
 
 
-	public JCitelet(JCite _jcite)
+	public JCitelet( JCite _jcite )
 	{
 		super();
 		this.jcite = _jcite;
@@ -211,6 +211,30 @@ public abstract class JCitelet
 			if (file.exists()) return file;
 		}
 		throw new FileNotFoundError( "File " + _relativeFilePath + " not found." );
+	}
+
+	protected String findSourcePath( String _relativeFilePath ) throws FileNotFoundError
+	{
+		for (String sourcePath : sourceFolders()) {
+			final String fullPath = sourcePath + '/' + _relativeFilePath;
+			final File file = new File( fullPath );
+			if (file.exists()) return fullPath;
+		}
+		throw new FileNotFoundError( "File " + _relativeFilePath + " not found." );
+	}
+
+	protected String stripProjectPathFrom( String _path )
+	{
+		final String p = this.jcite.getProjectPath();
+		if (p != null & p != "" && _path.startsWith( p )) {
+			final String rel = _path.substring( p.length() );
+			final String sep = File.separator;
+			if (rel.startsWith( sep )) {
+				return rel.substring( sep.length() );
+			}
+			return rel;
+		}
+		return _path;
 	}
 
 }

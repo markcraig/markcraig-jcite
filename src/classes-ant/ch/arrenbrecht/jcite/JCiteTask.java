@@ -57,6 +57,7 @@ public final class JCiteTask extends MatchingTask
 	private File destDir = null;
 	private File file;
 	private Path sourcePath;
+	private File projectPath = null;
 	private boolean usePRE = true;
 	private boolean verbose = false;
 	private boolean failOnWarning = false;
@@ -109,6 +110,16 @@ public final class JCiteTask extends MatchingTask
 	public void setSourcePathRef( Reference r )
 	{
 		createSourcePath().setRefid( r );
+	}
+	
+	public File getProjectPath()
+	{
+		return this.projectPath;
+	}
+	
+	public void setProjectPath( File _projectPath )
+	{
+		this.projectPath = _projectPath;
 	}
 
 	public void setFailOnWarning( boolean _failOnWarning )
@@ -170,6 +181,10 @@ public final class JCiteTask extends MatchingTask
 				jcite.printCitelets();
 			}
 
+			if (null != this.projectPath) {
+				log( "Project path is " + this.projectPath, Project.MSG_VERBOSE );
+				jcite.setProjectPath( this.projectPath.getPath() );
+			}
 			if (this.tripwireFile != null) {
 				log( "Using tripwires from file " + this.tripwireFile, Project.MSG_VERBOSE );
 				jcite.setTripwires( new TripwireDatabase( this.tripwireFile, false, this.tripwireNewLine ) );

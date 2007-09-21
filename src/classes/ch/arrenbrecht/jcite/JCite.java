@@ -102,6 +102,7 @@ public final class JCite
 	private String differ = "";
 
 
+	@SuppressWarnings("unchecked")
 	public JCite()
 	{
 		super();

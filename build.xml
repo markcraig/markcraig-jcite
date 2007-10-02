@@ -392,6 +392,7 @@
 				<include name="build.default.properties" />
 				<include name=".project" />
 				<include name=".classpath" />
+				<include name=".hgignore" />
 				<include name=".settings/**" />
 				<exclude name="**/.DS_Store" />
 			</fileset>

@@ -1,0 +1,40 @@
+
+h1. JCite With Plain Text Files
+
+This document shows how JCite can cite examples from plain text files.
+
+<%= toc 2, 3 %>
+
+
+h2. Citing Line-delimited Blocks
+
+Using JCite, you can cite entire blocks, delimited by (usually) comment lines:
+
+	[text:plain.sh:# ---- sample]
+
+This was produced by the following JCite instruction in the source HTML document:
+
+<notextile><pre class="jc">[t<b></b>ext:plain.sh:# ---- sample]</pre></notextile>
+
+The part @plain.sh@ tells JCite which file to cite from. The part @# ---- sample@ tells it what fragment to cite. You surround citable fragments with special comments in the text file:
+
+	[text:plain.sh:# ---- sampleSrc]
+
+The part @# ---- sample@ is freely choosable. It must simply match the respective comment in the source file. 
+
+
+h2. Citing from XML/HTML
+
+We can similarly cite from an XML file. However, including the XML comment symbols in HTML sources can be cumbersome, so JCite offers a simplification:
+
+	[text:plain.xml:xml! sample ]
+
+This was produced by the following JCite instruction in the source HTML document:
+
+<notextile><pre class="jc">[t<b></b>ext:plain.xml:xml! sample ]</pre></notextile>
+
+The part @xml! sample @ tells JCite to look for an XML comment with @sample@ in it, so:
+
+	[text:plain.xml:xml! sampleSrc ]
+
+

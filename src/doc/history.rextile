@@ -6,7 +6,7 @@ h2. JCite 1.10.0
 
 h5. New
 
-	* You can now "cite file paths":paths.htm.
+	* You can now "cite file paths":path.htm and snippets out of "plain text and XML/HTML files":text.htm.
 
 
 h2. JCite 1.9.2

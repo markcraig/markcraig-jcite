@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+	<title>JCite With Plain Text Files</title>
+    <style type="text/css" media="screen">
+		
+    </style>
+	<link href="style_screen.css" rel="stylesheet" type="text/css" media="screen" /><link href="style_print.css" rel="stylesheet" type="text/css" media="print" />
+</head>
+
+<body>
+    <div class="all">
+		<div class="header">
+		
+<div class="nav crumbs">
+	<a href="http://arrenbrecht.ch/">arrenbrecht.ch</a> &gt; <a href="index.htm">JCite</a> &gt; 
+</div>
+
+
+		</div>
+        <div class="content">
+
+<h1>JCite With Plain Text Files</h1>
+
+	<p>This document shows how JCite can cite examples from plain text files.</p>
+
+
+<div class="toc"><ul class="toc toc1"><li><a href="#pagetoc__1">Citing Line-delimited Blocks</a></li><li><a href="#pagetoc__2">Citing from <span class="caps">XML</span>/HTML</a></li></ul></div>
+	<h2><a name="pagetoc__1">Citing Line-delimited Blocks</a></h2>
+
+	<p>Using JCite, you can cite entire blocks, delimited by (usually) comment lines:</p>
+
+	<pre class="j-text"><code>java -cp "$cp:$CLASSPATH" ch.arrenbrecht.jcite.JCite "$@"</code></pre>
+
+
+	<p>This was produced by the following JCite instruction in the source <span class="caps">HTML</span> document:</p>
+
+
+<pre class="jc">[t<b></b>ext:plain.sh:# ---- sample]</pre>
+	<p>The part <code>plain.sh</code> tells JCite which file to cite from. The part <code># ---- sample</code> tells it what fragment to cite. You surround citable fragments with special comments in the text file:</p>
+
+	<pre class="j-text"><code># ---- sample
+java -cp "$cp:$CLASSPATH" ch.arrenbrecht.jcite.JCite "$@"
+# ---- sample</code></pre>
+
+
+	<p>The part <code># ---- sample</code> is freely choosable. It must simply match the respective comment in the source file.</p>
+
+
+	<h2><a name="pagetoc__2">Citing from <span class="caps">XML</span>/HTML</a></h2>
+
+	<p>We can similarly cite from an <span class="caps">XML</span> file. However, including the <span class="caps">XML</span> comment symbols in <span class="caps">HTML</span> sources can be cumbersome, so JCite offers a simplification:</p>
+
+	<pre class="j-text"><code>&lt;p&gt;This is just some &lt;b&gt;demo&lt;/b&gt; text.&lt;/p&gt;</code></pre>
+
+
+	<p>This was produced by the following JCite instruction in the source <span class="caps">HTML</span> document:</p>
+
+
+<pre class="jc">[t<b></b>ext:plain.xml:xml! sample ]</pre>
+	<p>The part <code>xml! sample </code> tells JCite to look for an <span class="caps">XML</span> comment with <code>sample</code> in it, so:</p>
+
+	<pre class="j-text"><code>&lt;!-- sample --&gt;
+&lt;p&gt;This is just some &lt;b&gt;demo&lt;/b&gt; text.&lt;/p&gt;
+&lt;!-- sample --&gt;</code></pre>
+
+		</div>
+        <div class="footer">
+		
+<p>Copyright &copy; 2006 by Peter Arrenbrecht. All rights reserved.</p>
+
+
+        </div>
+    </div>
+</body>
+</html>

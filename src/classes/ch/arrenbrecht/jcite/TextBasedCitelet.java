@@ -47,8 +47,8 @@ public abstract class TextBasedCitelet extends JCitelet
 	{
 		super( _jcite );
 	}
-	
-	
+
+
 	@Override
 	public String citationFor( String _markup ) throws JCiteError, IOException
 	{
@@ -80,7 +80,7 @@ public abstract class TextBasedCitelet extends JCitelet
 
 		return fragment;
 	}
-	
+
 
 	@Override
 	protected String formattingFor( String _inlined ) throws JCiteError, IOException
@@ -166,6 +166,12 @@ public abstract class TextBasedCitelet extends JCitelet
 		while (iEnd > 0 && _fragment.charAt( iEnd - 1 ) == '\n')
 			iEnd--;
 		return _fragment.substring( iStart, iEnd );
+	}
+
+
+	protected final String escapeXML( String _fragment )
+	{
+		return _fragment.replace( "<", "&lt;" ).replace( ">", "&gt;" );
 	}
 
 

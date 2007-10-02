@@ -3,8 +3,8 @@ h1. JCite - Java Source Code Citation System
 
 <div class="news">
 
-"JCite 1.10.0":history.htm can cite file paths.
-<br/>%(when)September ?, 2007%
+"JCite 1.10.0":history.htm can cite file paths and snippets out of plain text and XML/HTML files.
+<br/>%(when)October 2, 2007%
 
 "JCite 1.9.2":history.htm can accept newline string to use for tripwire database in Ant task; fixes bugs in release packages and launch docs.
 <br/>%(when)July 20, 2007%

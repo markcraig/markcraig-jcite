@@ -52,6 +52,7 @@ import ch.arrenbrecht.jcite.JCitelet;
 
 import jxl.Cell;
 import jxl.CellType;
+import jxl.ErrorCell;
 import jxl.FormulaCell;
 import jxl.Range;
 import jxl.Sheet;
@@ -465,8 +466,29 @@ public class ExcelCitelet extends JCitelet
 
 		private String convertValue( final Cell _cell )
 		{
+			if (_cell instanceof ErrorCell) {
+				return htmlize( convertError( (ErrorCell) _cell ) );
+			}
 			return htmlize( _cell.getContents() );
 		}
+
+		private String convertError( ErrorCell _cell )
+		{
+			final int errorCode = _cell.getErrorCode();
+			switch (errorCode) {
+				case 7:
+					return "#DIV/0!";
+				case 15:
+					return "#VALUE!";
+				case 36:
+					return "#NUM!";
+				case 42:
+					return "#N/A";
+				default:
+					return "#ERROR:" + errorCode;
+			}
+		}
+
 
 		private void convertRangeNames( final DescriptionBuilder b )
 		{

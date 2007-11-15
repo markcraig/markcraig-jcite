@@ -3,11 +3,11 @@ h1. JCite - Java Source Code Citation System
 
 <div class="news">
 
+"JCite 1.10.1":history.htm formats Excel error values better.
+<br/>%(when)November 15, 2007%
+
 "JCite 1.10.0":history.htm can cite file paths and snippets out of plain text and XML/HTML files.
 <br/>%(when)October 2, 2007%
-
-"JCite 1.9.2":history.htm can accept newline string to use for tripwire database in Ant task; fixes bugs in release packages and launch docs.
-<br/>%(when)July 20, 2007%
 
 </div>
 
@@ -40,7 +40,7 @@ JCite is open source under a "BSD-style license":LICENSE.html. The required "Jav
 
 h2. Download
 
-<% ver = '1.10.0' %>
+<% ver = '1.10.1' %>
 
 "jcite-<%=ver%>-bin.zip":http://arrenbrecht.ch/jcite/dist/jcite-<%=ver%>-bin.zip : Binary release, including the required open-source "Java2Html":-j2h library. Needs at least "Java 1.5":http://www.java.com/en/download/index.jsp to run.
 

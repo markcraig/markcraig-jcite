@@ -98,6 +98,10 @@ Or, including the block, without highlighting:
 
 <%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission; strip -try-' %>
 
+You can strip multiple internal markers:
+
+<%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fragmentSrc; strip ---- fragment1; strip ---- fragment2; strip -lineFragment-' %>
+
 h5. Hint
 
 If you forget to specify @strip -try-@, you get the block with internal marker comments left intact:

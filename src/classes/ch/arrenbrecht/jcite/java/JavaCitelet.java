@@ -61,7 +61,7 @@ public class JavaCitelet extends TextBasedCitelet
 	static final Pattern highlightPattern = newOptionPattern( "highlight" );
 
 	private final OmissionsIterator omissionsIterator = new OmissionsIterator( this );
-	private final StrippedMarkersIterator usedMarkersIterator = new StrippedMarkersIterator( this );
+	private final StrippedMarkersIterator stripMarkersIterator = new StrippedMarkersIterator( this );
 	private final HighlightMarkersIterator highlightMarkersIterator = new HighlightMarkersIterator( this );
 
 	static final Java2HtmlConversionOptions java2htmlOptions = Java2HtmlConversionOptions.getDefault();
@@ -138,7 +138,7 @@ public class JavaCitelet extends TextBasedCitelet
 		String fragment = _cited;
 		fragment = stripIndentation( fragment );
 		fragment = omissionsIterator.iterate( fragment, omissions );
-		fragment = usedMarkersIterator.iterate( fragment, strips );
+		fragment = stripMarkersIterator.iterate( fragment, strips );
 		fragment = highlightMarkersIterator.iterate( fragment, highlights );
 		fragment = trimEmptyLines( fragment );
 		fragment = formatAsHtml( fragment );

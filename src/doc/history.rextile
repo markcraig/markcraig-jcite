@@ -7,6 +7,10 @@ h2. JCite 1.10.1
 h5. Better
 
 	* Error values like @#NUM!@ are now cited more properly.
+	
+h5. Fixed
+
+	* Now handles multiple similar options like @strip@ correctly. Used to only honour the last one.
 
 
 h2. JCite 1.10.0

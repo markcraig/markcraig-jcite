@@ -60,14 +60,14 @@ abstract class MarkerIterator
 			final FragmentLocator locator = new FragmentLocator();
 			int scanFrom = 0;
 			while (scanFrom < result.length()) {
-				if (FragmentMarker.findFragment( _fragment, scanFrom, markers, locator )) {
+				if (FragmentMarker.findFragment( result, scanFrom, markers, locator )) {
 					if (locator.marker.isBlock()) {
-						locator.beginPrefix = Util.scanBackTo( _fragment, '\n', locator.beginPrefix ) + 1;
+						locator.beginPrefix = Util.scanBackTo( result, '\n', locator.beginPrefix ) + 1;
 					}
-					final String prefix = _fragment.substring( scanFrom, locator.beginPrefix );
-					final String infix = _fragment.substring( locator.beginFragment, locator.endFragment );
+					final String prefix = result.substring( scanFrom, locator.beginPrefix );
+					final String infix = result.substring( locator.beginFragment, locator.endFragment );
 					builder.append( prefix );
-					visit( _fragment, locator, infix, builder );
+					visit( result, locator, infix, builder );
 					scanFrom = locator.endSuffix;
 				}
 				else {
@@ -75,7 +75,7 @@ abstract class MarkerIterator
 				}
 			}
 			if (scanFrom > 0) {
-				builder.append( _fragment.substring( scanFrom ) );
+				builder.append( result.substring( scanFrom ) );
 				result = builder.toString();
 			}
 		}

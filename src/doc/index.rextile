@@ -3,8 +3,8 @@ h1. JCite - Java Source Code Citation System
 
 <div class="news">
 
-"JCite 1.10.1":history.htm formats Excel error values better.
-<br/>%(when)November 15, 2007%
+"JCite 1.10.1":history.htm formats Excel error values better and fixes bug with multiple options.
+<br/>%(when)November 26, 2007%
 
 "JCite 1.10.0":history.htm can cite file paths and snippets out of plain text and XML/HTML files.
 <br/>%(when)October 2, 2007%
@@ -18,6 +18,7 @@ To get a feel for the results you can achieve, take a look at
 
 	* "Citing Java Source Code (Examples)":java.htm
 	* "Citing Excel Spreadsheets (Examples)":excel.htm
+	* "Citing Plain Text Files (Examples)":text.htm
 	* "Citing File Paths (Examples)":path.htm
 	* "Including HTML Files":include.htm
 	* "Using Citations As Tripwires":tripwire.htm
@@ -53,9 +54,13 @@ h2. Download
 
 h2. Contributing
 
-JCite is maintained as a "SourceForge project":http://www.sourceforge.net/projects/jcite/ and is mirrored on "Google Code Hosting":http://code.google.com/p/jcite/.
+JCite is maintained on "Google Code Hosting":http://code.google.com/p/jcite/ for the
 
-Please "report issues on Google Code":http://code.google.com/p/jcite/issues/list.
+	* "wiki":http://code.google.com/p/jcite/w/list,
+	* "issue tracker":http://code.google.com/p/jcite/issues/list, and
+	* "discussion group":http://groups.google.com/group/jcite.
+
+The "source code repository":http://jcite.sourceforge.net/hg/ is managed by "Mercurial":-hg and hosted in a "SourceForge project":http://www.sourceforge.net/projects/jcite/.
 
 <notextile>
 <p><a href="http://sourceforge.net">

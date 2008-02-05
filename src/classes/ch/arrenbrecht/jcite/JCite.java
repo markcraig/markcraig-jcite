@@ -62,7 +62,8 @@ public final class JCite
 	 * <code>-o file</code> defines the output file/folder. <br>
 	 * <code>-r</code> specifies recursive descent into subfolders.<br>
 	 * <code>-sp path</code> defines a source path (may be repeated). <br>
-	 * <code>-pp path</code> defines the project path which is stripped off the front of cited paths. <br>
+	 * <code>-pp path</code> defines the project path which is stripped off the front of cited
+	 * paths. <br>
 	 * <code>-tt</code> puts the snippets within <code>\TT\></code> tags rather than
 	 * <code>\<PRE\></code> tags.
 	 * </p>
@@ -106,7 +107,7 @@ public final class JCite
 	private String differ = "";
 
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	public JCite()
 	{
 		super();
@@ -122,7 +123,7 @@ public final class JCite
 		}
 	}
 
-	public JCite(String[] _sourceFolders, boolean _usePRE, boolean _verbose)
+	public JCite( String[] _sourceFolders, boolean _usePRE, boolean _verbose )
 	{
 		this();
 		setPRE( _usePRE );
@@ -356,12 +357,12 @@ public final class JCite
 	{
 		return this.sourceFolders;
 	}
-	
+
 	public String getProjectPath()
 	{
 		return this.projectPath;
 	}
-	
+
 	public void setProjectPath( String _projectPath )
 	{
 		this.projectPath = _projectPath;
@@ -487,7 +488,9 @@ public final class JCite
 
 	void logCitationError( Exception _e, String _markup, int _sourceIndex )
 	{
-		final StringBuilder msg = new StringBuilder( _e.getMessage() );
+		final String errMsg = _e.getMessage();
+		final StringBuilder msg = (null == errMsg) ? new StringBuilder( _e.getClass().getName() ) : new StringBuilder(
+				errMsg );
 		if (null != this.currentSourceFile) {
 			msg.append( " In file " ).append( this.currentSourceFile.getPath() );
 			msg.append( ':' ).append( indexToLineNumber( _sourceIndex, this.currentSourceText ) );

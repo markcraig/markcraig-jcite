@@ -44,11 +44,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeSet;
-
-import ch.arrenbrecht.describable.DescriptionBuilder;
-import ch.arrenbrecht.jcite.JCite;
-import ch.arrenbrecht.jcite.JCiteError;
-import ch.arrenbrecht.jcite.JCitelet;
+import java.util.WeakHashMap;
+import java.util.regex.Pattern;
 
 import jxl.Cell;
 import jxl.CellType;
@@ -64,13 +61,19 @@ import jxl.format.CellFormat;
 import jxl.format.Font;
 import jxl.format.UnderlineStyle;
 import jxl.read.biff.BiffException;
+import ch.arrenbrecht.describable.DescriptionBuilder;
+import ch.arrenbrecht.jcite.JCite;
+import ch.arrenbrecht.jcite.JCiteError;
+import ch.arrenbrecht.jcite.JCitelet;
 
 public class ExcelCitelet extends JCitelet
 {
 	private static final String[] EMPTY_STRING_ARRAY = new String[ 0 ];
-	
 
-	public ExcelCitelet(JCite _jcite)
+	private final Map<String, Workbook> cache = new WeakHashMap<String, Workbook>();
+
+
+	public ExcelCitelet( JCite _jcite )
 	{
 		super( _jcite );
 	}
@@ -102,7 +105,27 @@ public class ExcelCitelet extends JCitelet
 			sourceFileName = sourceFileName.substring( 0, posOfColon );
 		}
 
-		final File sourceFile = findSourceFile( sourceFileName );
+		final Workbook workbook = getWorkbook( sourceFileName );
+		final DescriptionBuilder b = new DescriptionBuilder();
+		new WorkbookFormatter( workbook, workbook.getSheet( 0 ), ranges, options ).convertSheet( b );
+		return b.toString();
+	}
+
+
+	private Workbook getWorkbook( String _sourceFileName ) throws JCiteError, IOException
+	{
+		final Workbook cached = this.cache.get( _sourceFileName );
+		if (null != cached) return cached;
+		final Workbook loaded = loadWorkbook( _sourceFileName );
+		this.cache.put( _sourceFileName, loaded );
+		return loaded;
+	}
+
+	private Workbook loadWorkbook( String _sourceFileName ) throws JCiteError, IOException
+	{
+		if (isVerbose()) System.out.println( "  JCite loading " +_sourceFileName );
+
+		final File sourceFile = findSourceFile( _sourceFileName );
 		try {
 
 			final WorkbookSettings xlsSettings = new WorkbookSettings();
@@ -113,13 +136,9 @@ public class ExcelCitelet extends JCitelet
 			xlsSettings.setAutoFilterDisabled( true );
 			xlsSettings.setDrawingsDisabled( true );
 			xlsSettings.setSuppressWarnings( true );
+			xlsSettings.setGCDisabled( true );
 
-			final Workbook workbook = jxl.Workbook.getWorkbook( sourceFile, xlsSettings );
-			final DescriptionBuilder b = new DescriptionBuilder();
-
-			new WorkbookFormatter( workbook, workbook.getSheet( 0 ), ranges, options ).convertSheet( b );
-
-			return b.toString();
+			return Workbook.getWorkbook( sourceFile, xlsSettings );
 		}
 		catch (BiffException e) {
 			throw new JCiteError( e );
@@ -148,7 +167,7 @@ public class ExcelCitelet extends JCitelet
 		private final Map<String, String> namedRangeColors = new HashMap<String, String>();
 
 
-		public WorkbookFormatter(Workbook _workbook, Sheet _sheet, String[] _rangeNames, String[] _options)
+		public WorkbookFormatter( Workbook _workbook, Sheet _sheet, String[] _rangeNames, String[] _options )
 				throws JCiteError
 		{
 			super();
@@ -520,9 +539,15 @@ public class ExcelCitelet extends JCitelet
 
 		private String htmlize( String _text )
 		{
-			return _text.replace( "&", "&amp;" ).replace( "<", "&lt;" ).replace( ">", "&gt;" );
+			String res = _text;
+			for (int i = 0; i < ENTITY_PATS.length; i++) {
+				res = ENTITY_PATS[ i ].matcher( res ).replaceAll( ENTITY_STRS[ i ] );
+			}
+			return res;
 		}
-
 	}
 
+	static final Pattern[] ENTITY_PATS = { Pattern.compile( "&", Pattern.LITERAL ),
+			Pattern.compile( "<", Pattern.LITERAL ), Pattern.compile( ">", Pattern.LITERAL ) };
+	static final String[] ENTITY_STRS = { "&amp;", "&lt;", "&gt;" };
 }

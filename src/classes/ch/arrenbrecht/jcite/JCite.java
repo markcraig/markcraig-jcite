@@ -165,6 +165,9 @@ public final class JCite
 			else if (arg.equalsIgnoreCase( "-sp" ) || arg.equalsIgnoreCase( "--source-path" )) {
 				addSourceFolder( _args[ ++iArg ] );
 			}
+			else if (arg.equalsIgnoreCase( "-pp" ) || arg.equalsIgnoreCase( "--project-path" )) {
+				setProjectPath( _args[ ++iArg ] );
+			}
 			else if (arg.equalsIgnoreCase( "-tw" ) || arg.equalsIgnoreCase( "--tripwire-path" )) {
 				this.tripwires = new TripwireDatabase( new File( _args[ ++iArg ] ), true );
 			}

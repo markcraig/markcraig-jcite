@@ -3,7 +3,7 @@ h1. JCite - Java Source Code Citation System
 
 <div class="news">
 
-"JCite 1.10.2":history.htm with fixes and performance tuning.
+"JCite 1.10.2":history.htm with fixes and performance tuning. New repo hosting.
 <br/>%(when)???%
 
 "JCite 1.10.1":history.htm formats Excel error values better and fixes bug with multiple options.
@@ -60,17 +60,13 @@ JCite is maintained on "Google Code Hosting":http://code.google.com/p/jcite/ for
 	* "issue tracker":http://code.google.com/p/jcite/issues/list, and
 	* "discussion group":http://groups.google.com/group/jcite.
 
-The "source code repository":http://jcite.sourceforge.net/hg/ is managed by "Mercurial":-hg and hosted in a "SourceForge project":http://www.sourceforge.net/projects/jcite/.
+The source code repositories are managed by "Mercurial":-hg and hosted on "BitBucket":http://bitbucket.org/:
 
-<notextile>
-<p><a href="http://sourceforge.net">
-<img alt="SourceForge Logo"
-  src="http://sourceforge.net/sflogo.php?group_id=15278"
-  height="31" width="88" style="border: 0;" />
-</a></p>
-</notextile>
+	* "stable":http://bitbucket.org/parren/jcite-stable/
+	* "development":http://bitbucket.org/parren/jcite/
 
 
 h2. Alternatives
 
 If you think you'd be more comfortable with a tool that lets you write unchecked example source directly in the JavaDoc comments, you might want to take a look at the "SAM Example Taglet":http://k2s.ru/project/sam/example_taglet.html.
+

@@ -8,10 +8,12 @@ h5. Better
 
 	* Added @-pp/--project-path@ option to command-line API.
 	* Improved speed of Excel citing (caches loaded spreadsheets).
+	* Improved error reporting (by idlsoft).
 
 h5. Fixed
 
 	* NPE when logging exceptions.
+	* Handling of trailing whitespace (by idlsoft).
 
 
 h2. JCite 1.10.1

@@ -43,7 +43,7 @@ final class BlockMarker extends FragmentMarker
 
 	public BlockMarker(String _fragmentName)
 	{
-		this.prefix = "// " + _fragmentName + "\n";
+		this.prefix = (0 == _fragmentName.length())? "//\n" : "// " + _fragmentName + "\n";
 		this.suffix = this.prefix;
 	}
 

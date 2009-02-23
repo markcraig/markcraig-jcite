@@ -109,7 +109,9 @@ public abstract class TextBasedCitelet extends JCitelet
 
 	private String normalizeLineEndings( String _string )
 	{
-		return _string.replace( Constants.CRLF, "\n" ).replace( Constants.CR, '\n' );
+		return (_string.replace( Constants.CRLF, "\n" ).replace( Constants.CR, '\n' )
+			// remove trailing spaces
+			+ '\n').replaceAll( "\\x20+\\n", "\n" );
 	}
 
 

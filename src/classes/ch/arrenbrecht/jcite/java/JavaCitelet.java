@@ -106,6 +106,10 @@ public class JavaCitelet extends TextBasedCitelet
 	@Override
 	protected FragmentMarker[] markersFor( String _fragmentName )
 	{
+		if (null == _fragmentName || 0 == _fragmentName.length()) {
+			return new FragmentMarker[] { new InlineMarker( _fragmentName ),
+					new CompactInlineMarker( _fragmentName ) };
+		}
 		return new FragmentMarker[] { new BlockMarker( _fragmentName ), new InlineMarker( _fragmentName ),
 				new CompactInlineMarker( _fragmentName ) };
 	}

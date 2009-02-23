@@ -67,7 +67,10 @@ public abstract class FragmentMarker
 			_locator.beginPrefix = beginPrefix;
 			_locator.beginFragment = beginPrefix + this.prefix.length();
 			int beginSuffix = _in.indexOf( this.suffix, _locator.beginFragment );
-			if (beginSuffix < 0) throw new UnclosedMarkupError();
+			if (beginSuffix < 0)
+				throw new UnclosedMarkupError( getClass().getSimpleName() + " can't find '" + this.suffix
+						+ "' in (position=" + _locator.beginFragment + "):\n"
+						+ _in.substring( _locator.beginFragment ) );
 			_locator.endFragment = beginSuffix;
 			if (isBlock()) {
 				_locator.endFragment = Util.scanBackTo( _in, '\n', _locator.endFragment ) + 1;

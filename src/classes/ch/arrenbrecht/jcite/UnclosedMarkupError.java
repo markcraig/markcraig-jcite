@@ -44,4 +44,8 @@ public class UnclosedMarkupError extends JCiteError
 		super();
 	}
 
+	public UnclosedMarkupError( String _msg ) {
+		super( _msg );
+	}
+
 }

@@ -108,7 +108,8 @@ public abstract class JCitelet
 			final StringBuilder result = new StringBuilder( _source.length() );
 			do {
 				final int endMarkup = _source.indexOf( _markupEndTag, beginMarkup );
-				if (endMarkup < 0) throw new UnclosedMarkupError();
+				if (endMarkup < 0)
+					throw new UnclosedMarkupError( "Can't find " + _markupEndTag + " after " + beginMarkup );
 				final String markup = _source.substring( beginMarkup + markupStartTagLength, endMarkup );
 				int beginDeletion = Util.scanBackTo( _source, '<', beginMarkup );
 				int endDeletion = Util.scanForwardTo( _source, '>', endMarkup );

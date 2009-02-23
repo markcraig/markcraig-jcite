@@ -57,7 +57,6 @@ import com.sun.tools.doclets.standard.Standard;
 public class JCiteTaglet implements Taglet
 {
 	private static final String NAME = ".jcite";
-
 	@SuppressWarnings("unchecked")
 	public static void register( Map tagletMap )
 	{
@@ -155,8 +154,10 @@ public class JCiteTaglet implements Taglet
 			return this.citer.formattingFor( markup, this.citer.citationFor( markup ) );
 		}
 		catch (Exception e) {
-			this.root.printError( _tag.position(), "JCite: " + e.getMessage() );
-			return "<p><b>" + e.getMessage() + "</b></p>";
+			String msg = e.getMessage();
+			if (null == msg) msg = e.getClass().getName();
+			this.root.printError( _tag.position(), "JCite: " + msg );
+			return "<p><pre style='color:red'>" + msg + "</pre></p>";
 		}
 	}
 

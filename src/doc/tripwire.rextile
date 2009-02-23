@@ -1,7 +1,7 @@
 
 h1. Using Citations As Tripwires
 
-Citing examples from automated tests ensures that they are always correct. But the surrounding text of the documentation may still get out of sync. Using your citations as tripwires can help avoid this. 
+Citing examples from automated tests ensures that they are always correct. But the surrounding text of the documentation may still get out of sync. Using your citations as tripwires can help avoid this.
 
 <%= toc %>
 
@@ -38,6 +38,6 @@ Do this only when you have verified the surrounding text of each changed citatio
 
 dt. @--diff-path <path>@ / @-dp <path>@ : Emits both the old and new version of citations for tripwire trip-ups to the given path. Use this to run a diff against them. But see below for how to automate this.
 
-dt. @--differ <command>@ : Runs the given command with the two citation versions (as files) causing a trip-up. So, on Linux, you might use @--differ /usr/bin/diff@.  
+dt. @--differ <command>@ : Runs the given command with the two citation versions (as files) causing a trip-up. So, on Linux, you might use @--differ /usr/bin/diff@.
 
 When you specify both options, JCite automatically displays the differences for changed citations.

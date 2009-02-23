@@ -26,7 +26,7 @@
 	<property name="temp.test.dir" location="${temp.dir}/test" />
 	<property name="temp.examples.dir" location="${temp.dir}/examples" />
 	<property name="temp.doc.dir" location="${temp.dir}/doc" />
-	
+
 	<property name="build.dir" location="${basedir}/build" />
 	<property name="dist.dir" location="${basedir}/dist" />
 

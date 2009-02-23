@@ -19,7 +19,7 @@ h2. JCite 1.10.1
 h5. Better
 
 	* Error values like @#NUM!@ are now cited more properly.
-	
+
 h5. Fixed
 
 	* Now handles multiple similar options like @strip@ correctly. Used to only honour the last one.
@@ -76,7 +76,7 @@ h5. New
 
 	* Can now format inline blocks (rather than citing them from sources). See the "samples page":java.htm for details.
 	* Added option to cite Excel formulas only (rather than citing current value + formula). See the "Excel page":excel.htm for details.
-	
+
 h5. Better
 
 	* The Java source code highlighter now inserts additional spaces in situations where a highlighted and an non-highlighted letter or digit would be adjacent. This works around an Eclipse code formatter quirk.
@@ -87,7 +87,7 @@ h2. JCite 1.7
 h5. New
 
 	* Added option to cite entire class files.
-	
+
 h5. Better
 
 	* Excel named ranges always listed in alphabetically ascending order.

@@ -387,7 +387,7 @@ table.xl td.xl-row, table.xl thead td {
 table.xl td.xl-num, table.xl td.xl-date {
 	text-align: right;
 }
-	
+
 span.xl-exp {
 	font-size: x-small;
 	font-family: monospace;
@@ -412,7 +412,7 @@ td.xl-r1, span.xl-r1 {
 td.xl-r2, span.xl-r2 {
 	background-color: #FFE0FF;
 }
-	
+
 td.xl-r3, span.xl-r3 {
 	background-color: #FFFFE0;
 }

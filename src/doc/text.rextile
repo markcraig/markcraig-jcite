@@ -20,7 +20,7 @@ The part @plain.sh@ tells JCite which file to cite from. The part @# ---- sample
 
 	[text:plain.sh:# ---- sampleSrc]
 
-The part @# ---- sample@ is freely choosable. It must simply match the respective comment in the source file. 
+The part @# ---- sample@ is freely choosable. It must simply match the respective comment in the source file.
 
 
 h2. Citing from XML/HTML

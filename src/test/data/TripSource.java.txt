@@ -3,13 +3,13 @@ class TripSource {
 	// ---- demo
 	void doIt() { doIt(); }
 	// ---- demo
-	
+
 	// ---- zzz
 	void zzz() {}
 	// ---- zzz
-	
+
 	// ---- aaa
 	void aaa() {}
 	// ---- aaa
-	
+
 }

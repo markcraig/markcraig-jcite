@@ -38,7 +38,7 @@ Note that the named range _OrdersHeader_ is not listed because it does not inter
 Instead of just a single one, you can cite multiple ranges:
 
 	[xc:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths,Rating]
-	
+
 with an instruction such as:
 
 <notextile><pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths,Rating]</pre></notextile>
@@ -46,7 +46,7 @@ with an instruction such as:
 If you want the ranges to be identified still, suffix them with a @+@ sign:
 
 	[xc:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+]
-	
+
 with an instruction such as:
 
 <notextile><pre class="jc">[x<b></b>c:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+]</pre></notextile>

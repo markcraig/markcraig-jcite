@@ -1,7 +1,7 @@
 ﻿
 /* Main stuff */
 
-body 
+body
 {
 	font-family: Serif;
 }
@@ -31,7 +31,7 @@ td
 
 .when
 {
-	font-size: x-small;	
+	font-size: x-small;
 }
 
 .nofirefox
@@ -197,7 +197,7 @@ span.j-hl /* highlight */
 	{
 	}
 
-span.j-pathsep /* path separator */ 
+span.j-pathsep /* path separator */
 	{
 	color: gray;
 	}
@@ -231,7 +231,7 @@ table.xl td.xl-num, table.xl td.xl-date
 	{
 		text-align: right;
 	}
-	
+
 span.xl-exp
 	{
 		font-size: x-small;
@@ -261,7 +261,7 @@ td.xl-r2, span.xl-r2
 	{
 		background-color: #FFE0FF;
 	}
-	
+
 td.xl-r3, span.xl-r3
 	{
 		background-color: #FFFFE0;

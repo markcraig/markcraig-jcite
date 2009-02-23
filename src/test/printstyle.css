@@ -1,7 +1,7 @@
 ﻿
 /* Main stuff */
 
-body 
+body
 {
 	font-family: Serif;
 }
@@ -28,7 +28,7 @@ td
 
 .when
 {
-	font-size: x-small;	
+	font-size: x-small;
 }
 
 .nofirefox

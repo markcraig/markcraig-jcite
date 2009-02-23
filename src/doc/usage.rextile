@@ -21,7 +21,7 @@ dt. @--accept-changes@ / @-ac@ : Accepts changed citations and updates the tripw
 
 dt. @--diff-path <path>@ / @-dp <path>@ : Emits both the old and new version of citations for tripwire trip-ups to the given path. Use this to run a diff against them. But see below for how to automate this.
 
-dt. @--differ <command>@ : Runs the given command with the two citation versions (as files) causing a trip-up. So, on Linux, you might use @--differ /usr/bin/diff@.  
+dt. @--differ <command>@ : Runs the given command with the two citation versions (as files) causing a trip-up. So, on Linux, you might use @--differ /usr/bin/diff@.
 
 dt. @--quiet@ / @-q@ : Run quietly, i.e. don't print header information.
 
@@ -107,7 +107,7 @@ dt. @projectPath@ : replaces @--project-path@.
 
 dt. @sourcePath@ : replaces @--source-path@.
 
-dt. @tripwirePath@ : replaces @--tripwire-path@.  
+dt. @tripwirePath@ : replaces @--tripwire-path@.
 
 dt. @tripwireFile@ : replaces @--tripwire-file@.
 
@@ -119,7 +119,7 @@ dt. @differ@ : same as @--differ@.
 
 dt. @usePRE@ : opposite of @-tt@.
 
-dt. @verbose@ : same as @--verbose@.  
+dt. @verbose@ : same as @--verbose@.
 
 
 [-trip]tripwire.htm

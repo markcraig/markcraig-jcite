@@ -52,7 +52,18 @@ public abstract class AbstractJCiteTest extends TestCase
 
 	private String sanitize( String _value )
 	{
-		return _value.replaceAll( "\r\n", "\n" ).replaceAll( "\n\n", "\n" ).replaceAll( "\n\n", "\n" );
+		return cut( _value, "<head>", "</head>" ) // Hpricot seems to sometimes reorder things in <head>
+			.replaceAll( "\r\n", "\n" )
+			.replaceAll( "\n\n", "\n" )
+			.replaceAll( "\n\n", "\n" );
+	}
+
+	private String cut(String _value, String _start, String _end) {
+		int is = _value.indexOf(_start);
+		if (is < 0) return _value;
+		int ie = _value.indexOf(_end);
+		if (ie < 0) return _value;
+		return _value.substring( 0, is ) + _value.substring( ie + _end.length() );
 	}
 
 }

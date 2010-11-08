@@ -3,11 +3,11 @@ h1. JCite - Java Source Code Citation System
 
 <div class="news">
 
+"JCite 1.10.3":history.htm fixes a few web links, code warnings, and left-over TODOs.
+<br/>%(when)November 8, 2010%
+
 "JCite 1.10.2":history.htm with fixes and performance tuning. New repo hosting.
 <br/>%(when)???%
-
-"JCite 1.10.1":history.htm formats Excel error values better and fixes bug with multiple options.
-<br/>%(when)November 26, 2007%
 
 </div>
 
@@ -26,8 +26,9 @@ To get a feel for the results you can achieve, take a look at
 	* "Using JCite with JavaDoc":javadoc.htm
 	* "CSS Styles Used":styling.htm
 
-I have also written a blog post and an article which put JCite into a broader perspective:
+I have also written some articles which put JCite into a broader perspective:
 
+	* "On Literate Testing":http://arrenbrecht.ch/testing/ (article)
 	* "Beyond TDD: Documentation Driven Development":-tdd (blog post)
 	* "Source Citing: Making Examples Work":-citing (article)
 
@@ -41,32 +42,30 @@ JCite is open source under a "BSD-style license":LICENSE.html. The required "Jav
 
 h2. Download
 
-<% ver = '1.10.2' %>
+<% ver = '1.10.3' %>
 
-"jcite-<%=ver%>-bin.zip":http://arrenbrecht.ch/jcite/dist/jcite-<%=ver%>-bin.zip : Binary release, including the required open-source "Java2Html":-j2h library. Needs at least "Java 1.5":http://www.java.com/en/download/index.jsp to run.
+"jcite-<%=ver%>-bin.zip":http://jcite.googlecode.com/files/jcite-<%=ver%>-bin.zip : Binary release, including the required open-source "Java2Html":-j2h library. Needs at least "Java 1.5":http://www.java.com/en/download/index.jsp to run.
 
-"jcite-<%=ver%>-excel-bin.zip":http://arrenbrecht.ch/jcite/dist/jcite-<%=ver%>-excel-bin.zip : Binary release for the "Excel citation":excel.htm plugin, including the required open-source "JExcelAPI":-jxl library.
+"jcite-<%=ver%>-excel-bin.zip":http://jcite.googlecode.com/files/jcite-<%=ver%>-excel-bin.zip : Binary release for the "Excel citation":excel.htm plugin, including the required open-source "JExcelAPI":-jxl library.
 
-"jcite-<%=ver%>-src.zip":http://arrenbrecht.ch/jcite/dist/jcite-<%=ver%>-src.zip : Source code for JCite, including tests and examples. External libraries and build tools are not included in the download. For the required libraries, download the respective binary release of JCite first. In order to run the Ant build script, you need "Ant":http://ant.apache.org/. If you want to run the tests, you need "JUnit":http://www.junit.org/ and "Rextile":-rex. To build a distribution, you need "CheckStyle":http://checkstyle.sourceforge.net/.
+"jcite-<%=ver%>-src.zip":http://jcite.googlecode.com/files/jcite-<%=ver%>-src.zip : Source code for JCite, including tests and examples. External libraries and build tools are not included in the download. For the required libraries, download the respective binary release of JCite first. In order to run the Ant build script, you need "Ant":http://ant.apache.org/. If you want to run the tests, you need "JUnit":http://www.junit.org/ and "Rextile":-rex. To build a distribution, you need "CheckStyle":http://checkstyle.sourceforge.net/.
 
 "Release History":history.htm
 
 
 h2. Contributing
 
-JCite is maintained on "Google Code Hosting":http://code.google.com/p/jcite/ for the
+JCite is maintained on "Google Code Hosting":http://jcite.googlecode.com/ for the
 
 	* "wiki":http://code.google.com/p/jcite/w/list,
-	* "issue tracker":http://code.google.com/p/jcite/issues/list, and
-	* "discussion group":http://groups.google.com/group/jcite.
-
-The source code repositories are managed by "Mercurial":-hg and hosted on "BitBucket":http://bitbucket.org/:
-
-	* "stable":http://bitbucket.org/parren/jcite-stable/
-	* "development":http://bitbucket.org/parren/jcite/
+	* "issue tracker":http://code.google.com/p/jcite/issues/list,
+	* "discussion group":http://groups.google.com/group/jcite, and
+	* "source code repositories":http://code.google.com/p/jcite/source/list managed by "Mercurial":-hg.
 
 
 h2. Alternatives
 
 If you think you'd be more comfortable with a tool that lets you write unchecked example source directly in the JavaDoc comments, you might want to take a look at the "SAM Example Taglet":http://k2s.ru/project/sam/example_taglet.html.
+
+Another similar tool is "Bumblebee":http://agical.com/bumblebee/bumblebee_doc.html. It lets you write your documentation in inlined comments.
 

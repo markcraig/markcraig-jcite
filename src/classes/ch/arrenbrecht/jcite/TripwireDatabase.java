@@ -89,8 +89,8 @@ final class TripwireDatabase
 	}
 
 
-	private static final String ENTRY_SEP = "___@_@___";
-	private static final String VALUE_SEP = "__@@__";
+	static final String ENTRY_SEP = "___@_@___";
+	static final String VALUE_SEP = "__@@__";
 
 	private void loadFromFile() throws IOException
 	{

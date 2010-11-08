@@ -77,9 +77,9 @@ public class JCiteTest extends AbstractJCiteTest
 		private final String DOC_NAME = "Tripwired.htm";
 		private final File DOC = new File( OUT, DOC_NAME );
 		private final File GEN = new File( OUT, DOC_NAME + ".gen.htm" );
-		private final String TRIP1 = "jc:TripSource ---- demo";
-		private final String TRIP2 = "jc:TripSource ---- aaa";
-		private final String TRIP3 = "jc:TripSource ---- zzz";
+		private final String TRIP1 = "jc:TripSource:---- demo";
+		private final String TRIP2 = "jc:TripSource:---- aaa";
+		private final String TRIP3 = "jc:TripSource:---- zzz";
 		private final String CIT1 = "void doIt() { doIt(); }";
 		private final String CIT1a = CIT1.replace( "doIt", "didIt" );
 		private String src;
@@ -236,8 +236,24 @@ public class JCiteTest extends AbstractJCiteTest
 
 		private void assertDbFile( String[] _namesAndValues ) throws Exception
 		{
-			// TODO Auto-generated method stub
-
+			if (0 == _namesAndValues.length) {
+				assertFalse( this.DB.exists() );
+			}
+			else {
+				assertFileExists( this.DB );
+				String data = Util.readStringFrom( this.DB );
+				String lf = System.getProperty( "line.separator" );
+				int i = 0;
+				while (i < _namesAndValues.length) {
+					String name = _namesAndValues[ i++ ];
+					String value = _namesAndValues[ i++ ];
+					String want = name + lf + TripwireDatabase.VALUE_SEP + lf + value + lf + TripwireDatabase.ENTRY_SEP + lf;
+					int at = data.indexOf(want);
+					assertTrue(want, at >= 0);
+					data = data.substring(0, at) + data.substring(at + want.length());
+				}
+				assertEquals("", data);
+			}
 		}
 
 		private void assertFileContains( String _expected, File _file ) throws IOException

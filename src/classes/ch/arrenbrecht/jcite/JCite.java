@@ -107,7 +107,6 @@ public final class JCite
 	private String differ = "";
 
 
-	@SuppressWarnings( "unchecked" )
 	public JCite()
 	{
 		super();
@@ -116,6 +115,7 @@ public final class JCite
 		registerCitelet( new PathCitelet( this ) );
 		registerCitelet( new IncludeCitelet( this ) );
 
+		@SuppressWarnings("rawtypes") //
 		final Enumeration providers = Service.providers( JCiteletProvider.class );
 		while (providers.hasMoreElements()) {
 			final JCiteletProvider provider = (JCiteletProvider) providers.nextElement();
@@ -489,7 +489,7 @@ public final class JCite
 		return this.currentSourceFile.getName() + ":" + indexToLineNumber( _sourceIndex, this.currentSourceText );
 	}
 
-	void logCitationError( Exception _e, String _markup, int _sourceIndex )
+	void logCitationError( Exception _e, @SuppressWarnings("unused") String _markup, int _sourceIndex )
 	{
 		final String errMsg = _e.getMessage();
 		final StringBuilder msg = (null == errMsg) ? new StringBuilder( _e.getClass().getName() ) : new StringBuilder(
@@ -548,6 +548,7 @@ public final class JCite
 
 	private int citationCount = 0;
 
+	@SuppressWarnings("unused") //
 	public void logCitation( String _markup, int _sourceIndex )
 	{
 		this.citationCount++;

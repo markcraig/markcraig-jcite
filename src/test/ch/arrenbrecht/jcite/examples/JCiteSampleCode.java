@@ -39,6 +39,7 @@ import java.util.Collection;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("unused")
 public class JCiteSampleCode extends TestCase
 {
 

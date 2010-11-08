@@ -57,7 +57,8 @@ import com.sun.tools.doclets.standard.Standard;
 public class JCiteTaglet implements Taglet
 {
 	private static final String NAME = ".jcite";
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings({ "unchecked", "rawtypes" }) //
 	public static void register( Map tagletMap )
 	{
 		final JCiteTaglet tag = new JCiteTaglet();

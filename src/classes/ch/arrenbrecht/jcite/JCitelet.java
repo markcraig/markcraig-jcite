@@ -155,7 +155,7 @@ public abstract class JCitelet
 	}
 
 
-	protected boolean argHandled( String _arg )
+	protected boolean argHandled( @SuppressWarnings("unused") String _arg )
 	{
 		return false;
 	}

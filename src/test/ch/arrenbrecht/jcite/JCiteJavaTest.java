@@ -37,6 +37,7 @@ package ch.arrenbrecht.jcite;
 
 import java.io.File;
 
+@SuppressWarnings("unused")
 public class JCiteJavaTest extends AbstractJCiteTest
 {
 

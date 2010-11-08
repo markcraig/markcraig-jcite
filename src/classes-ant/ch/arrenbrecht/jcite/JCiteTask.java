@@ -174,8 +174,8 @@ public final class JCiteTask extends MatchingTask
 		try {
 			validate();
 
-			final String[] sourcePath = (this.sourcePath != null)? this.sourcePath.list() : new String[ 0 ];
-			final JCite jcite = new JCite( sourcePath, this.usePRE, this.verbose );
+			final String[] srcPath = (this.sourcePath != null)? this.sourcePath.list() : new String[ 0 ];
+			final JCite jcite = new JCite( srcPath, this.usePRE, this.verbose );
 
 			if (this.verbose) {
 				jcite.printCitelets();
@@ -200,10 +200,10 @@ public final class JCiteTask extends MatchingTask
 
 			final DirectoryScanner ds = super.getDirectoryScanner( this.srcDir );
 			final String[] files = ds.getIncludedFiles();
-			for (final String file : files) {
+			for (final String fname : files) {
 				try {
-					log( "Processing " + file, Project.MSG_VERBOSE );
-					jcite.process( new File( this.srcDir, file ), new File( this.destDir, file ) );
+					log( "Processing " + fname, Project.MSG_VERBOSE );
+					jcite.process( new File( this.srcDir, fname ), new File( this.destDir, fname ) );
 				}
 				catch (JCiteError e) {
 					throw new BuildException( e );

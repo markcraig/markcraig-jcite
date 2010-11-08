@@ -40,7 +40,7 @@ package ch.arrenbrecht.jcite;
 public class FragmentNotFoundError extends JCiteError
 {
 
-	public FragmentNotFoundError(String _classSource, String _fragmentName)
+	public FragmentNotFoundError(@SuppressWarnings("unused") String _classSource, String _fragmentName)
 	{
 		super( "Fragment '" + _fragmentName + "' not found" );
 	}

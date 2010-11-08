@@ -227,7 +227,7 @@ public abstract class JCitelet
 	protected String stripProjectPathFrom( String _path )
 	{
 		final String p = this.jcite.getProjectPath();
-		if (p != null & p != "" && _path.startsWith( p )) {
+		if (p != null && p != "" && _path.startsWith( p )) {
 			final String rel = _path.substring( p.length() );
 			final String sep = File.separator;
 			if (rel.startsWith( sep )) {

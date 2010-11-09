@@ -1,0 +1,16 @@
+head
+
+--snip
+  // begin exA
+  Example A
+  And a little more of example A.
+  // end exA
+--snip
+
+separator
+
+// begin exB
+Example B
+// end exB
+
+footer

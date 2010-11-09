@@ -53,21 +53,21 @@ public class IncludeCitelet extends JCitelet
 
 
 	@Override
-	protected String markupTag()
+	protected String referencePrefix()
 	{
 		return "inc";
 	}
 
 
 	@Override
-	protected Citation citationFor( String _markup ) throws JCiteError, IOException
+	protected Citation cite( String _markup ) throws JCiteError, IOException
 	{
 		final File sourceFile = findSourceFile( _markup );
 		return new Citation( Util.readStringFrom( sourceFile ) );
 	}
 
 	@Override
-	protected String formattingFor( Insertion _insertion )
+	protected String format( Insertion _insertion )
 	{
 		return _insertion.text();
 	}

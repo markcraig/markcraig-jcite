@@ -35,6 +35,7 @@
  */
 package ch.arrenbrecht.jcite.text;
 
+import ch.arrenbrecht.jcite.BlockMarker;
 import ch.arrenbrecht.jcite.FragmentMarker;
 import ch.arrenbrecht.jcite.JCite;
 import ch.arrenbrecht.jcite.JCiteError;
@@ -50,7 +51,7 @@ public class TextCitelet extends TextBasedCitelet
 
 
 	@Override
-	protected String markupTag()
+	protected String referencePrefix()
 	{
 		return "text";
 	}
@@ -59,12 +60,14 @@ public class TextCitelet extends TextBasedCitelet
 	@Override
 	protected FragmentMarker[] markersFor( String _fragmentName )
 	{
-		return new FragmentMarker[] { new BlockMarker( _fragmentName ) };
+		final String tag = _fragmentName.startsWith( "xml!" )? "<!--" + _fragmentName.substring( 4 ) + "-->\n"
+				: _fragmentName + "\n";
+		return new FragmentMarker[] { new BlockMarker( tag ) };
 	}
 
 
 	@Override
-	public String formattingFor( Insertion _insertion ) throws JCiteError
+	public String format( Insertion _insertion ) throws JCiteError
 	{
 		String fragment = _insertion.text();
 		fragment = escapeXML( fragment );

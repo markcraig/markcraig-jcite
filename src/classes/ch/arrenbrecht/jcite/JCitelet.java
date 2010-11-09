@@ -63,17 +63,17 @@ public abstract class JCitelet
 
 	protected String processCitations( String _source ) throws JCiteError
 	{
-		return processElements( _source, markupStartTag(), markupEndTag(), new ElementVisitor()
+		return processElements( _source, referenceStartTag(), referenceEndTag(), new ElementVisitor()
 		{
 
 			public Insertion insertionFor( String _markup ) throws JCiteError, IOException
 			{
-				return citationFor( _markup );
+				return cite( _markup );
 			}
 
 			public String formatInsertion( Insertion _insertion ) throws JCiteError, IOException
 			{
-				return formattingFor( _insertion );
+				return format( _insertion );
 			}
 
 		} );
@@ -86,12 +86,12 @@ public abstract class JCitelet
 
 			public Insertion insertionFor( String _citation )
 			{
-				return inliningOf( _citation );
+				return inline( _citation );
 			}
 
 			public String formatInsertion( Insertion _insertion ) throws JCiteError, IOException
 			{
-				return formattingFor( _insertion );
+				return format( _insertion );
 			}
 
 		} );
@@ -207,31 +207,31 @@ public abstract class JCitelet
 	}
 
 
-	protected abstract String markupTag();
+	protected abstract String referencePrefix();
 
-	protected abstract Citation citationFor( String _markup ) throws JCiteError, IOException;
+	protected abstract Citation cite( String _reference ) throws JCiteError, IOException;
 
-	protected Inlined inliningOf(String _citation)
+	protected Inlined inline(String _text)
 	{
-		return new Inlined( _citation );
+		return new Inlined( _text );
 	}
 
-	protected abstract String formattingFor( Insertion _insertion ) throws JCiteError, IOException;
+	protected abstract String format( Insertion _insertion ) throws JCiteError, IOException;
 
 
-	protected String markupStartTag()
+	protected String referenceStartTag()
 	{
-		return "[" + markupTag() + ":";
+		return "[" + referencePrefix() + ":";
 	}
 
-	protected String markupEndTag()
+	protected String referenceEndTag()
 	{
 		return "]";
 	}
 
 	protected String inlineStartTag()
 	{
-		return "<pre jcite=\"" + markupTag() + "\">";
+		return "<pre jcite=\"" + referencePrefix() + "\">";
 	}
 
 	protected String inlineEndTag()

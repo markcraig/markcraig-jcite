@@ -40,18 +40,18 @@ public abstract class FragmentMarker
 {
 	private final String prefix;
 	private final String suffix;
-	private final boolean isBlock;
 
 
-	public FragmentMarker(String _prefix, String _suffix, boolean _isBlock) {
+	public FragmentMarker(String _prefix, String _suffix)
+	{
 		this.prefix = _prefix;
 		this.suffix = _suffix;
-		this.isBlock = _isBlock;
 	}
 
 
-	public FragmentMarker(String _prefixAndSuffix, boolean _isBlock) {
-		this(_prefixAndSuffix, _prefixAndSuffix, _isBlock);
+	public FragmentMarker(String _prefixAndSuffix)
+	{
+		this(_prefixAndSuffix, _prefixAndSuffix);
 	}
 
 
@@ -62,12 +62,6 @@ public abstract class FragmentMarker
 			if (marker.find( _in, _startingAt, _locator )) return true;
 		}
 		return false;
-	}
-
-
-	public final boolean isBlock()
-	{
-		return this.isBlock;
 	}
 
 
@@ -83,13 +77,21 @@ public abstract class FragmentMarker
 						+ "' in (position=" + _locator.beginFragment + "):\n"
 						+ _in.substring( _locator.beginFragment ) );
 			_locator.endFragment = beginSuffix;
-			if (isBlock()) {
-				_locator.endFragment = Util.scanBackTo( _in, '\n', _locator.endFragment ) + 1;
-			}
+
+			adjustFragment( _in, _locator );
+
 			_locator.endSuffix = beginSuffix + this.suffix.length();
 			_locator.marker = this;
 			return true;
 		}
 		return false;
 	}
+
+
+	protected void adjustFragment( String _in, FragmentLocator _locator )
+	{
+		_locator.endFragment = Util.scanBackTo( _in, '\n', _locator.endFragment ) + 1;
+	}
+
+
 }

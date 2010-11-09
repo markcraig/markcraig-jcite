@@ -1,0 +1,79 @@
+
+h1. Extending JCite
+
+You can extend JCite to support new citation sources by means of _citelets_ (as I did, for example, to support citing Excel spreadsheet ranges).
+
+<%= toc 2, 3 %>
+
+
+h2. Plain Citelets
+
+Plain citelets do not make assumptions about the format of citable sources. You can use anything, like the Excel spreadsheets mentioned above. If your sources are plain text files, however, please also read the next section. In this demo, we are going to use a simple map to look up the citation for a given reference.
+
+So here's our basic citelet, to be fleshed out further below:
+
+	[jc:ch.arrenbrecht.jcite.JCitePlainExtensionTest:-- MyCitelet]
+
+Since we can have multiple citelets, JCite needs to know which of the citelets to ask to resolve a reference. It does this via the prefix of a reference, whose general format is @[citelet:reference]@. Here we use @demo@, so references to our citelet will have to look like @[demo:foo]@:
+
+	[jc:ch.arrenbrecht.jcite.JCitePlainExtensionTest:-- referencePrefix]
+
+If there is a reference directed at our citelet in the text, JCite asks us for the corresponding citation. A @Citation@ must return a canonical textual representation of the cited fragment. When JCite is used with "tripwires":tripwire.htm, this text is what gets recorded in the tripwire database. It should be kept as raw as possible, so that changes in how a citelet formats citations (see below) do not invalidate the tripwires.
+
+In the simplest case, the reference can be used directly as the key to look up the cited fragment. Often, though, you will want to parse it. Another special case arises when the reference contains not only the key, but also formatting options. The latter can be passed to the formatter by subclassing @Citation@, or using the predefined @AnnotatedCitation@:
+
+	[jc:ch.arrenbrecht.jcite.JCitePlainExtensionTest:-- cite]
+
+Finally, prior to inserting the cited fragment into the resulting HTML document, JCite asks us to format it. Here we can make use of any additional information we passed to subclasses of @Citation@:
+
+	[jc:ch.arrenbrecht.jcite.JCitePlainExtensionTest:-- format]
+
+Finally, here's an example of the demo citelet in action:
+
+	[jc:ch.arrenbrecht.jcite.JCitePlainExtensionTest:-- test]
+
+
+h2. Text-Based Citelets
+
+Text-based citelets extract referenced fragments from plain text files. They do this by means of fragment markers, which denote the start and end of a fragment for a given reference. The "Java citelet":java.htm is a prominent example, where the markers are Java comments.
+
+So again, here's our basic citelet, to be fleshed out further below:
+
+	[jc:ch.arrenbrecht.jcite.JCiteTextExtensionTest:-- MyCitelet]
+
+The base class, @TextBasedCitelet@, already takes care of parsing the source file name, fragment name, and options from the reference, looking for the source file in the search path, and extracting fragments from it. For the latter, however, it needs to know the fragment markers the citelet supports. For every reference into a source file, it asks us for the appropriate markers, giving us the name of the fragment to look for:
+
+	[jc:ch.arrenbrecht.jcite.JCiteTextExtensionTest:-- markersFor]
+
+In this demo, we use a simple block marker (which means the fragment markers appear on separate lines from the fragment content), with different start and end markers. For example:
+
+	[text:data/simplefile.txt:--snip]
+
+The formatter is similar to the one above, as @TextBasedCitelet@ automatically passes options to us with an @AnnotatedCitation@:
+
+	[jc:ch.arrenbrecht.jcite.JCiteTextExtensionTest:-- format]
+
+We do get a bit of help from some predefined helper methods, such as:
+
+	[jc:ch.arrenbrecht.jcite.TextBasedCitelet:-- helpers]
+
+Finally, here's an example of the text-based demo citelet in action:
+
+	[jc:ch.arrenbrecht.jcite.JCiteTextExtensionTest:-- test]
+
+
+h2. Registering Citelets
+
+JCite can auto-detect custom citelets from the .jar files on the classpath via a "ServiceLoader":http://download.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html for the @JCiteletProvider@ interface, like so:
+
+	[jc:ch.arrenbrecht.jcite.JCitePlainExtensionTest:-- MyProvider]
+
+and a file called:
+
+	META-INF/services/ch.arrenbrecht.jcite.JCiteletProvider
+
+containing a line like:
+
+	ch.arrenbrecht.jcite.JCitePlainExtensionTest$MyProvider
+
+

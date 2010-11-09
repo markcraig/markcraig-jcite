@@ -43,9 +43,11 @@ import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ch.arrenbrecht.jcite.BlockMarker;
 import ch.arrenbrecht.jcite.Constants;
 import ch.arrenbrecht.jcite.FileNotFoundError;
 import ch.arrenbrecht.jcite.FragmentMarker;
+import ch.arrenbrecht.jcite.InlineMarker;
 import ch.arrenbrecht.jcite.JCite;
 import ch.arrenbrecht.jcite.JCiteError;
 import ch.arrenbrecht.jcite.TextBasedCitelet;
@@ -97,7 +99,7 @@ public class JavaCitelet extends TextBasedCitelet
 
 
 	@Override
-	protected String markupTag()
+	protected String referencePrefix()
 	{
 		return "jc";
 	}
@@ -106,17 +108,18 @@ public class JavaCitelet extends TextBasedCitelet
 	@Override
 	protected FragmentMarker[] markersFor( String _fragmentName )
 	{
+		final FragmentMarker inlineMarker = new InlineMarker( "/* " + _fragmentName + " */" );
+		final FragmentMarker compactInlineMarker = new InlineMarker( "/*" + _fragmentName + "*/" );
 		if (null == _fragmentName || 0 == _fragmentName.length()) {
-			return new FragmentMarker[] { new InlineMarker( _fragmentName ),
-					new CompactInlineMarker( _fragmentName ) };
+			return new FragmentMarker[] { inlineMarker, compactInlineMarker };
 		}
-		return new FragmentMarker[] { new BlockMarker( _fragmentName ), new InlineMarker( _fragmentName ),
-				new CompactInlineMarker( _fragmentName ) };
+		final FragmentMarker blockMarker = new BlockMarker( "// " + _fragmentName + "\n" );
+		return new FragmentMarker[] { blockMarker, inlineMarker, compactInlineMarker };
 	}
 
 
 	@Override
-	public String formattingFor( Insertion _insertion ) throws JCiteError
+	public String format( Insertion _insertion ) throws JCiteError
 	{
 		final Collection<String> strips = new ArrayList<String>();
 		final Collection<String> shows = new ArrayList<String>();
@@ -125,7 +128,7 @@ public class JavaCitelet extends TextBasedCitelet
 
 		if (_insertion instanceof AnnotatedCitation) {
 			final AnnotatedCitation ann = (AnnotatedCitation) _insertion;
-			final String options = ann.annotation();
+			final String options = ';' + ann.annotation(); // make patterns work for first occurrence too
 			extractOptions( options, stripPattern, strips );
 			extractOptions( options, showPattern, shows );
 			extractOptions( options, omitPattern, omissions );

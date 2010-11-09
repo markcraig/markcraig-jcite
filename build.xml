@@ -226,6 +226,8 @@
 		<taskdef name="jcite" classname="ch.arrenbrecht.jcite.JCiteTask" classpathref="run.classpath" />
 		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" projectpath="${basedir}">
 			<sourcepath>
+				<pathelement location="${src.classes.dir}" />
+				<pathelement location="${src.classes-excel.dir}" />
 				<pathelement location="${src.examples.dir}" />
 				<pathelement location="${src.test.dir}" />
 				<pathelement location="${src.test.dir}/data" />

@@ -50,51 +50,51 @@ public abstract class TextBasedCitelet extends JCitelet
 
 
 	@Override
-	public Citation citationFor( String _markup ) throws JCiteError, IOException
+	public Citation cite( String _reference ) throws JCiteError, IOException
 	{
 		if (isVerbose()) {
 			System.out.print( "  JCite citing " );
-			System.out.println( _markup );
+			System.out.println( _reference );
 		}
 
-		int endFileName = _markup.indexOf( ':' );
-		int endFragmentName = _markup.length();
+		int endFileName = _reference.indexOf( ':' );
+		int endFragmentName = _reference.length();
 		if (endFileName < 0) {
 			endFileName = endFragmentName;
 		}
 		else {
-			int posOfSemicolon = _markup.indexOf( ';' );
+			int posOfSemicolon = _reference.indexOf( ';' );
 			if (posOfSemicolon >= 0) {
 				endFragmentName = posOfSemicolon;
 			}
 		}
 
-		final String fileName = _markup.substring( 0, endFileName );
+		final String fileName = _reference.substring( 0, endFileName );
 		final String fileSource = getSourceForFile( fileName );
 
 		String fragment = fileSource;
 		if (endFileName < endFragmentName) {
-			final String fragmentName = _markup.substring( endFileName + 1, endFragmentName );
+			final String fragmentName = _reference.substring( endFileName + 1, endFragmentName );
 			fragment = getFragmentFrom( fileSource, fragmentName );
 		}
 
 		String instructions = "";
-		if (endFragmentName < _markup.length()) {
-			instructions = _markup.substring( endFragmentName ).trim();
+		if (endFragmentName < _reference.length()) {
+			instructions = _reference.substring( endFragmentName + 1 ).trim();
 		}
 
-		return (instructions.length() > 1) // includes leading ';'
+		return (instructions.length() > 0)
 			? new AnnotatedCitation( fragment, instructions )
 			: new Citation(fragment);
 	}
 
-	@Override protected Inlined inliningOf(String _citation)
+	@Override protected Inlined inline( String _citation )
 	{
 		if (isVerbose()) {
 			System.out.print( "  JCite citing inline element " );
 			System.out.println( _citation );
 		}
-		return super.inliningOf( _citation );
+		return super.inline( _citation );
 	}
 
 
@@ -147,7 +147,9 @@ public abstract class TextBasedCitelet extends JCitelet
 	protected abstract FragmentMarker[] markersFor( String _fragmentName );
 
 
+	// -- helpers
 	protected final String stripIndentation( String _fragment )
+	// -- helpers
 	{
 		int iIndents = 0;
 		for (char ch : _fragment.toCharArray()) {
@@ -164,7 +166,9 @@ public abstract class TextBasedCitelet extends JCitelet
 	}
 
 
+	// -- helpers
 	protected final String trimEmptyLines( String _fragment )
+	// -- helpers
 	{
 		int iStart = 0;
 		while (iStart < _fragment.length() && _fragment.charAt( iStart ) == '\n')
@@ -176,7 +180,9 @@ public abstract class TextBasedCitelet extends JCitelet
 	}
 
 
+	// -- helpers
 	protected final String escapeXML( String _fragment )
+	// -- helpers
 	{
 		return _fragment.replace( "<", "&lt;" ).replace( ">", "&gt;" );
 	}

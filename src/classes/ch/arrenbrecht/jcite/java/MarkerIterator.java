@@ -40,7 +40,6 @@ import java.util.Collection;
 import ch.arrenbrecht.jcite.FragmentLocator;
 import ch.arrenbrecht.jcite.FragmentMarker;
 import ch.arrenbrecht.jcite.UnclosedMarkupError;
-import ch.arrenbrecht.jcite.Util;
 
 abstract class MarkerIterator
 {
@@ -61,9 +60,6 @@ abstract class MarkerIterator
 			int scanFrom = 0;
 			while (scanFrom < result.length()) {
 				if (FragmentMarker.findFragment( result, scanFrom, markers, locator )) {
-					if (locator.marker.isBlock()) {
-						locator.beginPrefix = Util.scanBackTo( result, '\n', locator.beginPrefix ) + 1;
-					}
 					final String prefix = result.substring( scanFrom, locator.beginPrefix );
 					final String infix = result.substring( locator.beginFragment, locator.endFragment );
 					builder.append( prefix );

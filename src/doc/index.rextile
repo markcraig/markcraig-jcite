@@ -14,17 +14,21 @@ h1. JCite - Java Source Code Citation System
 
 JCite cites snippets of Java source code or Excel sheets into HTML documents - API documentation, for instance. Citing from tests, or tested code, lets you "guarantee that your examples really work":-citing. And they get automatic syntax highlighting.
 
-To get a feel for the results you can achieve, take a look at
+To get a feel for the results you can achieve, take a look at:
 
 	* "Citing Java Source Code (Examples)":java.htm
 	* "Citing Excel Spreadsheets (Examples)":excel.htm
 	* "Citing Plain Text Files (Examples)":text.htm
 	* "Citing File Paths (Examples)":path.htm
 	* "Including HTML Files":include.htm
+
+And here's how to use and customize it:
+
 	* "Using Citations As Tripwires":tripwire.htm
 	* "Running JCite":usage.htm
 	* "Using JCite with JavaDoc":javadoc.htm
 	* "CSS Styles Used":styling.htm
+	* "Extending JCite":extend.htm
 
 I have also written some articles which put JCite into a broader perspective:
 

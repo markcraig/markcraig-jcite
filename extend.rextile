@@ -1,0 +1,17 @@
+
+h1. Extending JCite
+
+You can extend JCite to support new citation sources by means of _citelets_ (as I did, for example, to support citing Excel spreadsheet ranges).
+
+<%= toc 2, 3 %>
+
+
+h2. Plain Citelets
+
+Plain citelets do not make assumptions about the format of citable sources. You can use anything, like the Excel spreadsheets mentioned above. If your sources are plain text files, however, please also read the next section. In this demo, we are going to use a simple map to look up the citation for a given reference.
+
+So here's our basic citelet:
+
+	[jc:JCitePlainExtensionTest:-- MyCitelet]
+
+

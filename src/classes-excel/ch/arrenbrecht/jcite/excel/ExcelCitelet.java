@@ -80,14 +80,14 @@ public class ExcelCitelet extends JCitelet
 
 
 	@Override
-	protected String markupTag()
+	protected String referencePrefix()
 	{
 		return "xc";
 	}
 
 
 	@Override
-	protected Citation citationFor( String _markup ) throws JCiteError, IOException
+	protected Citation cite( String _markup ) throws JCiteError, IOException
 	{
 		String sourceFileName = _markup;
 
@@ -147,7 +147,7 @@ public class ExcelCitelet extends JCitelet
 
 
 	@Override
-	protected String formattingFor( Insertion _insertion )
+	protected String format( Insertion _insertion )
 	{
 		return _insertion.text();
 	}

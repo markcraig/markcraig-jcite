@@ -417,7 +417,7 @@ public final class JCite
 		try {
 			String result = _source;
 			for (JCitelet citelet : this.citelets) {
-				this.currentCitationPrefix = citelet.markupTag();
+				this.currentCitationPrefix = citelet.referencePrefix();
 				try {
 					result = citelet.process( result );
 				}

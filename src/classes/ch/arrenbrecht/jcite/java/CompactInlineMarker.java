@@ -42,7 +42,6 @@ final class CompactInlineMarker extends FragmentMarker
 {
 	public CompactInlineMarker(String _fragmentName)
 	{
-		this.prefix = "/*" + _fragmentName + "*/";
-		this.suffix = this.prefix;
+		super("/*" + _fragmentName + "*/", false);
 	}
 }

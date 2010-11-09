@@ -42,7 +42,6 @@ final class InlineMarker extends FragmentMarker
 {
 	public InlineMarker(String _fragmentName)
 	{
-		this.prefix = "/* " + _fragmentName + " */";
-		this.suffix = this.prefix;
+		super("/* " + _fragmentName + " */", false);
 	}
 }

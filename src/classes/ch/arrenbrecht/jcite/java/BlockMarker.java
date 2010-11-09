@@ -40,18 +40,8 @@ import ch.arrenbrecht.jcite.FragmentMarker;
 
 final class BlockMarker extends FragmentMarker
 {
-
 	public BlockMarker(String _fragmentName)
 	{
-		this.prefix = (0 == _fragmentName.length())? "//\n" : "// " + _fragmentName + "\n";
-		this.suffix = this.prefix;
+		super((0 == _fragmentName.length())? "//\n" : "// " + _fragmentName + "\n", true);
 	}
-
-
-	@Override
-	public boolean isBlock()
-	{
-		return true;
-	}
-
 }

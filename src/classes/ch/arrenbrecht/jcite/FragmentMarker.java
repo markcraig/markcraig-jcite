@@ -38,6 +38,21 @@ package ch.arrenbrecht.jcite;
 
 public abstract class FragmentMarker
 {
+	private final String prefix;
+	private final String suffix;
+	private final boolean isBlock;
+
+
+	public FragmentMarker(String _prefix, String _suffix, boolean _isBlock) {
+		this.prefix = _prefix;
+		this.suffix = _suffix;
+		this.isBlock = _isBlock;
+	}
+
+
+	public FragmentMarker(String _prefixAndSuffix, boolean _isBlock) {
+		this(_prefixAndSuffix, _prefixAndSuffix, _isBlock);
+	}
 
 
 	public static boolean findFragment( String _in, int _startingAt, FragmentMarker[] _markers, FragmentLocator _locator )
@@ -50,13 +65,9 @@ public abstract class FragmentMarker
 	}
 
 
-	public String prefix;
-	public String suffix;
-
-
-	public boolean isBlock()
+	public final boolean isBlock()
 	{
-		return false;
+		return this.isBlock;
 	}
 
 

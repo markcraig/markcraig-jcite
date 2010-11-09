@@ -39,24 +39,11 @@ import ch.arrenbrecht.jcite.FragmentMarker;
 
 final class BlockMarker extends FragmentMarker
 {
-
 	public BlockMarker(String _fragmentName)
 	{
-		final String text;
-		if (_fragmentName.startsWith( "xml!" )) {
-			text = "<!--" + _fragmentName.substring( 4 ) + "-->";
-		}
-		else {
-			text = _fragmentName;
-		}
-		this.prefix = text + "\n";
-		this.suffix = this.prefix;
+		super( _fragmentName.startsWith( "xml!" )
+					? "<!--" + _fragmentName.substring( 4 ) + "-->\n"
+					: _fragmentName + "\n"
+				, true );
 	}
-
-	@Override
-	public boolean isBlock()
-	{
-		return true;
-	}
-
 }

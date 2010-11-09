@@ -152,7 +152,7 @@ public class JCiteTaglet implements Taglet
 			else if (markup.substring( 0, posOfColon - 1 ).indexOf( '.' ) < 0) {
 				markup = getSourcePackagePathOf( _tag ) + markup;
 			}
-			return this.citer.formattingFor( markup, this.citer.citationFor( markup ) );
+			return this.citer.formattingFor( this.citer.citationFor( markup ) );
 		}
 		catch (Exception e) {
 			String msg = e.getMessage();

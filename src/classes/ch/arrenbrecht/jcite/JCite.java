@@ -134,7 +134,8 @@ public final class JCite
 	}
 
 
-	private void registerCitelet( JCitelet _citelet )
+	/** Visible to test code. */
+	void registerCitelet( JCitelet _citelet )
 	{
 		this.citelets.add( _citelet );
 	}

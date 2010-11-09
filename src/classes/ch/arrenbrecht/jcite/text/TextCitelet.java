@@ -64,9 +64,9 @@ public class TextCitelet extends TextBasedCitelet
 
 
 	@Override
-	public String formattingFor( String _markup, String _cited ) throws JCiteError
+	public String formattingFor( Insertion _insertion ) throws JCiteError
 	{
-		String fragment = _cited;
+		String fragment = _insertion.text();
 		fragment = escapeXML( fragment );
 		fragment = stripIndentation( fragment );
 		fragment = trimEmptyLines( fragment );

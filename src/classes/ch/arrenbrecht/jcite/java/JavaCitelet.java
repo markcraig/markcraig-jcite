@@ -116,22 +116,20 @@ public class JavaCitelet extends TextBasedCitelet
 
 
 	@Override
-	public String formattingFor( String _markup, String _cited ) throws JCiteError
+	public String formattingFor( Insertion _insertion ) throws JCiteError
 	{
 		final Collection<String> strips = new ArrayList<String>();
 		final Collection<String> shows = new ArrayList<String>();
 		final Collection<String> omissions = new ArrayList<String>();
 		final Collection<String> highlights = new ArrayList<String>();
 
-		if (_markup.length() > 0) {
-			int posOfSemicolon = _markup.indexOf( ';' );
-			if (posOfSemicolon >= 0) {
-				final String options = _markup.substring( posOfSemicolon );
-				extractOptions( options, stripPattern, strips );
-				extractOptions( options, showPattern, shows );
-				extractOptions( options, omitPattern, omissions );
-				extractOptions( options, highlightPattern, highlights );
-			}
+		if (_insertion instanceof AnnotatedCitation) {
+			final AnnotatedCitation ann = (AnnotatedCitation) _insertion;
+			final String options = ann.annotation();
+			extractOptions( options, stripPattern, strips );
+			extractOptions( options, showPattern, shows );
+			extractOptions( options, omitPattern, omissions );
+			extractOptions( options, highlightPattern, highlights );
 		}
 
 		// If not otherwise specified, make /**/ a highlight marker
@@ -139,7 +137,7 @@ public class JavaCitelet extends TextBasedCitelet
 			highlights.add( "" );
 		}
 
-		String fragment = _cited;
+		String fragment = _insertion.text();
 		fragment = stripIndentation( fragment );
 		fragment = omissionsIterator.iterate( fragment, omissions );
 		fragment = stripMarkersIterator.iterate( fragment, strips );

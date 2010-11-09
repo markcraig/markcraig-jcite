@@ -66,14 +66,14 @@ public abstract class JCitelet
 		return processElements( _source, markupStartTag(), markupEndTag(), new ElementVisitor()
 		{
 
-			public String insertionFor( String _markup ) throws JCiteError, IOException
+			public Insertion insertionFor( String _markup ) throws JCiteError, IOException
 			{
 				return citationFor( _markup );
 			}
 
-			public String formatInsertion( String _markup, String _insertionSource ) throws JCiteError, IOException
+			public String formatInsertion( Insertion _insertion ) throws JCiteError, IOException
 			{
-				return formattingFor( _markup, _insertionSource );
+				return formattingFor( _insertion );
 			}
 
 		} );
@@ -84,14 +84,14 @@ public abstract class JCitelet
 		return processElements( _source, inlineStartTag(), inlineEndTag(), new ElementVisitor()
 		{
 
-			public String insertionFor( String _citation )
+			public Insertion insertionFor( String _citation )
 			{
-				return _citation;
+				return inliningOf( _citation );
 			}
 
-			public String formatInsertion( String _markup, String _insertionSource ) throws JCiteError, IOException
+			public String formatInsertion( Insertion _insertion ) throws JCiteError, IOException
 			{
-				return formattingFor( _insertionSource );
+				return formattingFor( _insertion );
 			}
 
 		} );
@@ -122,10 +122,10 @@ public abstract class JCitelet
 				result.append( _source.substring( processedUpto, beginDeletion ) );
 
 				try {
-					final String insertionSource = _visitor.insertionFor( markup );
-					final String insertion = _visitor.formatInsertion( markup, insertionSource );
-					result.append( insertion );
-					this.jcite.checkTripwires( markup, insertionSource, beginMarkup );
+					final Insertion insertion = _visitor.insertionFor( markup );
+					final String formatted = _visitor.formatInsertion( insertion );
+					result.append( formatted );
+					this.jcite.checkTripwires( markup, insertion.text(), beginMarkup );
 					this.jcite.logCitation( markup, beginMarkup );
 				}
 				catch (JCiteError e) {
@@ -148,10 +148,56 @@ public abstract class JCitelet
 
 	}
 
+	public static abstract class Insertion
+	{
+		private final String text;
+
+		public Insertion( String _text )
+		{
+			this.text = _text;
+		}
+
+		public String text()
+		{
+			return text;
+		}
+	}
+
+	public static final class Inlined extends Insertion
+	{
+		public Inlined(String _source)
+		{
+			super(_source);
+		}
+	}
+
+	public static class Citation extends Insertion
+	{
+		public Citation(String _text)
+		{
+			super(_text);
+		}
+	}
+
+	public static class AnnotatedCitation extends Citation
+	{
+		private final String annotation;
+
+		public AnnotatedCitation(String _text, String _annotation)
+		{
+			super(_text);
+			this.annotation = _annotation;
+		}
+
+		public String annotation() {
+			return annotation;
+		}
+	}
+
 	protected interface ElementVisitor
 	{
-		String insertionFor( String _markup ) throws JCiteError, IOException;
-		String formatInsertion( String _markup, String _insertionSource ) throws JCiteError, IOException;
+		Insertion insertionFor( String _markup ) throws JCiteError, IOException;
+		String formatInsertion( Insertion _insertion ) throws JCiteError, IOException;
 	}
 
 
@@ -163,14 +209,14 @@ public abstract class JCitelet
 
 	protected abstract String markupTag();
 
-	protected abstract String citationFor( String _markup ) throws JCiteError, IOException;
+	protected abstract Citation citationFor( String _markup ) throws JCiteError, IOException;
 
-	protected abstract String formattingFor( String _markup, String _cited ) throws JCiteError, IOException;
-
-	protected String formattingFor( String _inlined ) throws JCiteError, IOException
+	protected Inlined inliningOf(String _citation)
 	{
-		return formattingFor( "", _inlined );
+		return new Inlined( _citation );
 	}
+
+	protected abstract String formattingFor( Insertion _insertion ) throws JCiteError, IOException;
 
 
 	protected String markupStartTag()

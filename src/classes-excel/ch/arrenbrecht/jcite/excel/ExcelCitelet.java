@@ -87,7 +87,7 @@ public class ExcelCitelet extends JCitelet
 
 
 	@Override
-	protected String citationFor( String _markup ) throws JCiteError, IOException
+	protected Citation citationFor( String _markup ) throws JCiteError, IOException
 	{
 		String sourceFileName = _markup;
 
@@ -108,7 +108,7 @@ public class ExcelCitelet extends JCitelet
 		final Workbook workbook = getWorkbook( sourceFileName );
 		final DescriptionBuilder b = new DescriptionBuilder();
 		new WorkbookFormatter( workbook, workbook.getSheet( 0 ), ranges, options ).convertSheet( b );
-		return b.toString();
+		return new Citation( b.toString() );
 	}
 
 
@@ -147,9 +147,9 @@ public class ExcelCitelet extends JCitelet
 
 
 	@Override
-	protected String formattingFor( String _markup, String _cited )
+	protected String formattingFor( Insertion _insertion )
 	{
-		return _cited;
+		return _insertion.text();
 	}
 
 

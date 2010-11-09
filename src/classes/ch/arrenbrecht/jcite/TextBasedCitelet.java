@@ -50,7 +50,7 @@ public abstract class TextBasedCitelet extends JCitelet
 
 
 	@Override
-	public String citationFor( String _markup ) throws JCiteError, IOException
+	public Citation citationFor( String _markup ) throws JCiteError, IOException
 	{
 		if (isVerbose()) {
 			System.out.print( "  JCite citing " );
@@ -78,18 +78,23 @@ public abstract class TextBasedCitelet extends JCitelet
 			fragment = getFragmentFrom( fileSource, fragmentName );
 		}
 
-		return fragment;
+		String instructions = "";
+		if (endFragmentName < _markup.length()) {
+			instructions = _markup.substring( endFragmentName ).trim();
+		}
+
+		return (instructions.length() > 1) // includes leading ';'
+			? new AnnotatedCitation( fragment, instructions )
+			: new Citation(fragment);
 	}
 
-
-	@Override
-	protected String formattingFor( String _inlined ) throws JCiteError, IOException
+	@Override protected Inlined inliningOf(String _citation)
 	{
 		if (isVerbose()) {
 			System.out.print( "  JCite citing inline element " );
-			System.out.println( _inlined );
+			System.out.println( _citation );
 		}
-		return super.formattingFor( _inlined );
+		return super.inliningOf( _citation );
 	}
 
 
@@ -115,7 +120,7 @@ public abstract class TextBasedCitelet extends JCitelet
 	}
 
 
-	private String getFragmentFrom( String _classSource, String _fragmentName ) throws FragmentNotFoundError,
+	protected String getFragmentFrom( String _sourceText, String _fragmentName ) throws FragmentNotFoundError,
 			UnclosedMarkupError
 	{
 		final FragmentMarker[] markers = markersFor( _fragmentName );
@@ -123,9 +128,9 @@ public abstract class TextBasedCitelet extends JCitelet
 		final FragmentLocator locator = new FragmentLocator();
 		int scanFrom = 0;
 		boolean found = false;
-		while (scanFrom < _classSource.length()) {
-			if (FragmentMarker.findFragment( _classSource, scanFrom, markers, locator )) {
-				String fragment = _classSource.substring( locator.beginFragment, locator.endFragment );
+		while (scanFrom < _sourceText.length()) {
+			if (FragmentMarker.findFragment( _sourceText, scanFrom, markers, locator )) {
+				String fragment = _sourceText.substring( locator.beginFragment, locator.endFragment );
 				fragments.append( fragment );
 				scanFrom = locator.endSuffix;
 				found = true;
@@ -134,7 +139,7 @@ public abstract class TextBasedCitelet extends JCitelet
 				break;
 			}
 		}
-		if (!found) throw new FragmentNotFoundError( _classSource, _fragmentName );
+		if (!found) throw new FragmentNotFoundError( _sourceText, _fragmentName );
 		return fragments.toString();
 	}
 

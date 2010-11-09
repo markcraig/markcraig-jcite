@@ -60,16 +60,16 @@ public class IncludeCitelet extends JCitelet
 
 
 	@Override
-	protected String citationFor( String _markup ) throws JCiteError, IOException
+	protected Citation citationFor( String _markup ) throws JCiteError, IOException
 	{
 		final File sourceFile = findSourceFile( _markup );
-		return Util.readStringFrom( sourceFile );
+		return new Citation( Util.readStringFrom( sourceFile ) );
 	}
 
 	@Override
-	protected String formattingFor( String _markup, String _cited )
+	protected String formattingFor( Insertion _insertion )
 	{
-		return _cited;
+		return _insertion.text();
 	}
 
 }

@@ -63,17 +63,17 @@ public class PathCitelet extends JCitelet
 
 
 	@Override
-	protected String citationFor( String _markup ) throws JCiteError, IOException
+	protected Citation citationFor( String _markup ) throws JCiteError, IOException
 	{
-		return stripProjectPathFrom( findSourcePath( _markup ) );
+		return new Citation( stripProjectPathFrom( findSourcePath( _markup ) ) );
 	}
 
 
 	@Override
-	protected String formattingFor( String _markup, String _cited )
+	protected String formattingFor( Insertion _insertion )
 	{
 		// "/" is last to avoid it replacing </span>s.
-		return PATH_PRE + formatSeparators( _cited, "\\", ":", "/" ) + PATH_POST;
+		return PATH_PRE + formatSeparators( _insertion.text(), "\\", ":", "/" ) + PATH_POST;
 	}
 
 

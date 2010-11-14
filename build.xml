@@ -222,9 +222,14 @@
 		</exec>
 	</target>
 
-	<target name="cite" depends="prepare-run, compile">
+	<target name="cite" depends="prepare-run, compile, @cite-no-accept">
 		<taskdef name="jcite" classname="ch.arrenbrecht.jcite.JCiteTask" classpathref="run.classpath" />
-		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" projectpath="${basedir}">
+		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" projectpath="${basedir}"
+			tripwirefile="${src.dir}/tripwires.jcite"
+			acceptChanges="${tripups.accept}"
+			diffPath="${temp.dir}/tripups"
+			differ="${jcite.differ}"
+			>
 			<sourcepath>
 				<pathelement location="${src.classes.dir}" />
 				<pathelement location="${src.classes-excel.dir}" />
@@ -234,6 +239,11 @@
 			</sourcepath>
 			<include name="**/*.htm*" />
 		</jcite>
+	</target>
+
+	<target name="@cite-no-accept" unless="tripups.accept" />
+	<target name="cite-accept" description="Combined with 'cite', causes tripwire changes to be accepted.">
+		<property name="tripups.accept" value="true" />
 	</target>
 
 	<!-- ================================================================= -->

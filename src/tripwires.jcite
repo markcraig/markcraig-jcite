@@ -1,0 +1,1058 @@
+inc:included.htm
+__@@__
+<dl>
+<dt>Test 1</dt><dd>24 = 3 * 8<br/>18 = 3 * 6</dd>
+<dt>Test 2</dt><dd>11 = 3 + 8<br/>9 = 3 + 6</dd>
+</dl>
+___@_@___
+jc:ch.arrenbrecht.jcite.JCitePlainExtensionTest:-- MyCitelet
+__@@__
+public static class MyCitelet /**/extends JCitelet/**/{
+
+		private final Map<String, String> fragments = new HashMap<String, String>();
+
+		public MyCitelet(JCite _jcite) {
+			super(_jcite);
+			this.fragments.put("exA", "Example A\nAnd a little more of example A.");
+			this.fragments.put("exB", "Example B");
+		}
+___@_@___
+jc:ch.arrenbrecht.jcite.JCitePlainExtensionTest:-- MyProvider
+__@@__
+public static class MyProvider implements JCiteletProvider {
+		public JCitelet getCitelet(JCite _jcite) {
+			return new MyCitelet(_jcite);
+		}
+	}
+___@_@___
+jc:ch.arrenbrecht.jcite.JCitePlainExtensionTest:-- cite
+__@@__
+@Override public Citation /**/cite/**/(String _reference) throws JCiteError, IOException {
+			final String[] parts = _reference.split(" as ");
+			final String key = parts[0];
+			final String fragment = this.fragments.get(key);
+			if (null == fragment)
+				throw new JCiteError("Cannot find source for " + key);
+			if (parts.length == 1)
+				return /**/new Citation/**/(fragment);
+			final String formattingOptions = parts[1];
+			return /**/new AnnotatedCitation/**/(fragment, formattingOptions);
+		}
+___@_@___
+jc:ch.arrenbrecht.jcite.JCitePlainExtensionTest:-- format
+__@@__
+@Override protected String /**/format/**/(Insertion _insertion) throws JCiteError, IOException {
+			final String[] lines = _insertion.text().split("\n");
+			final StringBuilder fmt = new StringBuilder();
+			String prefix = "DEMO:\t";
+			if (_insertion /**/instanceof AnnotatedCitation/**/)
+				prefix = ((AnnotatedCitation) _insertion).annotation() + ":\t";
+			for (String line : lines) {
+				fmt.append(prefix).append(line).append("\n");
+				prefix = "\t";
+			}
+			return fmt.toString();
+		}
+___@_@___
+jc:ch.arrenbrecht.jcite.JCitePlainExtensionTest:-- referencePrefix
+__@@__
+@Override protected String /**/referencePrefix/**/() {
+			return "demo";
+		}
+___@_@___
+jc:ch.arrenbrecht.jcite.JCitePlainExtensionTest:-- test
+__@@__
+String cited = citer.process("A test string\n" + //
+				"with a citation:\n" + //
+				/**/"<stripped>[demo:exA]</stripped>\n"/**/+ //
+				"and another one as in info block:\n" + //
+				/**/"<stripped>[demo:exB as INFO]</stripped>"/**/);
+		assertEquals("A test string\n" + //
+				"with a citation:\n" + //
+				/**/"DEMO:	Example A\n" + //
+				"	And a little more of example A.\n" + //
+				"\n"/**/+ //
+				"and another one as in info block:\n" + //
+				/**/"INFO:	Example B\n"/**/, //
+				cited);
+___@_@___
+jc:ch.arrenbrecht.jcite.JCiteTextExtensionTest:-- MyCitelet
+__@@__
+public static class MyCitelet /**/extends TextBasedCitelet/**/ {
+
+		public MyCitelet(JCite _jcite) {
+			super(_jcite);
+		}
+
+		@Override protected String /**/referencePrefix/**/() {
+			return "demo";
+		}
+___@_@___
+jc:ch.arrenbrecht.jcite.JCiteTextExtensionTest:-- format
+__@@__
+@Override protected String /**/format/**/(Insertion _insertion) throws JCiteError, IOException {
+			final String[] lines = /**/stripIndentation/**/( _insertion.text() ).split("\n");
+			final StringBuilder fmt = new StringBuilder();
+			String prefix = "DEMO:\t";
+			if (_insertion /**/instanceof AnnotatedCitation/**/)
+				prefix = ((AnnotatedCitation) _insertion).annotation() + ":\t";
+			for (String line: lines) {
+				fmt.append(prefix).append(line).append("\n");
+				prefix = "\t";
+			}
+			return fmt.toString();
+		}
+___@_@___
+jc:ch.arrenbrecht.jcite.JCiteTextExtensionTest:-- markersFor
+__@@__
+@Override protected FragmentMarker[] /**/markersFor/**/(String _fragmentName) {
+			return new FragmentMarker[] { /**/new BlockMarker/**/(
+					"// begin " + _fragmentName + "\n", //
+					"// end " + _fragmentName + "\n") };
+		}
+___@_@___
+jc:ch.arrenbrecht.jcite.JCiteTextExtensionTest:-- test
+__@@__
+String cited = citer.process("A test string\n"
+				+ "with a citation:\n"
+				+ /**/"<stripped>[demo:simplefile.txt:exA]</stripped>\n"/**/
+				+ "and another one as in info block:\n"
+				+ /**/"<stripped>[demo:simplefile.txt:exB;INFO]</stripped>")/**/;
+		assertEquals("A test string\n"
+				+ "with a citation:\n"
+				+ /**/"DEMO:	Example A\n"
+				+ "	And a little more of example A.\n"
+				+ "\n"/**/
+				+ "and another one as in info block:\n"
+				+ /**/"INFO:	Example B\n"/**/
+				, cited);
+___@_@___
+jc:ch.arrenbrecht.jcite.TextBasedCitelet:-- helpers
+__@@__
+protected final String stripIndentation( String _fragment )
+	protected final String trimEmptyLines( String _fragment )
+	protected final String escapeXML( String _fragment )
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.Adder:---- fullPath
+__@@__
+/**
+	 * Returns the addend which was passed to the constructor. As in:
+	 * {@.jcite ch.arrenbrecht.jcite.examples.AdderTest:-- getAddend}
+	 *
+	 * @return the addend.
+	 */
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.Adder:---- noClass
+__@@__
+/**
+	 * Adds two numbers. Example: {@.jcite AdderTest:-- add}
+	 *
+	 * Note how, in the parameter documentation, we can cite from the current class's source
+	 * directly, that is, omitting the target class part.
+	 *
+	 * @param a first addend, as in {@.jcite -- add; highlight a; strip b}
+	 * @param b second addend, as in {@.jcite -- add; highlight b; strip a}
+	 */
+	public static int add( int a, int b )
+	{
+		// -- add
+		return /*a*/a/*a*/ + /*b*/b/*b*/;
+		// -- add
+	}
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.Adder:---- noPath
+__@@__
+/**
+ * Class that adds a specific value to other values. Typical usage: {@.jcite AdderTest:-- useCase}
+ *
+ * Note how we can omit the package specification of the target class if it resides in the same
+ * package as this class. If the class is in another package, we have to specify it:
+ * {@.jcite ch.arrenbrecht.jcite.examples.otherpackage.SomethingElse:-- fromOtherPackage}
+ *
+ * @author peo
+ */
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.AdderTest
+__@@__
+/*
+ * Copyright (c) 2006 Peter Arrenbrecht
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ *
+ * - The names of the contributors may not be used to endorse or promote
+ *   products derived from this software without specific prior written
+ *   permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Contact information:
+ * Peter Arrenbrecht
+ * http://www.arrenbrecht.ch/jcite
+ */
+package ch.arrenbrecht.jcite.examples;
+
+import junit.framework.TestCase;
+
+public class AdderTest extends TestCase
+{
+
+	public void testAddTo() throws Exception
+	{
+		// -- useCase
+		Adder ten = new Adder( 10 );
+		int result = ten.addTo( 5 );
+		// -- useCase
+		assertEquals( 15, result );
+	}
+
+
+	public void testAdd() throws Exception
+	{
+		// -- add
+		int sum = Adder./**/add/**/( 1, 2 );
+		// -- add
+		assertEquals( 3, sum );
+	}
+
+
+	// ---- fullPathTarget
+	public void testGetAddend() throws Exception
+	{
+		// -- getAddend
+		Adder one = new Adder( 1 );
+		int addend = one./**/getAddend/**/();
+		assertEquals( 1, addend );
+		// -- getAddend
+	}
+	// ---- fullPathTarget
+
+}
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.AdderTest:---- fullPathTarget
+__@@__
+public void testGetAddend() throws Exception
+	{
+		// -- getAddend
+		Adder one = new Adder( 1 );
+		int addend = one./**/getAddend/**/();
+		assertEquals( 1, addend );
+		// -- getAddend
+	}
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fixedHighlighting
+__@@__
+abstract/**/int/**/bar();
+		abstract/**/int[]/**/baz();
+		abstract/**/Collection<String>/**/duh();
+		void doh()
+		{
+			int /**/var/**/= 0;
+		}
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fixedHighlightingSrc; show
+__@@__
+abstract class Foo
+	{
+		// ---- fixedHighlighting
+		abstract/**/int/**/bar();
+		abstract/**/int[]/**/baz();
+		abstract/**/Collection<String>/**/duh();
+		void doh()
+		{
+			int /**/var/**/= 0;
+		}
+		// ---- fixedHighlighting
+	}
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fragment1
+__@@__
+if (1 == 2) a = 0;
+		else a = 1;
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fragment2
+__@@__
+// Part 1
+		if (a == 1) {
+			b = 0;
+		}
+		else {
+			b = 1;
+		}
+		// Part 2
+		c = a + b;
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fragmentSrc
+__@@__
+void sampleCode()
+	{
+
+		// This is not part of the sample.
+		int a;
+
+		// ---- fragment1
+		if (1 == 2) a = 0;
+		else a = 1;
+		// ---- fragment1
+
+		int b;
+		// ---- fragment2
+		// Part 1
+		if (a == 1) {
+			b = 0;
+		}
+		else {
+			b = 1;
+		}
+		// ---- fragment2
+
+		int c;
+
+		// ---- fragment2
+		// Part 2
+		c = a + b;
+		// ---- fragment2
+
+		System.out.println( c );
+		System.out./* -lineFragment- */println( "Hello, world!" )/* -lineFragment- */;
+	}
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fragmentSrc; strip ---- fragment1; strip ---- fragment2; strip -lineFragment-
+__@@__
+void sampleCode()
+	{
+
+		// This is not part of the sample.
+		int a;
+
+		// ---- fragment1
+		if (1 == 2) a = 0;
+		else a = 1;
+		// ---- fragment1
+
+		int b;
+		// ---- fragment2
+		// Part 1
+		if (a == 1) {
+			b = 0;
+		}
+		else {
+			b = 1;
+		}
+		// ---- fragment2
+
+		int c;
+
+		// ---- fragment2
+		// Part 2
+		c = a + b;
+		// ---- fragment2
+
+		System.out.println( c );
+		System.out./* -lineFragment- */println( "Hello, world!" )/* -lineFragment- */;
+	}
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleHighlighting; highlight -hl-
+__@@__
+int a = 0;
+		// -hl-
+		int b = 1;
+		// -hl-
+		int c = a + 2 /* -hl- */* b/* -hl- */;
+		System.out.println( c );
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleHighlightingSrc
+__@@__
+void sampleHighlighting()
+	{
+		// ---- sampleHighlighting
+		int a = 0;
+		// -hl-
+		int b = 1;
+		// -hl-
+		int c = a + 2 /* -hl- */* b/* -hl- */;
+		System.out.println( c );
+		// ---- sampleHighlighting
+	}
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleMethod
+__@@__
+/**
+	 * This is a <b>sample</b> method. Just like {@link #sampleCode()}.
+	 *
+	 * @author Peter Arrenbrecht
+	 */
+	void sampleMethod()
+	{
+
+		// This is a quick test of JCite.
+		sampleMethod();
+		if ("a" == "b") System.out.println( "Oops!" );
+		try {
+			int a = 1;
+			System.out.println( a );
+		}
+		finally {
+			System.out.println( "Done." );
+		}
+
+	}
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleMethodSrc
+__@@__
+// ---- sampleMethod
+	/**
+	 * This is a <b>sample</b> method. Just like {@link #sampleCode()}.
+	 *
+	 * @author Peter Arrenbrecht
+	 */
+	void sampleMethod()
+	{
+
+		// This is a quick test of JCite.
+		sampleMethod();
+		if ("a" == "b") System.out.println( "Oops!" );
+		try {
+			int a = 1;
+			System.out.println( a );
+		}
+		finally {
+			System.out.println( "Done." );
+		}
+
+	}
+
+
+	// ---- sampleMethod
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission
+__@@__
+int a = 0;
+		// -try-
+		try {
+			// -try-
+			something();
+			// -try-
+		}
+		finally {
+			cleanup();
+		}
+		// -try-
+		System.out.println( a );
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission; highlight -try-
+__@@__
+int a = 0;
+		// -try-
+		try {
+			// -try-
+			something();
+			// -try-
+		}
+		finally {
+			cleanup();
+		}
+		// -try-
+		System.out.println( a );
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission; omit -try-
+__@@__
+int a = 0;
+		// -try-
+		try {
+			// -try-
+			something();
+			// -try-
+		}
+		finally {
+			cleanup();
+		}
+		// -try-
+		System.out.println( a );
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmission; strip -try-
+__@@__
+int a = 0;
+		// -try-
+		try {
+			// -try-
+			something();
+			// -try-
+		}
+		finally {
+			cleanup();
+		}
+		// -try-
+		System.out.println( a );
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- sampleOmissionSrc
+__@@__
+void sampleOmission()
+	{
+		// ---- sampleOmission
+		int a = 0;
+		// -try-
+		try {
+			// -try-
+			something();
+			// -try-
+		}
+		finally {
+			cleanup();
+		}
+		// -try-
+		System.out.println( a );
+		// ---- sampleOmission
+	}
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- simpleHighlighting
+__@@__
+int c = 2 /**/* b/**/;
+		System.out.println( c );
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- simpleHighlighting;show
+__@@__
+int c = 2 /**/* b/**/;
+		System.out.println( c );
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- simpleHighlightingSrc; show
+__@@__
+void simpleHighlighting()
+	{
+		int b = 1;
+		// ---- simpleHighlighting
+		int c = 2 /**/* b/**/;
+		System.out.println( c );
+		// ---- simpleHighlighting
+	}
+___@_@___
+jc:ch.arrenbrecht.jcite.examples.JCiteSampleCode:-lineFragment-
+__@@__
+println( "Hello, world!" )
+___@_@___
+jc:public void /**/foo/**/() {
+    bar();
+}
+__@@__
+public void /**/foo/**/() {
+    bar();
+}
+___@_@___
+path:EntireSheet.xls
+__@@__
+src/test/data/EntireSheet.xls
+___@_@___
+text:data/simplefile.txt:--snip
+__@@__
+// begin exA
+  Example A
+  And a little more of example A.
+  // end exA
+___@_@___
+text:plain.sh:# ---- sample
+__@@__
+java -cp "$cp:$CLASSPATH" ch.arrenbrecht.jcite.JCite "$@"
+___@_@___
+text:plain.sh:# ---- sampleSrc
+__@@__
+# ---- sample
+java -cp "$cp:$CLASSPATH" ch.arrenbrecht.jcite.JCite "$@"
+# ---- sample
+___@_@___
+text:plain.xml:xml! sample
+__@@__
+<p>This is just some <b>demo</b> text.</p>
+___@_@___
+text:plain.xml:xml! sampleSrc
+__@@__
+<!-- sample -->
+		<p>This is just some <b>demo</b> text.</p>
+		<!-- sample -->
+___@_@___
+xc:EntireSheet.xls
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>A</td>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">1</td>
+			<td><b><span style="text-decoration: underline;">Inputs</span></b></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">2</td>
+			<td>Orders for last 3 months</td>
+			<td class="xl-r2">Total</td>
+			<td class="xl-r2">Date</td>
+			<td class="xl-r2">DaysBack</td>
+			<td class="xl-r2">Weight</td>
+			<td class="xl-r2">Value</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">3</td>
+			<td></td>
+			<td class="xl-num xl-r1">450<br/><span class="xl-name">(OrderTotal)</span></td>
+			<td class="xl-date xl-r1">8/10/06<br/><span class="xl-name">(OrderDate)</span></td>
+			<td class="xl-num xl-r1">97<br/><span class="xl-exp">=B$11-C3</span></td>
+			<td class="xl-num xl-r1">-8%<br/><span class="xl-exp">=(90.0-D3)/90.0</span></td>
+			<td class="xl-num xl-r1">-35<br/><span class="xl-exp">=B3*E3</span></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">4</td>
+			<td></td>
+			<td class="xl-num xl-r1">1320</td>
+			<td class="xl-date xl-r1">8/29/06</td>
+			<td class="xl-num xl-r1">78<br/><span class="xl-exp">=B$11-C4</span></td>
+			<td class="xl-num xl-r1">13%<br/><span class="xl-exp">=(90.0-D4)/90.0</span></td>
+			<td class="xl-num xl-r1">176<br/><span class="xl-exp">=B4*E4</span></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">5</td>
+			<td></td>
+			<td class="xl-num xl-r1">1540</td>
+			<td class="xl-date xl-r1">9/24/06</td>
+			<td class="xl-num xl-r1">52<br/><span class="xl-exp">=B$11-C5</span></td>
+			<td class="xl-num xl-r1">42%<br/><span class="xl-exp">=(90.0-D5)/90.0</span></td>
+			<td class="xl-num xl-r1">650.222<br/><span class="xl-exp">=B5*E5</span></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">6</td>
+			<td></td>
+			<td class="xl-num xl-r1">60</td>
+			<td class="xl-date xl-r1">10/8/06</td>
+			<td class="xl-num xl-r1">38<br/><span class="xl-exp">=B$11-C6</span></td>
+			<td class="xl-num xl-r1">58%<br/><span class="xl-exp">=(90.0-D6)/90.0</span></td>
+			<td class="xl-num xl-r1">34.667<br/><span class="xl-exp">=B6*E6</span></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">7</td>
+			<td></td>
+			<td class="xl-num xl-r1">5870</td>
+			<td class="xl-date xl-r1">11/5/06</td>
+			<td class="xl-num xl-r1">10<br/><span class="xl-exp">=B$11-C7</span></td>
+			<td class="xl-num xl-r1">89%<br/><span class="xl-exp">=(90.0-D7)/90.0</span></td>
+			<td class="xl-num xl-r1">5217.778<br/><span class="xl-exp">=B7*E7</span></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">8</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">9</td>
+			<td><b><span style="text-decoration: underline;">Intermediates</span></b></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">10</td>
+			<td>Total Value</td>
+			<td class="xl-num">6043.667<br/><span class="xl-exp">=SUM(F3:F7)</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">11</td>
+			<td>CurrentDate; TODAY() really</td>
+			<td class="xl-date">11/15/06</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">12</td>
+			<td>&gt; 0 ?</td>
+			<td>true<br/><span class="xl-exp">=B10&gt;0.0</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">13</td>
+			<td>&lt; 1'000'000 ?</td>
+			<td>true<br/><span class="xl-exp">=B10&lt;1000000.0</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">14</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">15</td>
+			<td><b><span style="text-decoration: underline;">Outputs</span></b></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">16</td>
+			<td>Rating</td>
+			<td class="xl-num">3<br/><span class="xl-exp">=MATCH(B10,C16:G16)</span><br/><span class="xl-name">(Rating)</span></td>
+			<td class="xl-num">0</td>
+			<td class="xl-num">2000</td>
+			<td class="xl-num">5000</td>
+			<td class="xl-num">7500</td>
+			<td class="xl-num">10000</td>
+		</tr>
+		<tr>
+			<td class="xl-row">17</td>
+			<td>Plausible</td>
+			<td>true<br/><span class="xl-exp">=AND(B12:B13)</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+<br/><span class="xl-r1">B3:F7</span> <span class="xl-name">(OrdersForLastThreeMonths)</span><br/><span class="xl-r2">B2:F2</span> <span class="xl-name">(OrdersHeader)</span>
+___@_@___
+xc:EntireSheet.xls:OrdersForLastThreeMonths
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">3</td>
+			<td class="xl-num">450<br/><span class="xl-name">(OrderTotal)</span></td>
+			<td class="xl-date">8/10/06<br/><span class="xl-name">(OrderDate)</span></td>
+			<td class="xl-num">97<br/><span class="xl-exp">=B$11-C3</span></td>
+			<td class="xl-num">-8%<br/><span class="xl-exp">=(90.0-D3)/90.0</span></td>
+			<td class="xl-num">-35<br/><span class="xl-exp">=B3*E3</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">4</td>
+			<td class="xl-num">1320</td>
+			<td class="xl-date">8/29/06</td>
+			<td class="xl-num">78<br/><span class="xl-exp">=B$11-C4</span></td>
+			<td class="xl-num">13%<br/><span class="xl-exp">=(90.0-D4)/90.0</span></td>
+			<td class="xl-num">176<br/><span class="xl-exp">=B4*E4</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">5</td>
+			<td class="xl-num">1540</td>
+			<td class="xl-date">9/24/06</td>
+			<td class="xl-num">52<br/><span class="xl-exp">=B$11-C5</span></td>
+			<td class="xl-num">42%<br/><span class="xl-exp">=(90.0-D5)/90.0</span></td>
+			<td class="xl-num">650.222<br/><span class="xl-exp">=B5*E5</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">6</td>
+			<td class="xl-num">60</td>
+			<td class="xl-date">10/8/06</td>
+			<td class="xl-num">38<br/><span class="xl-exp">=B$11-C6</span></td>
+			<td class="xl-num">58%<br/><span class="xl-exp">=(90.0-D6)/90.0</span></td>
+			<td class="xl-num">34.667<br/><span class="xl-exp">=B6*E6</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">7</td>
+			<td class="xl-num">5870</td>
+			<td class="xl-date">11/5/06</td>
+			<td class="xl-num">10<br/><span class="xl-exp">=B$11-C7</span></td>
+			<td class="xl-num">89%<br/><span class="xl-exp">=(90.0-D7)/90.0</span></td>
+			<td class="xl-num">5217.778<br/><span class="xl-exp">=B7*E7</span></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">2</td>
+			<td>Total</td>
+			<td>Date</td>
+			<td>DaysBack</td>
+			<td>Weight</td>
+			<td>Value</td>
+		</tr>
+		<tr>
+			<td class="xl-row">3</td>
+			<td class="xl-num xl-r1">450<br/><span class="xl-name">(OrderTotal)</span></td>
+			<td class="xl-date xl-r1">8/10/06<br/><span class="xl-name">(OrderDate)</span></td>
+			<td class="xl-num xl-r1">97<br/><span class="xl-exp">=B$11-C3</span></td>
+			<td class="xl-num xl-r1">-8%<br/><span class="xl-exp">=(90.0-D3)/90.0</span></td>
+			<td class="xl-num xl-r1">-35<br/><span class="xl-exp">=B3*E3</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">4</td>
+			<td class="xl-num xl-r1">1320</td>
+			<td class="xl-date xl-r1">8/29/06</td>
+			<td class="xl-num xl-r1">78<br/><span class="xl-exp">=B$11-C4</span></td>
+			<td class="xl-num xl-r1">13%<br/><span class="xl-exp">=(90.0-D4)/90.0</span></td>
+			<td class="xl-num xl-r1">176<br/><span class="xl-exp">=B4*E4</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">5</td>
+			<td class="xl-num xl-r1">1540</td>
+			<td class="xl-date xl-r1">9/24/06</td>
+			<td class="xl-num xl-r1">52<br/><span class="xl-exp">=B$11-C5</span></td>
+			<td class="xl-num xl-r1">42%<br/><span class="xl-exp">=(90.0-D5)/90.0</span></td>
+			<td class="xl-num xl-r1">650.222<br/><span class="xl-exp">=B5*E5</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">6</td>
+			<td class="xl-num xl-r1">60</td>
+			<td class="xl-date xl-r1">10/8/06</td>
+			<td class="xl-num xl-r1">38<br/><span class="xl-exp">=B$11-C6</span></td>
+			<td class="xl-num xl-r1">58%<br/><span class="xl-exp">=(90.0-D6)/90.0</span></td>
+			<td class="xl-num xl-r1">34.667<br/><span class="xl-exp">=B6*E6</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">7</td>
+			<td class="xl-num xl-r1">5870</td>
+			<td class="xl-date xl-r1">11/5/06</td>
+			<td class="xl-num xl-r1">10<br/><span class="xl-exp">=B$11-C7</span></td>
+			<td class="xl-num xl-r1">89%<br/><span class="xl-exp">=(90.0-D7)/90.0</span></td>
+			<td class="xl-num xl-r1">5217.778<br/><span class="xl-exp">=B7*E7</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">16</td>
+			<td class="xl-num">3<br/><span class="xl-exp">=MATCH(B10,C16:G16)</span><br/><span class="xl-name">(Rating)</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+<br/><span class="xl-r1">B3:F7</span> <span class="xl-name">(OrdersForLastThreeMonths)</span>
+___@_@___
+xc:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths+,Rating+;formulas-only
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">2</td>
+			<td>Total</td>
+			<td>Date</td>
+			<td>DaysBack</td>
+			<td>Weight</td>
+			<td>Value</td>
+		</tr>
+		<tr>
+			<td class="xl-row">3</td>
+			<td class="xl-num xl-r1">450<br/><span class="xl-name">(OrderTotal)</span></td>
+			<td class="xl-date xl-r1">8/10/06<br/><span class="xl-name">(OrderDate)</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B$11-C3</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=(90.0-D3)/90.0</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B3*E3</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">4</td>
+			<td class="xl-num xl-r1">1320</td>
+			<td class="xl-date xl-r1">8/29/06</td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B$11-C4</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=(90.0-D4)/90.0</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B4*E4</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">5</td>
+			<td class="xl-num xl-r1">1540</td>
+			<td class="xl-date xl-r1">9/24/06</td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B$11-C5</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=(90.0-D5)/90.0</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B5*E5</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">6</td>
+			<td class="xl-num xl-r1">60</td>
+			<td class="xl-date xl-r1">10/8/06</td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B$11-C6</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=(90.0-D6)/90.0</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B6*E6</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">7</td>
+			<td class="xl-num xl-r1">5870</td>
+			<td class="xl-date xl-r1">11/5/06</td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B$11-C7</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=(90.0-D7)/90.0</span></td>
+			<td class="xl-num xl-r1"><span class="xl-exp-only">=B7*E7</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">16</td>
+			<td class="xl-num"><span class="xl-exp-only">=MATCH(B10,C16:G16)</span><br/><span class="xl-name">(Rating)</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+<br/><span class="xl-r1">B3:F7</span> <span class="xl-name">(OrdersForLastThreeMonths)</span>
+___@_@___
+xc:EntireSheet.xls:OrdersHeader,OrdersForLastThreeMonths,Rating
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">2</td>
+			<td>Total</td>
+			<td>Date</td>
+			<td>DaysBack</td>
+			<td>Weight</td>
+			<td>Value</td>
+		</tr>
+		<tr>
+			<td class="xl-row">3</td>
+			<td class="xl-num">450<br/><span class="xl-name">(OrderTotal)</span></td>
+			<td class="xl-date">8/10/06<br/><span class="xl-name">(OrderDate)</span></td>
+			<td class="xl-num">97<br/><span class="xl-exp">=B$11-C3</span></td>
+			<td class="xl-num">-8%<br/><span class="xl-exp">=(90.0-D3)/90.0</span></td>
+			<td class="xl-num">-35<br/><span class="xl-exp">=B3*E3</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">4</td>
+			<td class="xl-num">1320</td>
+			<td class="xl-date">8/29/06</td>
+			<td class="xl-num">78<br/><span class="xl-exp">=B$11-C4</span></td>
+			<td class="xl-num">13%<br/><span class="xl-exp">=(90.0-D4)/90.0</span></td>
+			<td class="xl-num">176<br/><span class="xl-exp">=B4*E4</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">5</td>
+			<td class="xl-num">1540</td>
+			<td class="xl-date">9/24/06</td>
+			<td class="xl-num">52<br/><span class="xl-exp">=B$11-C5</span></td>
+			<td class="xl-num">42%<br/><span class="xl-exp">=(90.0-D5)/90.0</span></td>
+			<td class="xl-num">650.222<br/><span class="xl-exp">=B5*E5</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">6</td>
+			<td class="xl-num">60</td>
+			<td class="xl-date">10/8/06</td>
+			<td class="xl-num">38<br/><span class="xl-exp">=B$11-C6</span></td>
+			<td class="xl-num">58%<br/><span class="xl-exp">=(90.0-D6)/90.0</span></td>
+			<td class="xl-num">34.667<br/><span class="xl-exp">=B6*E6</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">7</td>
+			<td class="xl-num">5870</td>
+			<td class="xl-date">11/5/06</td>
+			<td class="xl-num">10<br/><span class="xl-exp">=B$11-C7</span></td>
+			<td class="xl-num">89%<br/><span class="xl-exp">=(90.0-D7)/90.0</span></td>
+			<td class="xl-num">5217.778<br/><span class="xl-exp">=B7*E7</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">16</td>
+			<td class="xl-num">3<br/><span class="xl-exp">=MATCH(B10,C16:G16)</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___

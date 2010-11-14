@@ -3,11 +3,11 @@ h1. JCite - Java Source Code Citation System
 
 <div class="news">
 
+"JCite 1.11.0":history.htm with documented "extensibility":extend.htm.
+<br/>%(when)???%
+
 "JCite 1.10.3":history.htm fixes a few web links, code warnings, and left-over TODOs.
 <br/>%(when)November 8, 2010%
-
-"JCite 1.10.2":history.htm with fixes and performance tuning. New repo hosting.
-<br/>%(when)???%
 
 </div>
 

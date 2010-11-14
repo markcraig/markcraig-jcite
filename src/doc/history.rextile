@@ -2,6 +2,20 @@
 h1. JCite Version History
 
 
+h2. JCite 1.11.0
+
+h5. Better
+
+	* Documented how to "extend JCite":extend.htm. Refactored a lot to make this more straightforward.
+
+
+h2. JCite 1.10.3
+
+h5. Better
+
+	* Minor fixes and updates to documentation and build process.
+
+
 h2. JCite 1.10.2
 
 h5. Better

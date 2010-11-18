@@ -1,16 +1,46 @@
 
 h1. JCite - Java Source Code Citation System
 
-<div class="news">
+<notextile>
+<div class="feed">
 
-"JCite 1.11.0":history.htm with documented "extensibility":extend.htm.
-<br/>%(when)???%
-
-"JCite 1.10.3":history.htm fixes a few web links, code warnings, and left-over TODOs.
-<br/>%(when)November 8, 2010%
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'search',
+  search: 'jcite',
+  interval: 6000,
+  title: '',
+  subject: '',
+  width: 'auto',
+  height: 300,
+  theme: {
+    shell: {
+      background: '#fef6e4',
+      color: '#8b0000'
+    },
+    tweets: {
+      background: '#fef6e4',
+      color: '#444444',
+      links: '#8b0000'
+    }
+  },
+  features: {
+    scrollbar: true,
+    loop: false,
+    live: true,
+    hashtags: true,
+    timestamp: true,
+    avatars: true,
+    toptweets: true,
+    behavior: 'all'
+  }
+}).render().start();
+</script>
 
 </div>
-
+</notextile>
 
 JCite cites snippets of Java source code or Excel sheets into HTML documents - API documentation, for instance. Citing from tests, or tested code, lets you "guarantee that your examples really work":-citing. And they get automatic syntax highlighting.
 

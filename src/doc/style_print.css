@@ -63,6 +63,11 @@ div.toc
 
 /* News */
 
+div.feed
+{
+	display: none;
+}
+
 div.news
 {
 	float: right;

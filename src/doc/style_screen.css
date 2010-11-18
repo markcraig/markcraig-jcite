@@ -245,6 +245,17 @@ div.footer p {
 
 /* News */
 
+div.feed {
+	float: right;
+	width: 18em;
+	margin-left: 1em;
+	margin-bottom: 1em;
+	margin-right: -9em;
+	padding-left: 1em;
+	padding-right: 1em;
+	background: #FEF6E4;
+}
+
 div.news {
 	float: right;
 	width: 12em;

@@ -45,7 +45,7 @@ public interface Constants
 	public static final String END_HIGHLIGHT = String.valueOf( (char) 2 );
 
 
-	public static final Object INTRO = "JCite 1.9, Copyright (C) 2006 Peter Arrenbrecht\n"
+	public static final Object INTRO = "JCite, Copyright (C) 2006 Peter Arrenbrecht\n"
 			+ "JCite comes with ABSOLUTELY NO WARRANTY; for details\n"
 			+ "run 'jcite -license'.\n";
 

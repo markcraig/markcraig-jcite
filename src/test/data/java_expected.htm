@@ -8,7 +8,7 @@
     <style media="screen" type="text/css">
 		
     </style>
-	<link href="style_screen.css" rel="stylesheet" type="text/css" media="screen" /><link href="style_print.css" rel="stylesheet" type="text/css" media="print" />
+	<link href="style_screen.css" rel="stylesheet" media="screen" type="text/css" /><link href="style_print.css" rel="stylesheet" media="print" type="text/css" />
 </head>
 
 <body>
@@ -28,7 +28,7 @@
 	<p>This is a quick demo of JCite. You can use it to cite fragments of Java source code in <span class="caps">HTML</span> documentation. This is especially useful if the cited fragments are part of automated tests, thus ensuring their correctness.</p>
 
 
-<div class="toc"><ul class="toc toc1"><li><a href="#pagetoc__1">Citing Entire Blocks</a></li><li><a href="#pagetoc__2">Individual Snippets</a></li><li><a href="#pagetoc__3">Highlighting</a></li><li><a href="#pagetoc__4">Omissions</a></li><li><a href="#pagetoc__5">Showing <code>/**/</code> Markers</a></li><li><a href="#pagetoc__6">Citing Entire Files</a></li><li><a href="#pagetoc__7">Formatting Inline Blocks</a></li></ul></div>
+<div class="toc"><ul class="toc toc1"><li><a href="#pagetoc__1">Citing Entire Blocks</a></li><li><a href="#pagetoc__2">Individual Snippets</a></li><li><a href="#pagetoc__3">Highlighting</a></li><li><a href="#pagetoc__4">Omissions</a></li><li><a href="#pagetoc__5">Showing <code>/**/</code> Markers</a></li><li><a href="#pagetoc__6">Citing Entire Files</a></li><li><a href="#pagetoc__7">Formatting Inline Blocks</a></li><li><a href="#pagetoc__8">Citing Without Syntax Highlighting</a></li></ul></div>
 	<h2><a name="pagetoc__1">Citing Entire Blocks</a></h2>
 
 	<p>Using JCite, you can cite entire blocks, such as methods, classes, etc., including, if desired, their JavaDoc comments. Let&#8217;s, for example, cite an entire method:</p>
@@ -432,6 +432,19 @@ System.out.println<span class="j-sym">( </span>c <span class="j-sym">)</span>;</
 <pre class="java"><span class="j-key">public </span><span class="j-typ">void </span><span class="j-hl">foo</span><span class="j-sym">() {
     </span>bar<span class="j-sym">()</span>;
 <span class="j-sym">}</span></pre>
+	<h2><a name="pagetoc__8">Citing Without Syntax Highlighting</a></h2>
+
+	<p>All of the above also works for citations without syntax highlighting. Just use a <code>jcp:</code> prefix instead of <code>jc:</code>. So:</p>
+
+
+<pre class="jc">[j<b></b>cp:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fixedHighlighting]</pre>
+<pre class="example">abstract <span class="j-hl">int</span> bar();
+abstract <span class="j-hl">int[]</span> baz();
+abstract <span class="j-hl">Collection&lt;String&gt;</span> duh();
+void doh()
+{
+	int <span class="j-hl">var</span> = 0;
+}</pre>
 
 		</div>
         <div class="footer">

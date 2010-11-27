@@ -2,6 +2,13 @@
 h1. JCite Version History
 
 
+h2. JCite 1.12.0
+
+h5. Better
+
+	* Can now "cite Java code":java.htm without syntax highlighting.
+
+
 h2. JCite 1.11.0
 
 h5. Better

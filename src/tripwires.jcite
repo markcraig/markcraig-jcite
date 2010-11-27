@@ -557,6 +557,16 @@ public void /**/foo/**/() {
     bar();
 }
 ___@_@___
+jcp:ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fixedHighlighting
+__@@__
+abstract/**/int/**/bar();
+		abstract/**/int[]/**/baz();
+		abstract/**/Collection<String>/**/duh();
+		void doh()
+		{
+			int /**/var/**/= 0;
+		}
+___@_@___
 path:EntireSheet.xls
 __@@__
 src/test/data/EntireSheet.xls

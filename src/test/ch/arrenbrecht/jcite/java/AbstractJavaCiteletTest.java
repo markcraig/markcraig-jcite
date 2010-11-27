@@ -35,71 +35,42 @@
  */
 package ch.arrenbrecht.jcite.java;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import ch.arrenbrecht.jcite.JCite;
-import de.java2html.javasource.JavaSource;
-import de.java2html.javasource.JavaSourceParser;
-import de.java2html.options.Java2HtmlConversionOptions;
+import junit.framework.TestCase;
 
-/** Cites Java source code and adds syntax highlighting. */
-public class JavaCitelet extends AbstractJavaCitelet
+public class AbstractJavaCiteletTest extends TestCase
 {
-	static final Java2HtmlConversionOptions java2htmlOptions = Java2HtmlConversionOptions.getDefault();
 
 
-	private boolean usePRE = true;
-
-
-	public JavaCitelet( JCite _jcite )
+	public void testHighlightPattern()
 	{
-		super( _jcite );
+		Pattern p = AbstractJavaCitelet.highlightPattern;
+		Matcher m1 = p.matcher( "; omit -try-; highlight -b-; highlight -c-; omit -d-" );
+		assertTrue( m1.find() );
+		assertEquals( "-b-", m1.group( 1 ) );
+		assertTrue( m1.find() );
+		assertEquals( "-c-", m1.group( 1 ) );
+		assertFalse( m1.find() );
+		Matcher m2 = p.matcher( "; omit -b-" );
+		assertFalse( m2.lookingAt() );
 	}
 
 
-	@Override
-	protected boolean argHandled( String _arg )
+	public void testOmitPattern()
 	{
-		if (_arg.equalsIgnoreCase( "-tt" )) {
-			this.usePRE = false;
-			return true;
-		}
-		return false;
+		Pattern p = AbstractJavaCitelet.omitPattern;
+		Matcher m1 = p.matcher( "; omit -try-; highlight -b-; highlight -c-; omit -d-" );
+		assertTrue( m1.find() );
+		assertEquals( "-try-", m1.group( 1 ) );
+		assertTrue( m1.find() );
+		assertEquals( "-d-", m1.group( 1 ) );
+		assertFalse( m1.find() );
+		Matcher m2 = p.matcher( "; highlight -b-" );
+		assertFalse( m2.lookingAt() );
 	}
 
-
-	@Override
-	protected String referencePrefix()
-	{
-		return "jc";
-	}
-
-
-	@Override protected String javaToHtml( String _fragment, String _beginTag, String _endTag )
-	{
-		StringReader stringReader = new StringReader( _fragment );
-		JavaSource source = null;
-		try {
-			source = new JavaSourceParser( java2htmlOptions ).parse( stringReader );
-		}
-		catch (IOException e) {
-			return null;
-		}
-
-		JavaSource2XHtmlFragmentConverter converter = new JavaSource2XHtmlFragmentConverter( source );
-		converter.setConversionOptions( java2htmlOptions );
-		converter.setPRE( this.usePRE );
-		StringWriter writer = new StringWriter();
-		try {
-			converter.convert( writer );
-		}
-		catch (IOException e) {
-			return null;
-		}
-		return writer.toString();
-	}
 
 
 }

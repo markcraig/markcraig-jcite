@@ -35,42 +35,29 @@
  */
 package ch.arrenbrecht.jcite.java;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import ch.arrenbrecht.jcite.JCite;
+import ch.arrenbrecht.jcite.Util;
 
-import junit.framework.TestCase;
-
-public class JavaCiteletTest extends TestCase
+/** Cites Java source code without syntax highlighting. */
+public class PlainJavaCitelet extends AbstractJavaCitelet
 {
 
-
-	public void testHighlightPattern()
+	public PlainJavaCitelet( JCite _jcite )
 	{
-		Pattern p = JavaCitelet.highlightPattern;
-		Matcher m1 = p.matcher( "; omit -try-; highlight -b-; highlight -c-; omit -d-" );
-		assertTrue( m1.find() );
-		assertEquals( "-b-", m1.group( 1 ) );
-		assertTrue( m1.find() );
-		assertEquals( "-c-", m1.group( 1 ) );
-		assertFalse( m1.find() );
-		Matcher m2 = p.matcher( "; omit -b-" );
-		assertFalse( m2.lookingAt() );
+		super( _jcite );
 	}
 
 
-	public void testOmitPattern()
+	@Override
+	protected String referencePrefix()
 	{
-		Pattern p = JavaCitelet.omitPattern;
-		Matcher m1 = p.matcher( "; omit -try-; highlight -b-; highlight -c-; omit -d-" );
-		assertTrue( m1.find() );
-		assertEquals( "-try-", m1.group( 1 ) );
-		assertTrue( m1.find() );
-		assertEquals( "-d-", m1.group( 1 ) );
-		assertFalse( m1.find() );
-		Matcher m2 = p.matcher( "; highlight -b-" );
-		assertFalse( m2.lookingAt() );
+		return "jcp";
 	}
 
 
+	@Override protected String javaToHtml( String _fragment, String _beginTag, String _endTag )
+	{
+		return _beginTag + Util.escapeHTMLinPRE( _fragment ) + _endTag;
+	}
 
 }

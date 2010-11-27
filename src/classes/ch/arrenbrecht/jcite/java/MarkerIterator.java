@@ -43,9 +43,9 @@ import ch.arrenbrecht.jcite.UnclosedMarkupError;
 
 abstract class MarkerIterator
 {
-	private final JavaCitelet citelet;
+	private final AbstractJavaCitelet citelet;
 
-	public MarkerIterator( JavaCitelet _citelet )
+	public MarkerIterator( AbstractJavaCitelet _citelet )
 	{
 		this.citelet = _citelet;
 	}

@@ -71,9 +71,9 @@ public abstract class JCitelet
 				return cite( _markup );
 			}
 
-			public String formatInsertion( Insertion _insertion ) throws JCiteError, IOException
+			public String formatInsertion( Insertion _insertion, String _beginTag, String _endTag ) throws JCiteError, IOException
 			{
-				return format( _insertion );
+				return format( _insertion, _beginTag, _endTag );
 			}
 
 		} );
@@ -89,9 +89,9 @@ public abstract class JCitelet
 				return inline( _citation );
 			}
 
-			public String formatInsertion( Insertion _insertion ) throws JCiteError, IOException
+			public String formatInsertion( Insertion _insertion, String _beginTag, String _endTag ) throws JCiteError, IOException
 			{
-				return format( _insertion );
+				return format( _insertion, _beginTag, _endTag );
 			}
 
 		} );
@@ -119,11 +119,13 @@ public abstract class JCitelet
 					beginDeletion -= PRE_START.length();
 					endDeletion += PRE_END.length();
 				}
+				final String beginTag = _source.substring(beginDeletion, beginMarkup);
+				final String endTag = _source.substring(endMarkup + 1, endDeletion + 1);
 				result.append( _source.substring( processedUpto, beginDeletion ) );
 
 				try {
 					final Insertion insertion = _visitor.insertionFor( markup );
-					final String formatted = _visitor.formatInsertion( insertion );
+					final String formatted = _visitor.formatInsertion( insertion, beginTag, endTag );
 					result.append( formatted );
 					this.jcite.checkTripwires( markup, insertion.text(), beginMarkup );
 					this.jcite.logCitation( markup, beginMarkup );
@@ -197,7 +199,7 @@ public abstract class JCitelet
 	protected interface ElementVisitor
 	{
 		Insertion insertionFor( String _markup ) throws JCiteError, IOException;
-		String formatInsertion( Insertion _insertion ) throws JCiteError, IOException;
+		String formatInsertion( Insertion _insertion, String _beginTag, String _endTag ) throws JCiteError, IOException;
 	}
 
 
@@ -214,6 +216,12 @@ public abstract class JCitelet
 	protected Inlined inline(String _text)
 	{
 		return new Inlined( _text );
+	}
+
+	@SuppressWarnings("unused") //
+	protected String format( Insertion _insertion, String _beginTag, String _endTag ) throws JCiteError, IOException
+	{
+		return format( _insertion );
 	}
 
 	protected abstract String format( Insertion _insertion ) throws JCiteError, IOException;

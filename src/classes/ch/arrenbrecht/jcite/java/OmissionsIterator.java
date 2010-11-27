@@ -40,7 +40,7 @@ import ch.arrenbrecht.jcite.FragmentLocator;
 class OmissionsIterator extends MarkerIterator
 {
 
-	public OmissionsIterator( JavaCitelet _citelet )
+	public OmissionsIterator( AbstractJavaCitelet _citelet )
 	{
 		super( _citelet );
 	}

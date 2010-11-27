@@ -47,6 +47,7 @@ import org.apache.commons.discovery.tools.Service;
 import ch.arrenbrecht.jcite.Util.FileVisitor;
 import ch.arrenbrecht.jcite.include.IncludeCitelet;
 import ch.arrenbrecht.jcite.java.JavaCitelet;
+import ch.arrenbrecht.jcite.java.PlainJavaCitelet;
 import ch.arrenbrecht.jcite.path.PathCitelet;
 import ch.arrenbrecht.jcite.text.TextCitelet;
 
@@ -111,6 +112,7 @@ public final class JCite
 	{
 		super();
 		registerCitelet( new JavaCitelet( this ) );
+		registerCitelet( new PlainJavaCitelet( this ) );
 		registerCitelet( new TextCitelet( this ) );
 		registerCitelet( new PathCitelet( this ) );
 		registerCitelet( new IncludeCitelet( this ) );

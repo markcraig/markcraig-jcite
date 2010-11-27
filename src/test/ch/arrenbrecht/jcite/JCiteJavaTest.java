@@ -59,6 +59,34 @@ public class JCiteJavaTest extends AbstractJCiteTest
 	}
 
 
+	public void testNonHighlightedJavaSourceInHTML() throws Exception
+	{
+		File origSource = new File( "temp/doc/java.htm" );
+		File htmlSource = new File( "temp/doc/java_nosyntax.htm" );
+
+		String html = Util.readStringFrom( origSource );
+		html = html //
+				.replace( "<pre><code>[jc:", "<pre class=\"example\">[jcp:" )
+				.replace( "<pre>[jc:", "<pre class=\"example\">[jcp:" )
+				.replace( "</code></pre>", "</pre>");
+		Util.writeStringTo( html, htmlSource );
+		try {
+			File htmlExpected = new File( "src/test/data/java_nosyntax_expected.htm" );
+			File htmlTarget = new File( "temp/test/data/java_nosyntax_out.htm" );
+			htmlTarget.getParentFile().mkdirs();
+			final JCite jcite = new JCite( (new String[] { "src/test" }), true, false );
+			jcite.process( htmlSource, htmlTarget );
+
+			assertEquivalentHtmlFiles( htmlExpected, htmlTarget );
+
+		}
+		finally {
+			htmlSource.delete();
+			htmlSource.deleteOnExit();
+		}
+	}
+
+
 	// ---- sampleMethodSrc
 	// ---- sampleMethod
 	/**

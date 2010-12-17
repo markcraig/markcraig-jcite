@@ -66,4 +66,41 @@ public abstract class AbstractJCiteTest extends TestCase
 		return _value.substring( 0, is ) + _value.substring( ie + _end.length() );
 	}
 
+	protected String[] sourcePaths() {
+		return new String[] { "src/test/data" };
+	}
+
+	protected void runBase(String _name) throws Exception
+	{
+		File htmlSource = new File( "temp/doc/" + _name + ".htm" );
+		File htmlExpected = new File( "src/test/data/" + _name + "_expected.htm" );
+		File htmlTarget = new File( "temp/test/data/" + _name + "_out.htm" );
+		htmlTarget.getParentFile().mkdirs();
+		final JCite jcite = new JCite( sourcePaths(), true, false );
+		jcite.setProjectPath( new File( "" ).getPath() );
+		jcite.process( htmlSource, htmlTarget );
+
+		assertEquivalentHtmlFiles( htmlExpected, htmlTarget );
+	}
+
+	protected void runVariant(String _origName, String _variantSuffix, String _origTag, String _variantTag) throws Exception
+	{
+		File origSource = new File( "temp/doc/"+ _origName + ".htm" );
+		File htmlSource = new File( "temp/doc/"+ _origName + _variantSuffix + ".htm" );
+
+		String html = Util.readStringFrom( origSource );
+		html = html //
+				.replace( "<pre><code>[" + _origTag + ":", "<pre class=\"example\">[" + _variantTag + ":" )
+				.replace( "<pre>[" + _origTag + ":", "<pre class=\"example\">[" + _variantTag + ":" )
+				.replace( "</code></pre>", "</pre>");
+		Util.writeStringTo( html, htmlSource );
+		try {
+			runBase(_origName + _variantSuffix);
+		}
+		finally {
+			htmlSource.delete();
+			htmlSource.deleteOnExit();
+		}
+	}
+
 }

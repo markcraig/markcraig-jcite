@@ -598,6 +598,14 @@ __@@__
 		<p>This is just some <b>demo</b> text.</p>
 		<!-- sample -->
 ___@_@___
+textp:plain.xml:xml! sample
+__@@__
+<p>This is just some <b>demo</b> text.</p>
+___@_@___
+textraw:plain.xml:xml! sample
+__@@__
+<p>This is just some <b>demo</b> text.</p>
+___@_@___
 xc:EntireSheet.xls
 __@@__
 <table class="xl">

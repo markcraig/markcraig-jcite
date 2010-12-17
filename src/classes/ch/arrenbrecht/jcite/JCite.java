@@ -49,6 +49,8 @@ import ch.arrenbrecht.jcite.include.IncludeCitelet;
 import ch.arrenbrecht.jcite.java.JavaCitelet;
 import ch.arrenbrecht.jcite.java.PlainJavaCitelet;
 import ch.arrenbrecht.jcite.path.PathCitelet;
+import ch.arrenbrecht.jcite.text.PlainTextCitelet;
+import ch.arrenbrecht.jcite.text.RawTextCitelet;
 import ch.arrenbrecht.jcite.text.TextCitelet;
 
 public final class JCite
@@ -114,6 +116,8 @@ public final class JCite
 		registerCitelet( new JavaCitelet( this ) );
 		registerCitelet( new PlainJavaCitelet( this ) );
 		registerCitelet( new TextCitelet( this ) );
+		registerCitelet( new PlainTextCitelet( this ) );
+		registerCitelet( new RawTextCitelet( this ) );
 		registerCitelet( new PathCitelet( this ) );
 		registerCitelet( new IncludeCitelet( this ) );
 

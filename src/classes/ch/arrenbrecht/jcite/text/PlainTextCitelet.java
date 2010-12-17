@@ -33,14 +33,31 @@
  * Peter Arrenbrecht
  * http://www.arrenbrecht.ch/jcite
  */
-package ch.arrenbrecht.jcite;
+package ch.arrenbrecht.jcite.text;
 
-public class JCitePathTest extends AbstractJCiteTest
+import ch.arrenbrecht.jcite.JCite;
+
+public class PlainTextCitelet extends AbstractTextCitelet
 {
 
-	public void testInclude() throws Exception
+	public PlainTextCitelet( JCite _jcite )
 	{
-		runBase("path");
+		super( _jcite );
 	}
+
+
+	@Override
+	protected String referencePrefix()
+	{
+		return "textp";
+	}
+
+
+	@Override
+	protected String formatAsHtml( String _fragment, String _beginTag, String _endTag )
+	{
+		return _beginTag + _fragment + _endTag;
+	}
+
 
 }

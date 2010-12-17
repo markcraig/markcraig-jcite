@@ -68,18 +68,10 @@ public class JCiteExcelTest extends AbstractJCiteTest
 		super.tearDown();
 	}
 
-
 	public void testExcel() throws Exception
 	{
 		if (!new File( "lib/jxl.jar" ).exists()) return;
-
-		File htmlSource = new File( "temp/doc/excel.htm" );
-		File htmlExpected = new File( "src/test/data/excel_expected.htm" );
-		File htmlTarget = new File( "temp/test/data/excel_out.htm" );
-		htmlTarget.getParentFile().mkdirs();
-		new JCite( (new String[] { "src/test/data" }), true, false ).process( htmlSource, htmlTarget );
-
-		assertEquivalentHtmlFiles( htmlExpected, htmlTarget );
+		runBase("excel");
 	}
 
 	public void testTripwireWithFolder() throws Exception

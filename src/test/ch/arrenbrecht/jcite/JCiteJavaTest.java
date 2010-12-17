@@ -46,44 +46,18 @@ public class JCiteJavaTest extends AbstractJCiteTest
 		junit.textui.TestRunner.run( JCiteJavaTest.class );
 	}
 
+	@Override protected String[] sourcePaths() {
+		return new String[] { "src/test" };
+	}
 
 	public void testJavaSourceInHTML() throws Exception
 	{
-		File htmlSource = new File( "temp/doc/java.htm" );
-		File htmlExpected = new File( "src/test/data/java_expected.htm" );
-		File htmlTarget = new File( "temp/test/data/java_out.htm" );
-		htmlTarget.getParentFile().mkdirs();
-		new JCite( (new String[] { "src/test" }), true, false ).process( htmlSource, htmlTarget );
-
-		assertEquivalentHtmlFiles( htmlExpected, htmlTarget );
+		runBase("java");
 	}
-
 
 	public void testNonHighlightedJavaSourceInHTML() throws Exception
 	{
-		File origSource = new File( "temp/doc/java.htm" );
-		File htmlSource = new File( "temp/doc/java_nosyntax.htm" );
-
-		String html = Util.readStringFrom( origSource );
-		html = html //
-				.replace( "<pre><code>[jc:", "<pre class=\"example\">[jcp:" )
-				.replace( "<pre>[jc:", "<pre class=\"example\">[jcp:" )
-				.replace( "</code></pre>", "</pre>");
-		Util.writeStringTo( html, htmlSource );
-		try {
-			File htmlExpected = new File( "src/test/data/java_nosyntax_expected.htm" );
-			File htmlTarget = new File( "temp/test/data/java_nosyntax_out.htm" );
-			htmlTarget.getParentFile().mkdirs();
-			final JCite jcite = new JCite( (new String[] { "src/test" }), true, false );
-			jcite.process( htmlSource, htmlTarget );
-
-			assertEquivalentHtmlFiles( htmlExpected, htmlTarget );
-
-		}
-		finally {
-			htmlSource.delete();
-			htmlSource.deleteOnExit();
-		}
+		runVariant("java", "_nosyntax", "jc", "jcp");
 	}
 
 

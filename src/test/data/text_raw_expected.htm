@@ -33,7 +33,8 @@
 
 	<p>Using JCite, you can cite entire blocks, delimited by (usually) comment lines:</p>
 
-	<pre class="j-text"><code>java -cp "$cp:$CLASSPATH" ch.arrenbrecht.jcite.JCite "$@"</code></pre>
+	<pre class="example">java -cp "$cp:$CLASSPATH" ch.arrenbrecht.jcite.JCite "$@"
+</pre>
 
 
 	<p>This was produced by the following JCite instruction in the source <span class="caps">HTML</span> document:</p>
@@ -42,9 +43,10 @@
 <pre class="jc">[t<b></b>ext:plain.sh:# ---- sample]</pre>
 	<p>The part <code>plain.sh</code> tells JCite which file to cite from. The part <code># ---- sample</code> tells it what fragment to cite. You surround citable fragments with special comments in the text file:</p>
 
-	<pre class="j-text"><code># ---- sample
+	<pre class="example"># ---- sample
 java -cp "$cp:$CLASSPATH" ch.arrenbrecht.jcite.JCite "$@"
-# ---- sample</code></pre>
+# ---- sample
+</pre>
 
 
 	<p>The part <code># ---- sample</code> is freely choosable. It must simply match the respective comment in the source file.</p>
@@ -54,7 +56,8 @@ java -cp "$cp:$CLASSPATH" ch.arrenbrecht.jcite.JCite "$@"
 
 	<p>We can similarly cite from an <span class="caps">XML</span> file. However, including the <span class="caps">XML</span> comment symbols in <span class="caps">HTML</span> sources can be cumbersome, so JCite offers a simplification:</p>
 
-	<pre class="j-text"><code>&lt;p&gt;This is just some &lt;b&gt;demo&lt;/b&gt; text.&lt;/p&gt;</code></pre>
+	<pre class="example">		<p>This is just some <b>demo</b> text.</p>
+</pre>
 
 
 	<p>This was produced by the following JCite instruction in the source <span class="caps">HTML</span> document:</p>
@@ -63,9 +66,10 @@ java -cp "$cp:$CLASSPATH" ch.arrenbrecht.jcite.JCite "$@"
 <pre class="jc">[t<b></b>ext:plain.xml:xml! sample ]</pre>
 	<p>The part <code>xml! sample </code> tells JCite to look for an <span class="caps">XML</span> comment with <code>sample</code> in it, so:</p>
 
-	<pre class="j-text"><code>&lt;!-- sample --&gt;
-&lt;p&gt;This is just some &lt;b&gt;demo&lt;/b&gt; text.&lt;/p&gt;
-&lt;!-- sample --&gt;</code></pre>
+	<pre class="example">		<!-- sample -->
+		<p>This is just some <b>demo</b> text.</p>
+		<!-- sample -->
+</pre>
 
 
 	<h2><a name="pagetoc__3">Citing Without Predefined Surrounding Markup</a></h2>
@@ -74,7 +78,7 @@ java -cp "$cp:$CLASSPATH" ch.arrenbrecht.jcite.JCite "$@"
 
 
 
-<pre><code>&lt;pre class="j-text">&lt;code>...&lt;/code>&lt;/pre></code></pre>
+<pre><code>&lt;pre class="j-text">&lt;code>...&lt;/code>&lt;/pre></pre>
 
 	<p>To avoid this, just use a <code>textp:</code> prefix instead of <code>text:</code> (where the &#8220;p&#8221; stands for <em>plain</em>). So:</p>
 

@@ -38,3 +38,31 @@ The part @xml! sample @ tells JCite to look for an XML comment with @sample@ in 
 	[text:plain.xml:xml! sampleSrc ]
 
 
+h2. Citing Without Predefined Surrounding Markup
+
+Normally, JCite removes the citation directive's surrounding tag pair (normally a @pre@ pair), and replaces it with:
+
+<notextile>
+<pre><code>&lt;pre class="j-text">&lt;code>...&lt;/code>&lt;/pre></code></pre>
+</notextile>
+
+To avoid this, just use a @textp:@ prefix instead of @text:@ (where the "p" stands for _plain_). So:
+
+<notextile><blockquote>[textp:plain.xml:xml! sample ]</blockquote></notextile>
+
+This was produced by the following JCite instruction in the source HTML document inside a @blockquote@ tag:
+
+<notextile><pre class="jc">[t<b></b>extp:plain.xml:xml! sample ]</pre></notextile>
+
+
+h2. Citing Without Any Post-Processing
+
+To cite directly into the HTML document markup, use @textraw@ (note, though, that you still need to enclose the citation instruction in a tag of its own). So:
+
+<notextile><blockquote>[textraw:plain.xml:xml! sample ]</blockquote></notextile>
+
+This was produced by the following JCite instruction in the source HTML document inside a @blockquote@ tag:
+
+<notextile><pre class="jc">[t<b></b>extraw:plain.xml:xml! sample ]</pre></notextile>
+
+

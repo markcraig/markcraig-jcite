@@ -33,14 +33,50 @@
  * Peter Arrenbrecht
  * http://www.arrenbrecht.ch/jcite
  */
-package ch.arrenbrecht.jcite;
+package ch.arrenbrecht.jcite.text;
 
-public class JCitePathTest extends AbstractJCiteTest
+import ch.arrenbrecht.jcite.BlockMarker;
+import ch.arrenbrecht.jcite.FragmentMarker;
+import ch.arrenbrecht.jcite.JCite;
+import ch.arrenbrecht.jcite.JCiteError;
+import ch.arrenbrecht.jcite.TextBasedCitelet;
+
+public abstract class AbstractTextCitelet extends TextBasedCitelet
 {
 
-	public void testInclude() throws Exception
+	public AbstractTextCitelet( JCite _jcite )
 	{
-		runBase("path");
+		super( _jcite );
 	}
+
+
+	@Override
+	protected FragmentMarker[] markersFor( String _fragmentName )
+	{
+		final String tag = _fragmentName.startsWith( "xml!" )? "<!--" + _fragmentName.substring( 4 ) + "-->\n"
+				: _fragmentName + "\n";
+		return new FragmentMarker[] { new BlockMarker( tag ) };
+	}
+
+
+	@Override
+	public final String format( Insertion _insertion ) throws JCiteError
+	{
+		return format( _insertion, "<pre>", "</pre>" );
+	}
+
+	@Override
+	public String format( Insertion _insertion, String _beginTag, String _endTag ) throws JCiteError
+	{
+		String fragment = _insertion.text();
+		fragment = escapeXML( fragment );
+		fragment = stripIndentation( fragment );
+		fragment = trimEmptyLines( fragment );
+		fragment = formatAsHtml( fragment, _beginTag, _endTag );
+		return fragment;
+	}
+
+
+	protected abstract String formatAsHtml( String _fragment, String _beginTag, String _endTag );
 
 }

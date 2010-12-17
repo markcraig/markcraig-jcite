@@ -139,7 +139,7 @@ While I don't recommend it for hand-written examples, sometimes you may want to 
 
 h2. Citing Without Syntax Highlighting
 
-All of the above also works for citations without syntax highlighting. Just use a @jcp:@ prefix instead of @jc:@. So:
+All of the above also works for citations without syntax highlighting. Just use a @jcp:@ prefix instead of @jc:@ (where the "p" stands for _plain_). So:
 
 <%= ex 'ch.arrenbrecht.jcite.examples.JCiteSampleCode:---- fixedHighlighting', 'p', ' class="example"' %>
 

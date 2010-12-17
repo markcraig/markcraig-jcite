@@ -35,22 +35,22 @@
  */
 package ch.arrenbrecht.jcite;
 
-import java.io.File;
-
 public class JCiteTextTest extends AbstractJCiteTest
 {
 
 	public void testText() throws Exception
 	{
-		File htmlSource = new File( "temp/doc/text.htm" );
-		File htmlExpected = new File( "src/test/data/text_expected.htm" );
-		File htmlTarget = new File( "temp/test/data/text_out.htm" );
-		htmlTarget.getParentFile().mkdirs();
-		final JCite jcite = new JCite( (new String[] { "src/test/data" }), true, false );
-		jcite.setProjectPath( new File( "" ).getPath() );
-		jcite.process( htmlSource, htmlTarget );
+		runBase( "text" );
+	}
 
-		assertEquivalentHtmlFiles( htmlExpected, htmlTarget );
+	public void testTextPlain() throws Exception
+	{
+		runVariant("text", "_nocode", "text", "textp");
+	}
+
+	public void testTextRaw() throws Exception
+	{
+		runVariant("text", "_raw", "text", "textraw");
 	}
 
 }

@@ -2,6 +2,13 @@
 h1. JCite Version History
 
 
+h2. JCite 1.13.0
+
+h5. Better
+
+	* Can now "cite text":text.htm without the additional surrounding @pre code@ markup, or even without any post-processing.
+
+
 h2. JCite 1.12.0
 
 h5. Better

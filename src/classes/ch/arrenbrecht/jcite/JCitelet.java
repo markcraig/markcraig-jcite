@@ -39,7 +39,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-
+/**
+ * You can extend JCite by implementing your own {@code JCitelet}.
+ * @see JCitePlainExtensionAnnotatedTest
+ */
 public abstract class JCitelet
 {
 	private final JCite jcite;

@@ -181,9 +181,10 @@
 		         public="true"
 		         windowtitle="${javadoc.title}"
 		         use="false"
-		         additionalParam="-tagletPath ${taglet.path} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.test.dir}"
+		         additionalParam="-tagletPath ${taglet.path} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.test.dir}:${src.examples.dir}"
 		         stylesheetfile="${src.doc.dir}/plainstyle/style.css"
-		         overview="${src.examples.dir}/overview.html">
+		         overview="${src.examples.dir}/overview.html"
+				 failonerror="true">
 			<classpath refid="build.classpath" />
 		</javadoc>
 	</target>

@@ -43,13 +43,9 @@ import ch.arrenbrecht.jcite.java.JavaCitelet;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.Doc;
 import com.sun.javadoc.ProgramElementDoc;
-import com.sun.javadoc.RootDoc;
 import com.sun.javadoc.SourcePosition;
 import com.sun.javadoc.Tag;
 import com.sun.tools.doclets.Taglet;
-import com.sun.tools.doclets.internal.toolkit.Configuration;
-import com.sun.tools.doclets.standard.Standard;
-import com.sun.tools.javac.util.Context;
 
 /**
  * A JavaDoc taglet to cite source code into API documentation using the "@jcite" tag.
@@ -118,8 +114,6 @@ public class JCiteTaglet implements Taglet
 	}
 
 
-	private final Configuration cfg = Standard.htmlDoclet.configuration();
-	private final RootDoc root = this.cfg.root;
 	private final JCite jcite = new JCite();
 	private final JavaCitelet citer = new JavaCitelet( this.jcite );
 
@@ -129,7 +123,6 @@ public class JCiteTaglet implements Taglet
 		this.jcite.setPRE( true );
 		this.jcite.setVerbose( "true".equalsIgnoreCase( System.getProperty( "jciteverbose" ) ) );
 
-		addSourcePath( this.cfg.sourcepath );
 		addSourcePath( System.getProperty( "jcitesourcepath" ) );
 	}
 
@@ -195,7 +188,10 @@ public class JCiteTaglet implements Taglet
 	}
 
 	private void printError( SourcePosition _pos, String _text ) {
-		this.root.printError( _pos, _text );
+		System.err
+			.append("ERROR: ").append(_text).append(" at ").append(_pos.toString())
+			.println();
+		System.exit(1);
 	}
 
 }

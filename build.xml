@@ -89,7 +89,7 @@
 	<!-- ================================================================= -->
 
 	<target name="compile-main" depends="prepare" description="Compiles the source code">
-		<javac srcdir="${src.classes.dir}:${src.classes-ant.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="false" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.classes.dir}:${src.classes-ant.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="false" deprecation="on" source="${javac.source}" target="${javac.target}" includeantruntime="true">
 			<include name="ch/arrenbrecht/**" />
 		</javac>
 	</target>
@@ -100,7 +100,7 @@
 			<path refid="build.classpath" />
 		</path>
 		<property name="excel.classpath" refid="excel.classpath" />
-		<javac srcdir="${src.classes-excel.dir}" destdir="${temp.excel.dir}" classpath="${excel.classpath}" debug="false" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.classes-excel.dir}" destdir="${temp.excel.dir}" classpath="${excel.classpath}" debug="false" deprecation="on" source="${javac.source}" target="${javac.target}" includeantruntime="false">
 			<include name="ch/arrenbrecht/**" />
 		</javac>
 	</target>
@@ -109,7 +109,7 @@
 	</target>
 
 	<target name="compile-examples" depends="prepare, compile" description="Compiles the examples">
-		<javac srcdir="${src.examples.dir}" destdir="${temp.examples.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.examples.dir}" destdir="${temp.examples.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}" includeantruntime="false">
 			<include name="ch/arrenbrecht/jcite/**" />
 		</javac>
 	</target>
@@ -255,7 +255,7 @@
 
 		<mkdir dir="${temp.test.dir}" />
 
-		<javac srcdir="${src.test.dir}" destdir="${temp.test.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.test.dir}" destdir="${temp.test.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}" includeantruntime="true">
 			<include name="ch/arrenbrecht/jcite/**" />
 		</javac>
 	</target>

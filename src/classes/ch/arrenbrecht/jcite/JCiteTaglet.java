@@ -44,10 +44,12 @@ import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.Doc;
 import com.sun.javadoc.ProgramElementDoc;
 import com.sun.javadoc.RootDoc;
+import com.sun.javadoc.SourcePosition;
 import com.sun.javadoc.Tag;
 import com.sun.tools.doclets.Taglet;
 import com.sun.tools.doclets.internal.toolkit.Configuration;
 import com.sun.tools.doclets.standard.Standard;
+import com.sun.tools.javac.util.Context;
 
 /**
  * A JavaDoc taglet to cite source code into API documentation using the "@jcite" tag.
@@ -157,7 +159,7 @@ public class JCiteTaglet implements Taglet
 		catch (Exception e) {
 			String msg = e.getMessage();
 			if (null == msg) msg = e.getClass().getName();
-			this.root.printError( _tag.position(), "JCite: " + msg );
+			printError( _tag.position(), "JCite: " + msg );
 			return "<p><pre style='color:red'>" + msg + "</pre></p>";
 		}
 	}
@@ -174,7 +176,7 @@ public class JCiteTaglet implements Taglet
 			classDoc = eltDoc.containingClass();
 		}
 		else {
-			this.root.printError( _tag.position(), "JCite: cannot resolve unqualified citation: " + _tag.text() );
+			printError( _tag.position(), "JCite: cannot resolve unqualified citation: " + _tag.text() );
 			return "";
 		}
 		return classDoc.qualifiedName();
@@ -190,6 +192,10 @@ public class JCiteTaglet implements Taglet
 		else {
 			return "";
 		}
+	}
+
+	private void printError( SourcePosition _pos, String _text ) {
+		this.root.printError( _pos, _text );
 	}
 
 }

@@ -106,10 +106,7 @@
    <version>1.1</version>
   </dependency>
   <!--
-
-    In theory, java2html is available at http://repo1.maven.org/maven2.
-    In practice, JCite does not seem to compile with this artifact.
-
+    JCite does not compile with this version.
   <dependency>
    <groupId>de.java2html</groupId>
    <artifactId>java2html</artifactId>
@@ -191,32 +188,11 @@
     </configuration>
    </plugin>
 
-<!--
-   <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-javadoc-plugin</artifactId>
-    <version>2.9</version>
-    <configuration>
-     <excludePackageNames>classes-*.*:de.*:org.*</excludePackageNames>
-    </configuration>
-   </plugin>
-
-   <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-source-plugin</artifactId>
-    <version>2.2</version>
-    <executions>
-     <execution>
-      <goals>
-       <goal>jar</goal>
-      </goals>
-     </execution>
-    </executions>
-   </plugin>-->
-
    <!--
     Include java2html both in the classpath during the build and also in
-    the artifact during packaging.
+    the artifact during packaging. Required when using 1.5.1.
+
+    Clashes with maven-javadoc-plugin and maven-source-plugin.
    -->
    <plugin>
     <groupId>com.googlecode.addjars-maven-plugin</groupId>
@@ -275,6 +251,29 @@
      </execution>
     </executions>
    </plugin>
+
+   <!-- These class with the addjars-maven-plugin.
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-javadoc-plugin</artifactId>
+    <version>2.9</version>
+    <configuration>
+     <excludePackageNames>classes-*.*:de.*:org.*</excludePackageNames>
+    </configuration>
+   </plugin>
+
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-source-plugin</artifactId>
+    <version>2.2</version>
+    <executions>
+     <execution>
+      <goals>
+       <goal>jar</goal>
+      </goals>
+     </execution>
+    </executions>
+   </plugin>-->
   </plugins>
  </build>
 

@@ -31,6 +31,7 @@
  <description>Wrapper POM for building a JCite executable .jar. Use the Ant
  build mechanism for testing and doc generation. Build with
  `mvn install`.</description>
+ <url>https://code.google.com/r/markcraig-jcite/</url>
 
  <licenses>
   <license>
@@ -70,7 +71,17 @@
 
  <scm>
   <url>https://code.google.com/r/markcraig-jcite/source/list</url>
+  <connection>scm:hg:https://code.google.com/r/markcraig-jcite/</connection>
  </scm>
+
+ <developers>
+  <!-- This is a clone, main developer of JCite is Peter Arrenbrecht. -->
+  <developer>
+   <id>mark.craig</id>
+   <name>Mark Craig</name>
+   <email>mark.craig@gmail.com</email>
+  </developer>
+ </developers>
 
  <properties>
   <maven.compiler.source>${javac.source}</maven.compiler.source>
@@ -179,6 +190,29 @@
      </includes>
     </configuration>
    </plugin>
+
+<!--
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-javadoc-plugin</artifactId>
+    <version>2.9</version>
+    <configuration>
+     <excludePackageNames>classes-*.*:de.*:org.*</excludePackageNames>
+    </configuration>
+   </plugin>
+
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-source-plugin</artifactId>
+    <version>2.2</version>
+    <executions>
+     <execution>
+      <goals>
+       <goal>jar</goal>
+      </goals>
+     </execution>
+    </executions>
+   </plugin>-->
 
    <!--
     Include java2html both in the classpath during the build and also in

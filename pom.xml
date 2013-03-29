@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+! MPL 2.0 HEADER START
+!
+! This Source Code Form is subject to the terms of the Mozilla Public
+! License, v. 2.0. If a copy of the MPL was not distributed with this
+! file, You can obtain one at http://mozilla.org/MPL/2.0/.
+!
+! If applicable, add the following below this MPL 2.0 HEADER, replacing
+! the fields enclosed by brackets "[]" replaced with your own identifying
+! information:
+!     Portions Copyright [yyyy] [name of copyright owner]
+!
+! MPL 2.0 HEADER END
+!
+!     Copyright 2013 ForgeRock AS
+!
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+
+ <groupId>ch.arrenbrecht.jcite</groupId>
+ <artifactId>jcite</artifactId>
+ <version>1.13.0</version><!-- NOK: <version>${dist.version}</version> -->
+ <packaging>jar</packaging>
+
+ <properties>
+  <maven.compiler.source>${javac.source}</maven.compiler.source>
+  <maven.compiler.target>${javac.target}</maven.compiler.target>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ </properties>
+
+ <name>Maven Wrapper for JCite</name>
+ <description>Wrapper POM for building a JCite executable .jar. Use the Ant
+ build mechanism for testing and doc generation. Build with
+ `mvn install`.</description>
+
+ <licenses>
+  <license>
+   <name>JCite</name>
+   <url>http://arrenbrecht.ch/jcite/LICENSE.html</url>
+   <comments>JCite License. This license applies to source code as indicated
+   in the source code, mainly JCite itself.</comments>
+   <distribution>repo</distribution>
+  </license>
+  <license>
+   <name>Apache-2.0</name>
+   <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+   <comments>This license applies to bundled libraries, including ant.jar,
+   commons-discovery*.jar, and commons-logging*.jar.</comments>
+   <distribution>repo</distribution>
+  </license>
+  <license>
+   <name>CPL-v1.0</name>
+   <url>http://www.eclipse.org/legal/cpl-v10.html</url>
+   <comments>Common Public License - v 1.0. This license applies to the
+   bundled library, java2html.jar.</comments>
+  </license>
+  <license>
+   <name>LGPL-2.1</name>
+   <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+   <comments>This license applies to the bundled library, jxl.jar.</comments>
+   <distribution>repo</distribution>
+  </license>
+  <license>
+   <name>MPL-2.0</name>
+   <url>http://www.mozilla.org/MPL/2.0/</url>
+   <comments>Mozilla Public License Version 2.0. This license applies to
+   source code as indicated in the source code, including this file.</comments>
+   <distribution>repo</distribution>
+  </license>
+ </licenses>
+
+ <dependencies>
+  <dependency>
+   <groupId>org.apache.ant</groupId>
+   <artifactId>ant</artifactId>
+   <version>1.8.2</version>
+  </dependency>
+  <dependency>
+   <groupId>commons-discovery</groupId>
+   <artifactId>commons-discovery</artifactId>
+   <version>0.4</version>
+  </dependency>
+  <dependency>
+   <groupId>commons-logging</groupId>
+   <artifactId>commons-logging-api</artifactId>
+   <version>1.1</version>
+  </dependency>
+  <!--
+
+    In theory, java2html is available at http://repo1.maven.org/maven2.
+    In practice, JCite does not seem to compile with this artifact.
+
+  <dependency>
+   <groupId>de.java2html</groupId>
+   <artifactId>java2html</artifactId>
+   <version>5.0</version>
+  </dependency>
+  -->
+  <dependency>
+   <groupId>net.sourceforge.jexcelapi</groupId>
+   <artifactId>jxl</artifactId>
+   <version>2.6.12</version>
+  </dependency>
+  <dependency>
+   <groupId>org.codehaus.mojo</groupId>
+   <artifactId>properties-maven-plugin</artifactId>
+   <version>1.0-alpha-1</version>
+  </dependency>
+ </dependencies>
+
+ <profiles>
+  <!--
+   Tools.jar provides Javadoc classes. This calls for Sun/Oracle Java.
+  -->
+  <profile>
+    <id>default-profile</id>
+    <activation>
+     <activeByDefault>true</activeByDefault>
+    </activation>
+    <properties>
+     <toolsjar>${java.home}/../lib/tools.jar</toolsjar>
+    </properties>
+    <dependencies>
+     <dependency>
+      <groupId>com.sun</groupId>
+      <artifactId>tools</artifactId>
+      <scope>system</scope>
+      <systemPath>${toolsjar}</systemPath>
+      <version>${java.version}</version>
+     </dependency>
+    </dependencies>
+  </profile>
+ </profiles>
+
+ <build>
+  <sourceDirectory>src</sourceDirectory>
+  <plugins>
+   <plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>properties-maven-plugin</artifactId>
+    <version>1.0-alpha-1</version>
+    <executions>
+     <execution>
+      <phase>initialize</phase>
+      <goals>
+       <goal>read-project-properties</goal>
+      </goals>
+      <configuration>
+       <files>
+        <file>${basedir}/build.default.properties</file>
+       </files>
+      </configuration>
+     </execution>
+    </executions>
+   </plugin>
+
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>2.5.1</version>
+    <inherited>true</inherited>
+    <configuration>
+     <source>${maven.compiler.source}</source>
+     <target>${maven.compiler.target}</target>
+     <encoding>${project.build.sourceEncoding}</encoding>
+     <includes>
+      <include>**/classes/**</include>
+      <include>**/classes-ant/**</include>
+      <include>**/classes-excel/**</include>
+     </includes>
+    </configuration>
+   </plugin>
+
+   <!--
+    Include java2html both in the classpath during the build and also in
+    the artifact during packaging.
+   -->
+   <plugin>
+    <groupId>com.googlecode.addjars-maven-plugin</groupId>
+    <artifactId>addjars-maven-plugin</artifactId>
+    <version>1.0.4</version>
+    <executions>
+     <execution>
+      <goals>
+       <goal>add-jars</goal>
+      </goals>
+      <configuration>
+       <resources>
+        <resource>
+         <directory>${basedir}/lib</directory>
+         <includes>
+          <include>**/java2html.jar</include>
+         </includes>
+        </resource>
+       </resources>
+      </configuration>
+     </execution>
+    </executions>
+   </plugin>
+
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <version>2.4</version>
+    <configuration>
+     <archive>
+      <manifest>
+       <addClasspath>true</addClasspath>
+       <mainClass>ch.arrenbrecht.jcite.JCite</mainClass>
+      </manifest>
+     </archive>
+    </configuration>
+   </plugin>
+
+   <!--
+    Include dependencies so the artifact can be run directly `java -jar ...`.
+   -->
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-shade-plugin</artifactId>
+    <version>2.0</version>
+    <configuration>
+     <minimizeJar>true</minimizeJar>
+    </configuration>
+    <executions>
+     <execution>
+      <id>bundle-dependencies</id>
+      <phase>package</phase>
+      <goals>
+       <goal>shade</goal>
+      </goals>
+     </execution>
+    </executions>
+   </plugin>
+  </plugins>
+ </build>
+
+</project>

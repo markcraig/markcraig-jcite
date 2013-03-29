@@ -22,16 +22,10 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
  <modelVersion>4.0.0</modelVersion>
 
- <groupId>ch.arrenbrecht.jcite</groupId>
+ <groupId>org.mcraig</groupId>
  <artifactId>jcite</artifactId>
  <version>1.13.0</version><!-- NOK: <version>${dist.version}</version> -->
  <packaging>jar</packaging>
-
- <properties>
-  <maven.compiler.source>${javac.source}</maven.compiler.source>
-  <maven.compiler.target>${javac.target}</maven.compiler.target>
-  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
- </properties>
 
  <name>Maven Wrapper for JCite</name>
  <description>Wrapper POM for building a JCite executable .jar. Use the Ant
@@ -73,6 +67,16 @@
    <distribution>repo</distribution>
   </license>
  </licenses>
+
+ <scm>
+  <url>https://code.google.com/r/markcraig-jcite/source/list</url>
+ </scm>
+
+ <properties>
+  <maven.compiler.source>${javac.source}</maven.compiler.source>
+  <maven.compiler.target>${javac.target}</maven.compiler.target>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ </properties>
 
  <dependencies>
   <dependency>

@@ -105,14 +105,20 @@
    <artifactId>commons-logging-api</artifactId>
    <version>1.1</version>
   </dependency>
-  <!--
-    JCite does not compile with this version.
+  <!-- JCite does not compile with this version, and 3.0 seems unavailable.
   <dependency>
    <groupId>de.java2html</groupId>
    <artifactId>java2html</artifactId>
    <version>5.0</version>
   </dependency>
   -->
+  <dependency>
+   <groupId>de.java2html</groupId>
+   <artifactId>java2html</artifactId>
+   <version>3.0</version>
+   <systemPath>${basedir}/lib/java2html.jar</systemPath>
+   <scope>system</scope>
+  </dependency>
   <dependency>
    <groupId>net.sourceforge.jexcelapi</groupId>
    <artifactId>jxl</artifactId>
@@ -188,31 +194,25 @@
     </configuration>
    </plugin>
 
-   <!--
-    Include java2html both in the classpath during the build and also in
-    the artifact during packaging. Required when using 1.5.1.
-
-    Clashes with maven-javadoc-plugin and maven-source-plugin.
-   -->
+   <!-- Unpack java2html onto the classpath before shading. -->
    <plugin>
-    <groupId>com.googlecode.addjars-maven-plugin</groupId>
-    <artifactId>addjars-maven-plugin</artifactId>
-    <version>1.0.4</version>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-antrun-plugin</artifactId>
+    <version>1.7</version>
     <executions>
      <execution>
-      <goals>
-       <goal>add-jars</goal>
-      </goals>
+      <phase>compile</phase>
       <configuration>
-       <resources>
-        <resource>
-         <directory>${basedir}/lib</directory>
-         <includes>
-          <include>**/java2html.jar</include>
-         </includes>
-        </resource>
-       </resources>
+       <target>
+        <unzip
+         src="${basedir}/lib/java2html.jar"
+         dest="${project.build.outputDirectory}"
+        />
+       </target>
       </configuration>
+      <goals>
+       <goal>run</goal>
+      </goals>
      </execution>
     </executions>
    </plugin>
@@ -252,13 +252,13 @@
     </executions>
    </plugin>
 
-   <!-- These class with the addjars-maven-plugin.
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-javadoc-plugin</artifactId>
     <version>2.9</version>
     <configuration>
-     <excludePackageNames>classes-*.*:de.*:org.*</excludePackageNames>
+     <sourcepath>${basedir}/src/classes/ch/arrenbrecht/describable:${basedir}/src/classes/ch/arrenbrecht/jcite:${basedir}/src/classes/ch/arrenbrecht/jcite/include:${basedir}/src/classes/ch/arrenbrecht/jcite/java:${basedir}/src/classes/ch/arrenbrecht/jcite/path:${basedir}/src/classes/ch/arrenbrecht/jcite/text</sourcepath>
+     <excludePackageNames>de.*:org.*</excludePackageNames>
     </configuration>
    </plugin>
 
@@ -273,7 +273,7 @@
       </goals>
      </execution>
     </executions>
-   </plugin>-->
+   </plugin>
   </plugins>
  </build>
 

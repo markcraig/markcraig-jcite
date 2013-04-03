@@ -163,6 +163,18 @@
      <value>true</value>
     </property>
    </activation>
+    <properties>
+     <toolsjar>${java.home}/../lib/tools.jar</toolsjar>
+    </properties>
+    <dependencies>
+     <dependency>
+      <groupId>com.sun</groupId>
+      <artifactId>tools</artifactId>
+      <scope>system</scope>
+      <systemPath>${toolsjar}</systemPath>
+      <version>${java.version}</version>
+     </dependency>
+    </dependencies>
    <build>
     <plugins>
      <plugin>

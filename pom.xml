@@ -42,20 +42,20 @@
    <distribution>repo</distribution>
   </license>
   <license>
-   <name>Apache-2.0</name>
+   <name>Apache-2.0</name><!-- Shaded in -->
    <url>http://www.apache.org/licenses/LICENSE-2.0</url>
    <comments>This license applies to bundled libraries, including ant.jar,
    commons-discovery*.jar, and commons-logging*.jar.</comments>
    <distribution>repo</distribution>
   </license>
   <license>
-   <name>CPL-v1.0</name>
+   <name>CPL-v1.0</name><!-- Shaded in -->
    <url>http://www.eclipse.org/legal/cpl-v10.html</url>
    <comments>Common Public License - v 1.0. This license applies to the
    bundled library, java2html.jar.</comments>
   </license>
   <license>
-   <name>LGPL-2.1</name>
+   <name>LGPL-2.1</name><!-- Shaded in -->
    <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
    <comments>This license applies to the bundled library, jxl.jar.</comments>
    <distribution>repo</distribution>
@@ -79,7 +79,9 @@
   <developer>
    <id>mark.craig</id>
    <name>Mark Craig</name>
-   <email>mark.craig@gmail.com</email>
+   <organization>ForgeRock</organization>
+   <organizationUrl>http://forgerock.com</organizationUrl>
+   <timezone>+1</timezone>
   </developer>
  </developers>
 

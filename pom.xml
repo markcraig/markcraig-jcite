@@ -27,7 +27,7 @@
 
  <groupId>org.mcraig</groupId>
  <artifactId>jcite</artifactId>
- <version>1.13.0-SNAPSHOT</version><!-- NOK: <version>${dist.version}</version> -->
+ <version>1.13.0</version><!-- NOK: <version>${dist.version}</version> -->
  <packaging>jar</packaging>
 
  <name>Maven Wrapper for JCite</name>

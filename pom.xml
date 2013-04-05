@@ -27,7 +27,7 @@
 
  <groupId>org.mcraig</groupId>
  <artifactId>jcite</artifactId>
- <version>1.13.1-SNAPSHOT</version><!-- NOK: <version>${dist.version}</version> -->
+ <version>1.13.0-SNAPSHOT</version><!-- NOK: <version>${dist.version}</version> -->
  <packaging>jar</packaging>
 
  <name>Maven Wrapper for JCite</name>
@@ -76,8 +76,7 @@
   <url>https://code.google.com/r/markcraig-jcite/source/list</url>
   <connection>scm:hg:https://code.google.com/r/markcraig-jcite/</connection>
   <developerConnection>scm:hg:https://code.google.com/r/markcraig-jcite/</developerConnection>
-   <tag>HEAD</tag>
-  </scm>
+ </scm>
 
  <developers>
   <!-- This is a clone, main developer of JCite is Peter Arrenbrecht. -->

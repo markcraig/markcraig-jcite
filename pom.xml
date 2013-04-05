@@ -16,10 +16,7 @@
 !     Copyright 2013 ForgeRock AS
 !
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0          http://maven.apache.org/xsd/maven-4.0.0.xsd">
  <modelVersion>4.0.0</modelVersion>
 
  <parent>
@@ -78,6 +75,7 @@
  <scm>
   <url>https://code.google.com/r/markcraig-jcite/source/list</url>
   <connection>scm:hg:https://code.google.com/r/markcraig-jcite/</connection>
+  <developerConnection>scm:hg:https://code.google.com/r/markcraig-jcite/</developerConnection>
  </scm>
 
  <developers>
@@ -251,10 +249,7 @@
       <phase>compile</phase>
       <configuration>
        <target>
-        <unzip
-         src="${basedir}/lib/java2html.jar"
-         dest="${project.build.outputDirectory}"
-        />
+        <unzip src="${basedir}/lib/java2html.jar" dest="${project.build.outputDirectory}" />
        </target>
       </configuration>
       <goals>

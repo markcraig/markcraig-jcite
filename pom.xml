@@ -27,12 +27,12 @@
 
  <groupId>org.mcraig</groupId>
  <artifactId>jcite</artifactId>
- <version>1.13.0-SNAPSHOT</version><!-- NOK: <version>${dist.version}</version> -->
+ <version>1.13.0-SNAPSHOT</version><!-- dist.version from build.default.properties -->
  <packaging>jar</packaging>
 
  <name>Maven Wrapper for JCite</name>
  <description>Wrapper POM for building a JCite executable .jar. Use the Ant
- build mechanism for testing and doc generation. Build with
+ build mechanism instead for testing and doc generation. Build with
  `mvn install`.</description>
  <url>https://code.google.com/r/markcraig-jcite/</url>
 
@@ -45,20 +45,20 @@
    <distribution>repo</distribution>
   </license>
   <license>
-   <name>Apache-2.0</name><!-- Shaded in -->
+   <name>Apache-2.0</name><!-- Shaded into the .jar -->
    <url>http://www.apache.org/licenses/LICENSE-2.0</url>
    <comments>This license applies to bundled libraries, including ant.jar,
    commons-discovery*.jar, and commons-logging*.jar.</comments>
    <distribution>repo</distribution>
   </license>
   <license>
-   <name>CPL-v1.0</name><!-- Shaded in -->
+   <name>CPL-v1.0</name><!-- Shaded into the .jar -->
    <url>http://www.eclipse.org/legal/cpl-v10.html</url>
    <comments>Common Public License - v 1.0. This license applies to the
    bundled library, java2html.jar.</comments>
   </license>
   <license>
-   <name>LGPL-2.1</name><!-- Shaded in -->
+   <name>LGPL-2.1</name><!-- Shaded into the .jar -->
    <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
    <comments>This license applies to the bundled library, jxl.jar.</comments>
    <distribution>repo</distribution>
@@ -90,8 +90,8 @@
  </developers>
 
  <properties>
-  <maven.compiler.source>${javac.source}</maven.compiler.source>
-  <maven.compiler.target>${javac.target}</maven.compiler.target>
+  <maven.compiler.source>1.5</maven.compiler.source><!-- javac.source from build.default.properties -->
+  <maven.compiler.target>1.5</maven.compiler.target><!-- javac.target from build.default.properties -->
   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
  </properties>
 
@@ -111,31 +111,29 @@
    <artifactId>commons-logging-api</artifactId>
    <version>1.1</version>
   </dependency>
-  <!-- JCite does not compile with this version, and 3.0 seems unavailable.
   <dependency>
-   <groupId>de.java2html</groupId>
-   <artifactId>java2html</artifactId>
-   <version>5.0</version>
-  </dependency>
-  -->
-  <dependency>
+   <!--
+    JCite does not compile with 5.0.
+    The local java2html.jar appears to be 3.0.
+   -->
    <groupId>de.java2html</groupId>
    <artifactId>java2html</artifactId>
    <version>3.0</version>
-   <systemPath>${basedir}/lib/java2html.jar</systemPath>
-   <scope>system</scope>
   </dependency>
   <dependency>
    <groupId>net.sourceforge.jexcelapi</groupId>
    <artifactId>jxl</artifactId>
    <version>2.6.12</version>
   </dependency>
-  <dependency>
-   <groupId>org.codehaus.mojo</groupId>
-   <artifactId>properties-maven-plugin</artifactId>
-   <version>1.0-alpha-1</version>
-  </dependency>
  </dependencies>
+
+ <!-- Local repository for lib/java2html.jar -->
+ <repositories>
+   <repository>
+     <id>java2html</id>
+     <url>file://${basedir}/repo</url>
+   </repository>
+ </repositories>
 
  <profiles>
   <!--
@@ -210,22 +208,28 @@
 
  <build>
   <sourceDirectory>src</sourceDirectory>
+
   <plugins>
    <plugin>
-    <groupId>org.codehaus.mojo</groupId>
-    <artifactId>properties-maven-plugin</artifactId>
-    <version>1.0-alpha-1</version>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-install-plugin</artifactId>
+    <version>2.4</version>
     <executions>
      <execution>
+      <id>hack</id>
       <phase>initialize</phase>
-      <goals>
-       <goal>read-project-properties</goal>
-      </goals>
       <configuration>
-       <files>
-        <file>${basedir}/build.default.properties</file>
-       </files>
+       <file>${basedir}/lib/java2html.jar</file>
+       <repositoryLayout>default</repositoryLayout>
+       <groupId>de.java2html</groupId>
+       <artifactId>java2html</artifactId>
+       <version>3.0</version>
+       <packaging>jar</packaging>
+       <generatePom>true</generatePom>
       </configuration>
+      <goals>
+       <goal>install-file</goal>
+      </goals>
      </execution>
     </executions>
    </plugin>
@@ -245,26 +249,6 @@
       <include>**/classes-excel/**</include>
      </includes>
     </configuration>
-   </plugin>
-
-   <!-- Unpack java2html onto the classpath before shading. -->
-   <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-antrun-plugin</artifactId>
-    <version>1.7</version>
-    <executions>
-     <execution>
-      <phase>compile</phase>
-      <configuration>
-       <target>
-        <unzip src="${basedir}/lib/java2html.jar" dest="${project.build.outputDirectory}" />
-       </target>
-      </configuration>
-      <goals>
-       <goal>run</goal>
-      </goals>
-     </execution>
-    </executions>
    </plugin>
 
    <plugin>
@@ -300,6 +284,13 @@
       </goals>
      </execution>
     </executions>
+    <dependencies>
+     <dependency>
+      <groupId>de.java2html</groupId>
+      <artifactId>java2html</artifactId>
+      <version>3.0</version>
+     </dependency>
+    </dependencies>
    </plugin>
 
    <plugin>

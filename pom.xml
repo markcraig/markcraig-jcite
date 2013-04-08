@@ -203,7 +203,7 @@
     <version>2.4</version>
     <executions>
      <execution>
-      <id>hack</id>
+      <id>add-java2html</id>
       <phase>initialize</phase>
       <configuration>
        <file>${basedir}/lib/java2html.jar</file>
@@ -266,6 +266,7 @@
        <exclude>com.sun</exclude>
        <exclude>commons-discovery</exclude>
        <exclude>commons-logging</exclude>
+       <exclude>log4j</exclude>
        <exclude>org.apache.ant</exclude>
        <exclude>net.sourceforge.jexcelapi</exclude>
       </excludes>

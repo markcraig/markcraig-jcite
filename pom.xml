@@ -45,23 +45,10 @@
    <distribution>repo</distribution>
   </license>
   <license>
-   <name>Apache-2.0</name><!-- Shaded into the .jar -->
-   <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-   <comments>This license applies to bundled libraries, including ant.jar,
-   commons-discovery*.jar, and commons-logging*.jar.</comments>
-   <distribution>repo</distribution>
-  </license>
-  <license>
    <name>CPL-v1.0</name><!-- Shaded into the .jar -->
    <url>http://www.eclipse.org/legal/cpl-v10.html</url>
    <comments>Common Public License - v 1.0. This license applies to the
    bundled library, java2html.jar.</comments>
-  </license>
-  <license>
-   <name>LGPL-2.1</name><!-- Shaded into the .jar -->
-   <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
-   <comments>This license applies to the bundled library, jxl.jar.</comments>
-   <distribution>repo</distribution>
   </license>
   <license>
    <name>MPL-2.0</name>
@@ -97,9 +84,11 @@
 
  <dependencies>
   <dependency>
-   <groupId>org.apache.ant</groupId>
-   <artifactId>ant</artifactId>
-   <version>1.8.2</version>
+   <groupId>com.sun</groupId>
+   <artifactId>tools</artifactId>
+   <version>${java.version}</version>
+   <scope>system</scope>
+   <systemPath>${toolsjar}</systemPath>
   </dependency>
   <dependency>
    <groupId>commons-discovery</groupId>
@@ -121,6 +110,11 @@
    <version>3.0</version>
   </dependency>
   <dependency>
+   <groupId>org.apache.ant</groupId>
+   <artifactId>ant</artifactId>
+   <version>1.8.2</version>
+  </dependency>
+  <dependency>
    <groupId>net.sourceforge.jexcelapi</groupId>
    <artifactId>jxl</artifactId>
    <version>2.6.12</version>
@@ -136,27 +130,32 @@
  </repositories>
 
  <profiles>
-  <!--
-   Tools.jar provides Javadoc classes. This calls for Sun/Oracle Java.
-  -->
-  <profile>
-    <id>default-profile</id>
-    <activation>
-     <activeByDefault>true</activeByDefault>
-    </activation>
-    <properties>
-     <toolsjar>${java.home}/../lib/tools.jar</toolsjar>
-    </properties>
-    <dependencies>
-     <dependency>
-      <groupId>com.sun</groupId>
-      <artifactId>tools</artifactId>
-      <scope>system</scope>
-      <systemPath>${toolsjar}</systemPath>
-      <version>${java.version}</version>
-     </dependency>
-    </dependencies>
-  </profile>
+ <profile>
+  <id>default-profile</id>
+  <activation>
+   <activeByDefault>true</activeByDefault>
+   <file>
+    <exists>${java.home}/../lib/tools.jar</exists>
+   </file>
+  </activation>
+  <properties>
+   <toolsjar>${java.home}/../lib/tools.jar</toolsjar>
+  </properties>
+ </profile>
+
+ <profile>
+  <id>mac-profile</id>
+  <activation>
+   <activeByDefault>false</activeByDefault>
+   <file>
+    <exists>${java.home}/../Classes/classes.jar</exists>
+   </file>
+  </activation>
+  <properties>
+   <toolsjar>${java.home}/../Classes/classes.jar</toolsjar>
+  </properties>
+ </profile>
+
   <profile>
    <id>release-sign-artifacts</id>
    <activation>
@@ -165,18 +164,6 @@
      <value>true</value>
     </property>
    </activation>
-    <properties>
-     <toolsjar>${java.home}/../lib/tools.jar</toolsjar>
-    </properties>
-    <dependencies>
-     <dependency>
-      <groupId>com.sun</groupId>
-      <artifactId>tools</artifactId>
-      <scope>system</scope>
-      <systemPath>${toolsjar}</systemPath>
-      <version>${java.version}</version>
-     </dependency>
-    </dependencies>
    <build>
     <plugins>
      <plugin>
@@ -274,6 +261,15 @@
     <version>2.0</version>
     <configuration>
      <minimizeJar>true</minimizeJar>
+     <artifactSet>
+      <excludes>
+       <exclude>com.sun</exclude>
+       <exclude>commons-discovery</exclude>
+       <exclude>commons-logging</exclude>
+       <exclude>org.apache.ant</exclude>
+       <exclude>net.sourceforge.jexcelapi</exclude>
+      </excludes>
+     </artifactSet>
     </configuration>
     <executions>
      <execution>

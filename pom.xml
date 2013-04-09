@@ -102,8 +102,11 @@
   </dependency>
   <dependency>
    <!--
-    JCite does not compile with 5.0.
-    The local java2html.jar appears to be 3.0.
+    de.java2html:java2html:5.0 is available through Maven, however JCite
+    does not compile with 5.0.
+
+    Before building this artifact, install de.java2html:java2html:3.0 locally:
+    mvn install:install-file -Dfile=./lib/java2html.jar -DgroupId=de.java2html -DartifactId=java2html -Dversion=3.0 -Dpackaging=jar -DgeneratePom=true
    -->
    <groupId>de.java2html</groupId>
    <artifactId>java2html</artifactId>
@@ -121,40 +124,32 @@
   </dependency>
  </dependencies>
 
- <!-- Local repository for lib/java2html.jar -->
- <repositories>
-   <repository>
-     <id>java2html</id>
-     <url>file://${basedir}/repo</url>
-   </repository>
- </repositories>
-
  <profiles>
- <profile>
-  <id>default-profile</id>
-  <activation>
-   <activeByDefault>true</activeByDefault>
-   <file>
-    <exists>${java.home}/../lib/tools.jar</exists>
-   </file>
-  </activation>
-  <properties>
-   <toolsjar>${java.home}/../lib/tools.jar</toolsjar>
-  </properties>
- </profile>
+  <profile>
+   <id>default-profile</id>
+   <activation>
+    <activeByDefault>true</activeByDefault>
+    <file>
+     <exists>${java.home}/../lib/tools.jar</exists>
+    </file>
+   </activation>
+   <properties>
+    <toolsjar>${java.home}/../lib/tools.jar</toolsjar>
+   </properties>
+  </profile>
 
- <profile>
-  <id>mac-profile</id>
-  <activation>
-   <activeByDefault>false</activeByDefault>
-   <file>
-    <exists>${java.home}/../Classes/classes.jar</exists>
-   </file>
-  </activation>
-  <properties>
-   <toolsjar>${java.home}/../Classes/classes.jar</toolsjar>
-  </properties>
- </profile>
+  <profile>
+   <id>mac-profile</id>
+   <activation>
+    <activeByDefault>false</activeByDefault>
+    <file>
+     <exists>${java.home}/../Classes/classes.jar</exists>
+    </file>
+   </activation>
+   <properties>
+    <toolsjar>${java.home}/../Classes/classes.jar</toolsjar>
+   </properties>
+  </profile>
 
   <profile>
    <id>release-sign-artifacts</id>
@@ -199,30 +194,6 @@
   <plugins>
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-install-plugin</artifactId>
-    <version>2.4</version>
-    <executions>
-     <execution>
-      <id>add-java2html</id>
-      <phase>initialize</phase>
-      <configuration>
-       <file>${basedir}/lib/java2html.jar</file>
-       <repositoryLayout>default</repositoryLayout>
-       <groupId>de.java2html</groupId>
-       <artifactId>java2html</artifactId>
-       <version>3.0</version>
-       <packaging>jar</packaging>
-       <generatePom>true</generatePom>
-      </configuration>
-      <goals>
-       <goal>install-file</goal>
-      </goals>
-     </execution>
-    </executions>
-   </plugin>
-
-   <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-compiler-plugin</artifactId>
     <version>2.5.1</version>
     <inherited>true</inherited>
@@ -253,7 +224,9 @@
    </plugin>
 
    <!--
-    Include dependencies so the artifact can be run directly `java -jar ...`.
+    Bundle de.java2html:java2html:3.0, because this version is not available
+    through Maven. You should have installed it manually in the local
+    repository as described in the comment on the dependency.
    -->
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
@@ -288,6 +261,38 @@
       <version>3.0</version>
      </dependency>
     </dependencies>
+   </plugin>
+
+   <!--
+       In the POM built by the shade plugin, the system dependencies such as
+       the dependency for tools.jar include concrete paths and so are not
+       portable. Remove system dependencies, therefore.
+   -->
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-antrun-plugin</artifactId>
+    <version>1.7</version>
+    <executions>
+     <execution>
+      <phase>package</phase>
+      <configuration>
+       <target>
+        <xslt
+         in="${basedir}/dependency-reduced-pom.xml"
+         out="${basedir}/dependency-reduced-pom.xml.new"
+         style="${basedir}/edit-drp.xsl"
+        />
+        <move
+         file="${basedir}/dependency-reduced-pom.xml.new"
+         tofile="${basedir}/dependency-reduced-pom.xml"
+        />
+       </target>
+      </configuration>
+      <goals>
+       <goal>run</goal>
+      </goals>
+     </execution>
+    </executions>
    </plugin>
 
    <plugin>

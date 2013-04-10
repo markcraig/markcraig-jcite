@@ -27,7 +27,7 @@
 
  <groupId>org.mcraig</groupId>
  <artifactId>jcite</artifactId>
- <version>1.13.0</version><!-- dist.version from build.default.properties -->
+ <version>1.13.1-SNAPSHOT</version><!-- dist.version from build.default.properties -->
  <packaging>jar</packaging>
 
  <name>Maven Wrapper for JCite</name>
@@ -63,7 +63,7 @@
   <url>https://code.google.com/r/markcraig-jcite/source/list</url>
   <connection>scm:hg:https://code.google.com/r/markcraig-jcite/</connection>
   <developerConnection>scm:hg:https://code.google.com/r/markcraig-jcite/</developerConnection>
-   <tag>1.13.0-final</tag>
+   <tag>HEAD</tag>
   </scm>
 
  <developers>

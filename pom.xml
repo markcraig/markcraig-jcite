@@ -27,7 +27,7 @@
 
  <groupId>org.mcraig</groupId>
  <artifactId>jcite</artifactId>
- <version>1.13.0-SNAPSHOT</version><!-- dist.version from build.default.properties -->
+ <version>1.13.0</version><!-- dist.version from build.default.properties -->
  <packaging>jar</packaging>
 
  <name>Maven Wrapper for JCite</name>
@@ -63,7 +63,8 @@
   <url>https://code.google.com/r/markcraig-jcite/source/list</url>
   <connection>scm:hg:https://code.google.com/r/markcraig-jcite/</connection>
   <developerConnection>scm:hg:https://code.google.com/r/markcraig-jcite/</developerConnection>
- </scm>
+   <tag>1.13.0</tag>
+  </scm>
 
  <developers>
   <!-- This is a clone, main developer of JCite is Peter Arrenbrecht. -->
@@ -277,15 +278,8 @@
       <phase>package</phase>
       <configuration>
        <target>
-        <xslt
-         in="${basedir}/dependency-reduced-pom.xml"
-         out="${basedir}/dependency-reduced-pom.xml.new"
-         style="${basedir}/edit-drp.xsl"
-        />
-        <move
-         file="${basedir}/dependency-reduced-pom.xml.new"
-         tofile="${basedir}/dependency-reduced-pom.xml"
-        />
+        <xslt in="${basedir}/dependency-reduced-pom.xml" out="${basedir}/dependency-reduced-pom.xml.new" style="${basedir}/edit-drp.xsl" />
+        <move file="${basedir}/dependency-reduced-pom.xml.new" tofile="${basedir}/dependency-reduced-pom.xml" />
        </target>
       </configuration>
       <goals>
